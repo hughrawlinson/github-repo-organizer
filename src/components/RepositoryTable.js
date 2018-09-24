@@ -20,8 +20,10 @@ class App extends Component {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Created At</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell>Created At</TableCell>
+              <TableCell>Topics</TableCell>
+              <TableCell>Stars</TableCell>
               <TableCell>Language</TableCell>
             </TableRow>
           </TableHead>
@@ -32,8 +34,10 @@ class App extends Component {
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell>{row.created_at}</TableCell>
                   <TableCell>{row.description}</TableCell>
+                  <TableCell>{(new Date(row.createdAt)).toLocaleDateString()}</TableCell>
+                  <TableCell>{(row.topics || []).join(', ')}</TableCell>
+                  <TableCell>{row.stars}</TableCell>
                   <TableCell>{row.language}</TableCell>
                 </TableRow>
               );

@@ -42,14 +42,6 @@ class App extends Component {
     this.ifRepositories = this.ifRepositories.bind(this);
   }
 
-  componentDidUpdate() {
-    console.log("componentDidUpdate called");
-    if (this.props.loggedIn && !this.props.repositories) {
-      console.log("logged in without repos");
-      this.props.loadRepositories();
-    }
-  }
-
   ifRepositories(child) {
     if (this.props.repositories) {
       return child;
@@ -76,7 +68,10 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline/>
-        <div className="App" onClick={this.props.loadRepositories}>
+        <div className="App" onClick={(() => {
+          this.props.loadRepositories();
+          this.props.loadUser();
+        })}>
           <AppBar>
             <Toolbar>
               {this.ifLoggedIn(
@@ -114,7 +109,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   startLogIn: () => dispatch({type: 'START_LOG_IN'}),
-  loadRepositories: () => dispatch({type: 'START_LOAD_REPOSITORIES'})
+  loadRepositories: () => dispatch({type: 'START_LOAD_REPOSITORIES'}),
+  loadUser: () => dispatch({type: 'START_LOAD_USER'})
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
