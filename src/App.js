@@ -68,10 +68,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline/>
-        <div className="App" onClick={(() => {
-          this.props.loadRepositories();
-          this.props.loadUser();
-        })}>
+        <div className="App">
           <AppBar>
             <Toolbar>
               {this.ifLoggedIn(

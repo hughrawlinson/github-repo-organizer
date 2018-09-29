@@ -13,7 +13,10 @@ const reducer = (state = initialState, action) => {
     case 'SET_REPOSITORIES':
       return {
         ...state,
-        repositories: action.repositories
+        repositories: [
+          ...(state.repositories || []),
+          ...action.repositories
+        ]
       };
     case 'SET_USER':
       return {

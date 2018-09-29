@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableBody from '@material-ui/core/TableBody';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
 import { connect } from 'react-redux';
+import { Grid, Table, TableHeaderRow, Toolbar } from '@devexpress/dx-react-grid-material-ui';
+import { FilteringState, IntegratedFiltering, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
 
 const styles = theme => ({});
 
@@ -16,34 +13,48 @@ class App extends Component {
     const { classes } = this.props;
     return (
       <Paper>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell>Topics</TableCell>
-              <TableCell>Stars</TableCell>
-              <TableCell>Language</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {this.props.repositories.map(row => {
-              return (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell>{row.description}</TableCell>
-                  <TableCell>{(new Date(row.createdAt)).toLocaleDateString()}</TableCell>
-                  <TableCell>{(row.topics || []).join(', ')}</TableCell>
-                  <TableCell>{row.stars}</TableCell>
-                  <TableCell>{row.language}</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
+        <Grid
+          columns={[{
+              name: 'name',
+              title: 'Name'
+          },{
+              name: 'description',
+              title: 'Description'
+          },{
+              name: 'createdAt',
+              title: 'Created At'
+          },{
+              name: 'repositoryTopics',
+              title: 'Topics',
+              getCellValue: row => row.topics.join(', ')
+          },{
+              name: 'stars',
+              title: 'Stars'
+          },{
+              name: 'language',
+              title: 'Language'
+          },{
+              name: 'isPrivate',
+              title: 'Private',
+              getCellValue: row => row.isPrivate ? "True" : "False"
+          },{
+              name: 'isArchived',
+              title: 'Archived',
+              getCellValue: row => row.isArchived ? "True" : "False"
+          }]}
+          rows={this.props.repositories}>
+          <FilteringState
+            defaultFilters={[]}
+          />
+          <SortingState
+            defaultSorting={[]}
+          />
+          <IntegratedFiltering/>
+          <IntegratedSorting/>
+          <Toolbar/>
+          <Table/>
+          <TableHeaderRow/>
+        </Grid>
       </Paper>
     );
   }

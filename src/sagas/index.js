@@ -22,6 +22,7 @@ export function* init() {
       type: 'SET_ACCESS_TOKEN',
       access_token: query.access_token
     });
+    yield startLoadUser();
   }
 }
 
@@ -44,7 +45,7 @@ export function* watchStartLogIn() {
   yield takeEvery('START_LOG_IN', startLogIn);
 }
 
-export function* startLoadRepos() {
+export function* startLoadRepos(endCursor) {
   const accessToken = yield select(state => state.accessToken);
 
   const github = new GitHub({token: accessToken});
@@ -52,7 +53,11 @@ export function* startLoadRepos() {
   const data = yield call(() => github.query(`
     query {
       viewer {
-        repositories (first:100) {
+        repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
+          pageInfo {
+            endCursor
+          }
+          totalCount,
           nodes {
             id,
             name,
@@ -63,6 +68,7 @@ export function* startLoadRepos() {
               nodes {
                 topic {
                   id
+                  name
                 }
               }
             }
@@ -70,6 +76,8 @@ export function* startLoadRepos() {
             primaryLanguage {
               name
             }
+            isPrivate
+            isArchived
           }
         }
       }
@@ -81,12 +89,19 @@ export function* startLoadRepos() {
     description: repo.description,
     createdAt: repo.createdAt,
     isArchived: repo.isArchived,
-    topics: repo.repositoryTopics.nodes,
+    topics: repo.repositoryTopics.nodes.map(node => node.topic.name),
     stars: repo.stargazers.totalCount,
-    language: (l => l && l.name)(repo.primaryLanguage)
+    language: (l => l && l.name)(repo.primaryLanguage),
+    isPrivate: repo.isPrivate,
+    isArchived: repo.isArchived
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});
+
+  const repoCount = yield select(state => state.repositories.length);
+  if (repoCount < data.viewer.repositories.totalCount) {
+    yield startLoadRepos(data.viewer.repositories.pageInfo.endCursor);
+  }
 }
 
 export function* watchLoadRepositories() {
@@ -103,10 +118,11 @@ export function* startLoadUser() {
 
   const {data} = yield call(() => octokit.users.get());
   yield put({type: 'SET_USER', user: data});
+  yield startLoadRepos();
 }
 
 export function* watchLoadUser() {
-  yield takeEvery('START_LOAD_USER', startLoadUser)
+  yield takeEvery('START_LOAD_USER', startLoadUser);
 }
 export default function* rootSaga() {
   yield all([
