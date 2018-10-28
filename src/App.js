@@ -119,22 +119,22 @@ class App extends Component {
               onKeyDown={() => this.toggleDrawer(false)}>
               <List>
                 <ListItem button>
-                  <Link to="/">
+                  <Link to={process.env.PUBLIC_URL + "/"}>
                     <ListItemText primary="Repositories" />
                   </Link>
                 </ListItem>
                 <ListItem button>
-                  <Link to="/topics">
+                  <Link to={process.env.PUBLIC_URL + "/topics"}>
                     <ListItemText primary="Topics" />
                   </Link>
                 </ListItem>
                 <ListItem button>
-                  <Link to="/licenses">
+                  <Link to={process.env.PUBLIC_URL + "/licenses"}>
                     <ListItemText primary="Licenses" />
                   </Link>
                 </ListItem>
                 <ListItem button>
-                  <Link to="/languages">
+                  <Link to={process.env.PUBLIC_URL + "/languages"}>
                     <ListItemText primary="Languages" />
                   </Link>
                 </ListItem>
