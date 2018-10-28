@@ -2,13 +2,45 @@ import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Chip from '@material-ui/core/Chip';
 // import { connect } from 'react-redux';
 import { Grid, Table, TableHeaderRow, TableFilterRow, Toolbar, SearchPanel, ColumnChooser, TableColumnVisibility } from '@devexpress/dx-react-grid-material-ui';
 import { FilteringState, IntegratedFiltering, SearchState, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
+import { DataTypeProvider } from '@devexpress/dx-react-grid';
 
 const styles = theme => ({});
 
-const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork'];
+const DateTypeProvider = props => (
+  <DataTypeProvider
+    formatterComponent={({value}) => value.toLocaleDateString()}
+    {...props}
+  />
+);
+
+const LinkTypeProvider = props => (
+  <DataTypeProvider
+    formatterComponent={({value:{href, title}}) => (<a href={href}>{title}</a>)}
+    {...props}
+  />
+);
+
+const ChipListProvider = props => (
+  <DataTypeProvider
+    formatterComponent={({value}) => (value ? <>
+      {value.map((v) => (<Chip key={v} label={v}/>))}
+    </> : null)}
+    {...props}
+  />
+);
+
+const BooleanTypeProvider = props => (
+  <DataTypeProvider
+    formatterComponent={({value}) => (<Chip label={value ? "True" : "False"} />)}
+    {...props}
+  />
+);
+
+const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork', 'owner', 'licenseNickname'];
 
 class App extends Component {
   render() {
@@ -19,17 +51,20 @@ class App extends Component {
           columns={[{
               name: 'name',
               title: 'Name',
-              getCellValue: row => (<a href={row.url}>{row.name}</a>)
+              getCellValue: row => ({
+                href: row.url,
+                title: row.name
+              })
           },{
               name: 'description',
               title: 'Description'
           },{
               name: 'createdAt',
-              title: 'Created At'
+              title: 'Created At',
+              getCellValue: row => new Date(row.createdAt)
           },{
-              name: 'repositoryTopics',
+              name: 'topics',
               title: 'Topics',
-              getCellValue: row => row.topics.join(', ')
           },{
               name: 'stars',
               title: 'Stars'
@@ -42,20 +77,29 @@ class App extends Component {
           },{
               name: 'isPrivate',
               title: 'Private',
-              getCellValue: row => row.isPrivate ? "True" : "False"
           },{
               name: 'isArchived',
               title: 'Archived',
-              getCellValue: row => row.isArchived ? "True" : "False"
           },{
               name: 'isFork',
               title: 'Fork',
-              getCellValue: row => row.isFork ? "True" : "False"
           },{
               name: 'licenseNickname',
               title: 'License'
           }]}
           rows={this.props.repositories}>
+          <DateTypeProvider
+            for={['createdAt']}
+          />
+          <LinkTypeProvider
+            for={['name']}
+          />
+          <ChipListProvider
+            for={['topics']}
+          />
+          <BooleanTypeProvider
+            for={['isPrivate', 'isArchived', 'isFork']}
+          />
           <FilteringState
             defaultFilters={[]}
           />
