@@ -19,7 +19,6 @@ export default (props) => {
     license: key,
     licenseCount: value
   }));
-  console.log(data);
   return (<Paper>
     <Grid
       columns={[{

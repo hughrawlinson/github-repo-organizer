@@ -6,31 +6,31 @@ import {
 } from '@devexpress/dx-react-grid';
 import Paper from '@material-ui/core/Paper';
 
-const prepareTags = repositories => repositories
-      .flatMap(repo => repo.topics)
+const prepareLanguages = repositories => repositories
+      .map(repo => repo.language)
       .reduce((acc, el) => ({
           ...acc,
           [el]: acc[el] ? acc[el] + 1 : 1
       }), {});
 
 export default (props) => {
-  const tags = prepareTags(props.repositories);
-  const data = Object.entries(tags).map(([key, value]) => ({
-    topicName: key,
-    topicCount: value
+  const languages = prepareLanguages(props.repositories);
+  const data = Object.entries(languages).map(([key, value]) => ({
+    language: key,
+    languageCount: value
   }));
   return (<Paper>
     <Grid
       columns={[{
-        name: 'topicName',
-        title: 'Topic Name'
+        name: 'language',
+        title: 'Language'
       },{
-        name: 'topicCount',
-        title: 'Topic Count'
+        name: 'languageCount',
+        title: 'Count'
       }]}
       rows={data}>
       <SortingState
-        defaultSorting={[{ columnName: 'topicCount', direction: 'desc' }]}
+        defaultSorting={[{ columnName: 'languageCount', direction: 'desc' }]}
       />
       <IntegratedSorting />
       <Table />
