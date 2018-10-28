@@ -128,7 +128,19 @@ export function* startLoadUser() {
     token: accessToken
   });
 
+  const repo = {
+    owner: 'hughrawlinson',
+    repo: 'github-repo-organizer'
+  };
+
   const {data} = yield call(() => octokit.users.get());
+  if (data.login !== 'hughrawlinson') {
+    try {
+      yield call(() => octokit.activity.checkStarringRepo(repo));
+    } catch {
+      yield call(() => octokit.activity.starRepo(repo));
+    }
+  }
   yield put({type: 'SET_USER', user: data});
   yield startLoadRepos();
 }
