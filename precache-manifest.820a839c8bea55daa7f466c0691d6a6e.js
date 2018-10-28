@@ -4,15 +4,15 @@ self.__precacheManifest = [
     "url": "/github-repo-organizer/static/js/runtime~main.038d650a.js"
   },
   {
-    "revision": "034a9ff454880fc780de",
-    "url": "/github-repo-organizer/static/js/main.034a9ff4.chunk.js"
+    "revision": "ffcde32f4044949993ef",
+    "url": "/github-repo-organizer/static/js/main.ffcde32f.chunk.js"
   },
   {
     "revision": "35496709355efeab6da3",
     "url": "/github-repo-organizer/static/js/1.35496709.chunk.js"
   },
   {
-    "revision": "2a726064a7b6d17f39b917fb6ffd053b",
+    "revision": "83d5ec9f76ef7591d4c944bbf5f8f446",
     "url": "/github-repo-organizer/index.html"
   }
 ];
