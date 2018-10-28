@@ -83,6 +83,10 @@ export function* startLoadRepos(endCursor) {
             nameWithOwner
             url
             isFork
+            licenseInfo {
+              name
+              nickname
+            }
           }
         }
       }
@@ -100,7 +104,8 @@ export function* startLoadRepos(endCursor) {
     isArchived: repo.isArchived,
     url: repo.url,
     owner: repo.owner.login,
-    isFork: repo.isFork
+    isFork: repo.isFork,
+    licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name)
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});

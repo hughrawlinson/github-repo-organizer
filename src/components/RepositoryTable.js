@@ -51,6 +51,9 @@ class App extends Component {
               name: 'isFork',
               title: 'Fork',
               getCellValue: row => row.isFork ? "True" : "False"
+          },{
+              name: 'licenseNickname',
+              title: 'License'
           }]}
           rows={this.props.repositories}>
           <FilteringState
@@ -64,7 +67,7 @@ class App extends Component {
           <IntegratedSorting/>
           <Table/>
           <TableHeaderRow showSortingControls />
-          <TableFilterRow />
+          <TableFilterRow showFilterSelector />
           <TableColumnVisibility defaultHiddenColumnNames={defaultHiddenColumnNames} />
           <Toolbar/>
           <SearchPanel />
