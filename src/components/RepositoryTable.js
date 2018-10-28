@@ -27,7 +27,7 @@ const LinkTypeProvider = props => (
 const ChipListProvider = props => (
   <DataTypeProvider
     formatterComponent={({value}) => (value ? <>
-      {value.map((v) => (<Chip key={v} label={v}/>))}
+      {value.map((v) => (<Chip style={{margin: "3px"}} key={v} label={v}/>))}
     </> : null)}
     {...props}
   />
@@ -39,6 +39,11 @@ const BooleanTypeProvider = props => (
     {...props}
   />
 );
+
+const tableColumnExtensions = [
+  { columnName: 'topics', wordWrapEnabled: true },
+  { columnName: 'description', wordWrapEnabled: true },
+];
 
 const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork', 'owner', 'licenseNickname'];
 
@@ -109,7 +114,7 @@ class App extends Component {
           <SearchState />
           <IntegratedFiltering/>
           <IntegratedSorting/>
-          <Table/>
+          <Table columnExtensions={tableColumnExtensions}/>
           <TableHeaderRow showSortingControls />
           <TableFilterRow showFilterSelector />
           <TableColumnVisibility defaultHiddenColumnNames={defaultHiddenColumnNames} />
