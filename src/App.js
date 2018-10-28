@@ -9,8 +9,11 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { connect } from 'react-redux';
-// import { withRouter } from 'react-router-dom'
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import qs from 'query-string';
 
 import LogIn from './components/LogIn.js';
@@ -41,9 +44,20 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      drawerOpen: false
+    };
+
     this.ifLoggedOut = this.ifLoggedOut.bind(this);
     this.ifLoggedIn = this.ifLoggedIn.bind(this);
     this.ifRepositories = this.ifRepositories.bind(this);
+  }
+
+  toggleDrawer(value) {
+    this.setState(state => ({
+      ...state,
+      drawerOpen: value ? value : !state.drawerOpen
+    }));
   }
 
   ifRepositories(child) {
@@ -72,11 +86,17 @@ class App extends Component {
     return (
       <React.Fragment>
         <CssBaseline/>
+        <Router>
         <div className="App">
           <AppBar>
             <Toolbar>
               {this.ifLoggedIn(
-                 <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                 <IconButton
+                  className={classes.menuButton}
+                  color="inherit"
+                  aria-label="Menu"
+                  onClick={() => this.toggleDrawer()}
+                      >
                   <MenuIcon />
                  </IconButton>
               )}
@@ -88,30 +108,50 @@ class App extends Component {
               )}
             </Toolbar>
           </AppBar>
+          <Drawer
+            open={this.state.drawerOpen}
+            onClose={() => this.toggleDrawer(false)}
+          >
+            <div
+              onClick={() => this.toggleDrawer(false)}
+              onKeyDown={() => this.toggleDrawer(false)}>
+              <List>
+                <ListItem button>
+                  <Link to="/">
+                    <ListItemText primary="Repositories" />
+                  </Link>
+                </ListItem>
+                <ListItem button>
+                  <Link to="/topics">
+                    <ListItemText primary="Topics" />
+                  </Link>
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             {this.ifLoggedOut(<LogIn/>)}
             {this.ifRepositories(
-            <Router>
-              <Switch>
-                <Route
-                    exact
-                    path={process.env.PUBLIC_URL + "/"}
-                component={(props) => {
-                    const queryParams = qs.parse(props.location.search);
-                    return (<RepositoryTable
-                      queryParams={queryParams}
-                      repositories={this.props.repositories}/>)
-                }}
-                />
-                <Route exact path={process.env.PUBLIC_URL + "/topics"} component={() => (
-                    <Topics repositories={this.props.repositories}/>
-                )}/>
-              </Switch>
-            </Router>
+            <Switch>
+              <Route
+                  exact
+                  path={process.env.PUBLIC_URL + "/"}
+              component={(props) => {
+                  const queryParams = qs.parse(props.location.search);
+                  return (<RepositoryTable
+                    queryParams={queryParams}
+                    repositories={this.props.repositories}/>)
+              }}
+              />
+              <Route exact path={process.env.PUBLIC_URL + "/topics"} component={() => (
+                  <Topics repositories={this.props.repositories}/>
+              )}/>
+            </Switch>
             )}
-          </main>
-        </div>
+            </main>
+          </div>
+        </Router>
       </React.Fragment>
     );
   }
