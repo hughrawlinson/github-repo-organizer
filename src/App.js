@@ -19,6 +19,7 @@ import qs from 'query-string';
 import LogIn from './components/LogIn.js';
 import RepositoryTable from './components/RepositoryTable.js'
 import Topics from './components/Topics.js'
+import Licenses from './components/Licenses.js'
 
 const styles = theme => ({
   root: {
@@ -126,6 +127,11 @@ class App extends Component {
                     <ListItemText primary="Topics" />
                   </Link>
                 </ListItem>
+                <ListItem button>
+                  <Link to="/licenses">
+                    <ListItemText primary="Licenses" />
+                  </Link>
+                </ListItem>
               </List>
             </div>
           </Drawer>
@@ -146,6 +152,9 @@ class App extends Component {
               />
               <Route exact path={process.env.PUBLIC_URL + "/topics"} component={() => (
                   <Topics repositories={this.props.repositories}/>
+              )}/>
+              <Route exact path={process.env.PUBLIC_URL + "/licenses"} component={() => (
+                  <Licenses repositories={this.props.repositories}/>
               )}/>
             </Switch>
             )}
