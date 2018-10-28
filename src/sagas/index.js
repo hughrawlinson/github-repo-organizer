@@ -6,7 +6,7 @@ import {
   call
 } from 'redux-saga/effects';
 import qs from 'querystring';
-import { GitHub } from 'github-graphql-api';
+import { GitHub } from 'github-graphql-api/dist/github.js';
 import Octokit from '@octokit/rest';
 
 const octokit = new Octokit();
