@@ -63,7 +63,6 @@ export function* startLoadRepos(endCursor) {
             name,
             description,
             createdAt,
-            isArchived,
             repositoryTopics(first:100) {
               nodes {
                 topic {
@@ -78,6 +77,12 @@ export function* startLoadRepos(endCursor) {
             }
             isPrivate
             isArchived
+            owner {
+              login
+            }
+            nameWithOwner
+            url
+            isFork
           }
         }
       }
@@ -85,15 +90,17 @@ export function* startLoadRepos(endCursor) {
 
   const repos = data.viewer.repositories.nodes.map(repo => ({
     id: repo.id,
-    name: repo.name,
+    name: repo.nameWithOwner,
     description: repo.description,
     createdAt: repo.createdAt,
-    isArchived: repo.isArchived,
     topics: repo.repositoryTopics.nodes.map(node => node.topic.name),
     stars: repo.stargazers.totalCount,
     language: (l => l && l.name)(repo.primaryLanguage),
     isPrivate: repo.isPrivate,
-    isArchived: repo.isArchived
+    isArchived: repo.isArchived,
+    url: repo.url,
+    owner: repo.owner.login,
+    isFork: repo.isFork
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});
