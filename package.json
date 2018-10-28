@@ -33,6 +33,7 @@
     "type" : "git",
     "url" : "git@github.com:hughrawlinson/github-repo-organizer.git"
   },
+  "homepage": "https://hughrawlinson.github.io/github-repo-organizer",
   "browserslist": [
     ">0.2%",
     "not dead",
