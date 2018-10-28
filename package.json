@@ -15,7 +15,7 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
-    "react-scripts": "2.0.3",
+    "react-scripts": "2.0.4",
     "redux": "^4.0.0",
     "redux-saga": "^0.16.0"
   },
@@ -30,8 +30,8 @@
     "gh-pages": "^2.0.1"
   },
   "repository": {
-    "type" : "git",
-    "url" : "git@github.com:hughrawlinson/github-repo-organizer.git"
+    "type": "git",
+    "url": "git@github.com:hughrawlinson/github-repo-organizer.git"
   },
   "homepage": "https://hughrawlinson.github.io/github-repo-organizer",
   "browserslist": [
