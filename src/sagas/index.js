@@ -94,7 +94,8 @@ export function* startLoadRepos(endCursor) {
 
   const repos = data.viewer.repositories.nodes.map(repo => ({
     id: repo.id,
-    name: repo.nameWithOwner,
+    name: repo.name,
+    nameWithOnwer: repo.nameWithOwner,
     description: repo.description,
     createdAt: repo.createdAt,
     topics: repo.repositoryTopics.nodes.map(node => node.topic.name),

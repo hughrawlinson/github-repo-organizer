@@ -96,7 +96,7 @@ class App extends Component {
               <Switch>
                 <Route
                     exact
-                    path="/"
+                    path={process.env.PUBLIC_URL + "/"}
                 component={(props) => {
                     const queryParams = qs.parse(props.location.search);
                     return (<RepositoryTable
@@ -104,7 +104,7 @@ class App extends Component {
                       repositories={this.props.repositories}/>)
                 }}
                 />
-                <Route exact path="/topics" component={() => (
+                <Route exact path={process.env.PUBLIC_URL + "/topics"} component={() => (
                     <Topics repositories={this.props.repositories}/>
                 )}/>
               </Switch>
