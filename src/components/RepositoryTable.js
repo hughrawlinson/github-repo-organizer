@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import { connect } from 'react-redux';
-import { Grid, Table, TableHeaderRow, Toolbar } from '@devexpress/dx-react-grid-material-ui';
-import { FilteringState, IntegratedFiltering, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
+// import { connect } from 'react-redux';
+import { Grid, Table, TableHeaderRow, TableFilterRow, Toolbar, SearchPanel, ColumnChooser, TableColumnVisibility } from '@devexpress/dx-react-grid-material-ui';
+import { FilteringState, IntegratedFiltering, SearchState, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
 
 const styles = theme => ({});
 
+const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork'];
+
 class App extends Component {
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
     return (
       <Paper>
         <Grid
           columns={[{
               name: 'name',
-              title: 'Name'
+              title: 'Name',
+              getCellValue: row => (<a href={row.url}>{row.name}</a>)
           },{
               name: 'description',
               title: 'Description'
@@ -34,6 +37,9 @@ class App extends Component {
               name: 'language',
               title: 'Language'
           },{
+              name: 'owner',
+              title: 'Owner'
+          },{
               name: 'isPrivate',
               title: 'Private',
               getCellValue: row => row.isPrivate ? "True" : "False"
@@ -41,6 +47,10 @@ class App extends Component {
               name: 'isArchived',
               title: 'Archived',
               getCellValue: row => row.isArchived ? "True" : "False"
+          },{
+              name: 'isFork',
+              title: 'Fork',
+              getCellValue: row => row.isFork ? "True" : "False"
           }]}
           rows={this.props.repositories}>
           <FilteringState
@@ -49,11 +59,16 @@ class App extends Component {
           <SortingState
             defaultSorting={[]}
           />
+          <SearchState />
           <IntegratedFiltering/>
           <IntegratedSorting/>
-          <Toolbar/>
           <Table/>
-          <TableHeaderRow/>
+          <TableHeaderRow showSortingControls />
+          <TableFilterRow />
+          <TableColumnVisibility defaultHiddenColumnNames={defaultHiddenColumnNames} />
+          <Toolbar/>
+          <SearchPanel />
+          <ColumnChooser />
         </Grid>
       </Paper>
     );
