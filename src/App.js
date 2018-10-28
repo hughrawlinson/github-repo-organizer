@@ -9,9 +9,13 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { connect } from 'react-redux';
+// import { withRouter } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import qs from 'query-string';
 
 import LogIn from './components/LogIn.js';
 import RepositoryTable from './components/RepositoryTable.js'
+import Topics from './components/Topics.js'
 
 const styles = theme => ({
   root: {
@@ -87,7 +91,25 @@ class App extends Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             {this.ifLoggedOut(<LogIn/>)}
-            {this.ifRepositories(<RepositoryTable repositories={this.props.repositories}/>)}
+            {this.ifRepositories(
+            <Router>
+              <Switch>
+                <Route
+                    exact
+                    path="/"
+                component={(props) => {
+                    const queryParams = qs.parse(props.location.search);
+                    return (<RepositoryTable
+                      queryParams={queryParams}
+                      repositories={this.props.repositories}/>)
+                }}
+                />
+                <Route exact path="/topics" component={() => (
+                    <Topics repositories={this.props.repositories}/>
+                )}/>
+              </Switch>
+            </Router>
+            )}
           </main>
         </div>
       </React.Fragment>
@@ -110,4 +132,8 @@ const mapDispatchToProps = (dispatch) => ({
   loadUser: () => dispatch({type: 'START_LOAD_USER'})
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App));
+export default
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(withStyles(styles)(App));
