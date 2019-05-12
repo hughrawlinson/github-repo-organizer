@@ -4,8 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 // import { connect } from 'react-redux';
-import { Grid, Table, TableHeaderRow, TableFilterRow, Toolbar, SearchPanel, ColumnChooser, TableColumnVisibility } from '@devexpress/dx-react-grid-material-ui';
-import { FilteringState, IntegratedFiltering, SearchState, SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
+import { Grid, Table, TableHeaderRow, TableFilterRow, Toolbar, SearchPanel, ColumnChooser, TableColumnVisibility, PagingPanel } from '@devexpress/dx-react-grid-material-ui';
+import { FilteringState, IntegratedFiltering, SearchState, SortingState, IntegratedSorting, PagingState, IntegratedPaging } from '@devexpress/dx-react-grid';
 import { DataTypeProvider } from '@devexpress/dx-react-grid';
 
 const styles = theme => ({});
@@ -111,9 +111,14 @@ class App extends Component {
           <SortingState
             defaultSorting={[]}
           />
+          <PagingState
+            defaultCurrentPage={0}
+            pageSize={40}
+          />
           <SearchState />
           <IntegratedFiltering/>
           <IntegratedSorting/>
+          <IntegratedPaging/>
           <Table columnExtensions={tableColumnExtensions}/>
           <TableHeaderRow showSortingControls />
           <TableFilterRow showFilterSelector />
@@ -121,6 +126,7 @@ class App extends Component {
           <Toolbar/>
           <SearchPanel />
           <ColumnChooser />
+          <PagingPanel />
         </Grid>
       </Paper>
     );
