@@ -6,8 +6,9 @@ import {
   call
 } from 'redux-saga/effects';
 import qs from 'querystring';
-import { GitHub } from 'github-graphql-api/dist/github.js';
 import Octokit from '@octokit/rest';
+// const graphql = require('@octokit/graphql');
+import graphql from '@octokit/graphql';
 
 const octokit = new Octokit();
 
@@ -48,49 +49,51 @@ export function* watchStartLogIn() {
 export function* startLoadRepos(endCursor) {
   const accessToken = yield select(state => state.accessToken);
 
-  const github = new GitHub({token: accessToken});
-
-  const data = yield call(() => github.query(`
-    query {
-      viewer {
-        repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
-          pageInfo {
-            endCursor
-          }
-          totalCount,
-          nodes {
-            id,
-            name,
-            description,
-            createdAt,
-            repositoryTopics(first:100) {
-              nodes {
-                topic {
-                  id
-                  name
+  const data = yield call(() => graphql({
+    query: `query {
+        viewer {
+          repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
+            pageInfo {
+              endCursor
+            }
+            totalCount,
+            nodes {
+              id,
+              name,
+              description,
+              createdAt,
+              repositoryTopics(first:100) {
+                nodes {
+                  topic {
+                    id
+                    name
+                  }
                 }
               }
-            }
-            stargazers {totalCount},
-            primaryLanguage {
-              name
-            }
-            isPrivate
-            isArchived
-            owner {
-              login
-            }
-            nameWithOwner
-            url
-            isFork
-            licenseInfo {
-              name
-              nickname
+              stargazers {totalCount},
+              primaryLanguage {
+                name
+              }
+              isPrivate
+              isArchived
+              owner {
+                login
+              }
+              nameWithOwner
+              url
+              isFork
+              licenseInfo {
+                name
+                nickname
+              }
             }
           }
         }
-      }
-    }`));
+      }`,
+    headers: {
+      authorization: `token ${accessToken}`
+    }
+  }));
 
   const repos = data.viewer.repositories.nodes.map(repo => ({
     id: repo.id,
