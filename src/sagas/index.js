@@ -86,12 +86,24 @@ export function* startLoadRepos(endCursor) {
                 name
                 nickname
               }
+              vulnerabilityAlerts (first:50){
+                nodes {
+                  packageName
+                  vulnerableManifestFilename
+                  vulnerableRequirements
+                  securityAdvisory {
+                    description
+                    summary
+                  }
+                }
+              }
             }
           }
         }
       }`,
     headers: {
-      authorization: `token ${accessToken}`
+      authorization: `token ${accessToken}`,
+      accept: 'application/vnd.github.vixen-preview+json'
     }
   }));
 
@@ -109,7 +121,8 @@ export function* startLoadRepos(endCursor) {
     url: repo.url,
     owner: repo.owner.login,
     isFork: repo.isFork,
-    licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name)
+    licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name),
+    vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});

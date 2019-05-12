@@ -40,12 +40,19 @@ const BooleanTypeProvider = props => (
   />
 );
 
+const ArrayLengthProvider = props => (
+  <DataTypeProvider
+    formatterComponent={({value}) => value.length}
+    {...props}
+  />
+);
+
 const tableColumnExtensions = [
   { columnName: 'topics', wordWrapEnabled: true },
   { columnName: 'description', wordWrapEnabled: true },
 ];
 
-const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork', 'owner', 'licenseNickname'];
+const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork', 'owner', 'licenseNickname', 'vulnerabilityAlerts'];
 
 class App extends Component {
   render() {
@@ -91,6 +98,9 @@ class App extends Component {
           },{
               name: 'licenseNickname',
               title: 'License'
+          },{
+              name: 'vulnerabilityAlerts',
+              title: 'Vulnerability Alerts'
           }]}
           rows={this.props.repositories}>
           <DateTypeProvider
@@ -104,6 +114,9 @@ class App extends Component {
           />
           <BooleanTypeProvider
             for={['isPrivate', 'isArchived', 'isFork']}
+          />
+          <ArrayLengthProvider
+            for={['vulnerabilityAlerts']}
           />
           <FilteringState
             defaultFilters={[]}
