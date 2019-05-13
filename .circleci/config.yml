@@ -10,8 +10,8 @@ jobs:
       - run: npm install
       - run: npm run build
       - run: 
-        name: "npm run deploy"
-        command: |
-          if [ "${CIRCLE_BRANCH}" == "master" ]; then
-            npm run deploy
-          fi  
+          name: "npm run deploy"
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              npm run deploy
+            fi  
