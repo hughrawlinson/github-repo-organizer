@@ -150,7 +150,7 @@ export function* startLoadUser() {
     repo: 'github-repo-organizer'
   };
 
-  const {data} = yield call(() => octokit.users.get());
+  const {data} = yield call(() => octokit.users.getAuthenticated());
   if (data.login !== 'hughrawlinson') {
     try {
       yield call(() => octokit.activity.checkStarringRepo(repo));
