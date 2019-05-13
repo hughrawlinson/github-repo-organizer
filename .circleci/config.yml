@@ -12,6 +12,6 @@ jobs:
       - run: 
         name: "npm run deploy"
         command: |
-        if [ "${CIRCLE_BRANCH}" == "master" ]; then
-          npm run deploy
-        fi  
+          if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            npm run deploy
+          fi  
