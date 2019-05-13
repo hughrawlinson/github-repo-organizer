@@ -9,6 +9,9 @@ jobs:
       - checkout
       - run: npm install
       - run: npm run build
+      - add_ssh_keys:
+          fingerprints:
+            - "5c:29:7b:ea:3e:36:b6:2f:6a:57:82:a7:92:63:bf:69"
       - run: 
           name: "npm run deploy"
           command: |
