@@ -2,10 +2,11 @@
 version: 2.1
 
 jobs:
-  build-deploy:
+  build:
     docker:
       - image: circleci/node:12
     steps:
       - checkout
+      - run: npm install
       - run: npm run build
       - run: npm run deploy
