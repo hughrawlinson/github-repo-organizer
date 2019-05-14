@@ -52,7 +52,15 @@ const tableColumnExtensions = [
   { columnName: 'description', wordWrapEnabled: true },
 ];
 
-const defaultHiddenColumnNames = ['isPrivate', 'isArchived', 'isFork', 'owner', 'licenseNickname', 'vulnerabilityAlerts'];
+const defaultHiddenColumnNames = [
+  'isPrivate',
+  'isArchived',
+  'isFork',
+  'owner',
+  'licenseNickname',
+  'vulnerabilityAlerts',
+  'collaborators'
+];
 
 class App extends Component {
   render() {
@@ -101,6 +109,10 @@ class App extends Component {
           },{
               name: 'vulnerabilityAlerts',
               title: 'Vulnerability Alerts'
+          },{
+              name: 'collaborators',
+              title: 'Collaborators',
+              getCellValue: row => row.collaborators && row.collaborators.map(collaborator => collaborator.login)
           }]}
           rows={this.props.repositories}>
           <DateTypeProvider
@@ -110,7 +122,7 @@ class App extends Component {
             for={['name']}
           />
           <ChipListProvider
-            for={['topics']}
+            for={['topics', 'collaborators']}
           />
           <BooleanTypeProvider
             for={['isPrivate', 'isArchived', 'isFork']}
