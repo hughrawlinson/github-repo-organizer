@@ -49,63 +49,79 @@ export function* watchStartLogIn() {
 export function* startLoadRepos(endCursor) {
   const accessToken = yield select(state => state.accessToken);
 
-  const data = yield call(() => graphql({
-    query: `query {
-        viewer {
-          repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
-            pageInfo {
-              endCursor
-            }
-            totalCount,
+  const query = `query {
+    viewer {
+      repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
+        pageInfo {
+          endCursor
+        }
+        totalCount,
+        nodes {
+          id,
+          name,
+          description,
+          createdAt,
+          repositoryTopics(first:100) {
             nodes {
-              id,
-              name,
-              description,
-              createdAt,
-              repositoryTopics(first:100) {
-                nodes {
-                  topic {
-                    id
-                    name
-                  }
-                }
-              }
-              stargazers {totalCount},
-              primaryLanguage {
+              topic {
+                id
                 name
-              }
-              isPrivate
-              isArchived
-              owner {
-                login
-              }
-              nameWithOwner
-              url
-              isFork
-              licenseInfo {
-                name
-                nickname
-              }
-              vulnerabilityAlerts (first:50){
-                nodes {
-                  packageName
-                  vulnerableManifestFilename
-                  vulnerableRequirements
-                  securityAdvisory {
-                    description
-                    summary
-                  }
-                }
               }
             }
           }
+          stargazers {totalCount},
+          primaryLanguage {
+            name
+          }
+          isPrivate
+          isArchived
+          owner {
+            login
+          }
+          nameWithOwner
+          url
+          isFork
+          licenseInfo {
+            name
+            nickname
+          }
+          vulnerabilityAlerts (first:50){
+            nodes {
+              packageName
+              vulnerableManifestFilename
+              vulnerableRequirements
+              securityAdvisory {
+                description
+                summary
+              }
+            }
+          }
+          collaborators (first: 50){
+            nodes {
+              name
+              login
+            }
+          }
         }
-      }`,
-    headers: {
-      authorization: `token ${accessToken}`,
-      accept: 'application/vnd.github.vixen-preview+json'
+      }
     }
-  }));
+  }`
+
+  let data;
+
+  try {
+    data = yield call(() => graphql({
+      query,
+      headers: {
+        authorization: `token ${accessToken}`,
+        accept: 'application/vnd.github.vixen-preview+json'
+      }
+    }));
+  } catch (error) {
+    data = error.data
+  }
+
+  // TODO handle when error is null
 
   const repos = data.viewer.repositories.nodes.map(repo => ({
     id: repo.id,
@@ -122,7 +138,8 @@ export function* startLoadRepos(endCursor) {
     owner: repo.owner.login,
     isFork: repo.isFork,
     licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name),
-    vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes
+    vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes,
+    collaborators: repo.collaborators && repo.collaborators.nodes
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});
