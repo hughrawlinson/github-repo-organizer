@@ -48,6 +48,7 @@ export function* watchStartLogIn() {
 
 export function* startLoadRepos(endCursor) {
   const accessToken = yield select(state => state.accessToken);
+  const user = yield select(state => state.user.login);
 
   const query = `query {
     viewer {
@@ -139,7 +140,7 @@ export function* startLoadRepos(endCursor) {
     isFork: repo.isFork,
     licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name),
     vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes,
-    collaborators: repo.collaborators && repo.collaborators.nodes
+    collaborators: repo.collaborators && repo.collaborators.nodes.filter(a => a.login !== user)
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});
