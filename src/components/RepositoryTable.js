@@ -59,7 +59,8 @@ const defaultHiddenColumnNames = [
   'owner',
   'licenseNickname',
   'vulnerabilityAlerts',
-  'collaborators'
+  'collaborators',
+  'issueCount'
 ];
 
 class App extends Component {
@@ -113,6 +114,9 @@ class App extends Component {
               name: 'collaborators',
               title: 'Collaborators',
               getCellValue: row => row.collaborators && row.collaborators.map(collaborator => collaborator.login)
+          },{
+              name: 'issueCount',
+              title: 'Open Issue Count'
           }]}
           rows={this.props.repositories}>
           <DateTypeProvider
