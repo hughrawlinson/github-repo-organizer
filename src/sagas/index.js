@@ -76,6 +76,9 @@ export function* startLoadRepos(endCursor) {
           }
           isPrivate
           isArchived
+          issues (states: OPEN) {
+            totalCount
+          }
           owner {
             login
           }
@@ -140,7 +143,8 @@ export function* startLoadRepos(endCursor) {
     isFork: repo.isFork,
     licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name),
     vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes,
-    collaborators: repo.collaborators && repo.collaborators.nodes.filter(a => a.login !== user)
+    collaborators: repo.collaborators && repo.collaborators.nodes.filter(a => a.login !== user),
+    issueCount: repo.issues.totalCount
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});
