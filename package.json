@@ -6,17 +6,17 @@
     "@devexpress/dx-react-core": "^1.10.5",
     "@devexpress/dx-react-grid": "^1.10.5",
     "@devexpress/dx-react-grid-material-ui": "^1.10.5",
-    "@material-ui/core": "^3.9.3",
-    "@material-ui/icons": "^3.0.2",
+    "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^4.0.1",
     "@octokit/graphql": "^2.1.1",
-    "@octokit/rest": "^15.18.1",
+    "@octokit/rest": "^16.27.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-redux": "^5.1.1",
-    "react-router-dom": "^4.4.0-beta.8",
+    "react-redux": "^7.0.3",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "^3.0.1",
     "redux": "^4.0.1",
-    "redux-saga": "^0.16.2"
+    "redux-saga": "^1.0.2"
   },
   "scripts": {
     "start": "react-scripts start",
