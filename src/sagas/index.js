@@ -10,7 +10,7 @@ import Octokit from '@octokit/rest';
 // const graphql = require('@octokit/graphql');
 import graphql from '@octokit/graphql';
 
-const octokit = new Octokit();
+let octokit = new Octokit();
 
 const authURL = 'https://github-auth-backend-hugh.glitch.me/start_auth';
 
@@ -162,9 +162,8 @@ export function* watchLoadRepositories() {
 export function* startLoadUser() {
   const accessToken = yield select(state => state.accessToken);
 
-  octokit.authenticate({
-    type: 'oauth',
-    token: accessToken
+  octokit = new Octokit({
+    auth: `token ${accessToken}`
   });
 
   const repo = {
