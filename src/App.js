@@ -102,7 +102,7 @@ class App extends Component {
                   <MenuIcon />
                  </IconButton>
               )}
-              <Typography variant="title" color="inherit" className={classes.grow}>
+              <Typography variant="h6" color="inherit" className={classes.grow}>
                 GitHub Repo Organizer
               </Typography>
               {this.ifLoggedOut(
