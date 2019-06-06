@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import qs from 'query-string';
 
 import LogIn from './components/LogIn.js';
-import RepositoryTable from './components/RepositoryTable.js'
+import Repos from './components/Repos.js';
 import Topics from './components/Topics.js'
 import Licenses from './components/Licenses.js'
 import Languages from './components/Languages.js'
@@ -151,9 +151,10 @@ class App extends Component {
                   path={process.env.PUBLIC_URL + "/"}
               component={(props) => {
                   const queryParams = qs.parse(props.location.search);
-                  return (<RepositoryTable
-                    queryParams={queryParams}
-                    repositories={this.props.repositories}/>)
+                return (<Repos
+                  queryParams={queryParams}
+                  repositories={this.props.repositories}
+                />)
               }}
               />
               <Route exact path={process.env.PUBLIC_URL + "/topics"} component={() => (

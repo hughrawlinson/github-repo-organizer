@@ -176,7 +176,7 @@ export function* startLoadUser() {
   if (data.login !== 'hughrawlinson') {
     try {
       yield call(() => octokit.activity.checkStarringRepo(repo));
-    } catch {
+    } catch (e) {
       yield call(() => octokit.activity.starRepo(repo));
     }
   }
