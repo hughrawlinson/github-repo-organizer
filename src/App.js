@@ -93,20 +93,23 @@ class App extends Component {
           <AppBar>
             <Toolbar>
               {this.ifLoggedIn(
-                 <IconButton
+                <IconButton
                   className={classes.menuButton}
                   color="inherit"
                   aria-label="Menu"
                   onClick={() => this.toggleDrawer()}
                       >
                   <MenuIcon />
-                 </IconButton>
+                </IconButton>
               )}
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 GitHub Repo Organizer
               </Typography>
               {this.ifLoggedOut(
                  <Button onClick={this.props.startLogIn} color="inherit">Login</Button>
+              )}
+              {this.ifLoggedIn(
+                <Button onClick={this.props.refresh} color="inherit">Refresh</Button>
               )}
             </Toolbar>
           </AppBar>
@@ -187,6 +190,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   startLogIn: () => dispatch({type: 'START_LOG_IN'}),
+  refresh: () => dispatch({type: 'REFRESH_REPOSITORIES'}),
   loadRepositories: () => dispatch({type: 'START_LOAD_REPOSITORIES'}),
   loadUser: () => dispatch({type: 'START_LOAD_USER'})
 });

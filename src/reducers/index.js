@@ -18,6 +18,11 @@ const reducer = (state = initialState, action) => {
           ...action.repositories
         ]
       };
+    case 'DELETE_REPOSITORIES':
+      return {
+        ...state,
+        repositories: []
+      };
     case 'SET_USER':
       return {
         ...state,

@@ -159,6 +159,15 @@ export function* watchLoadRepositories() {
   yield takeEvery('START_LOAD_REPOSITORIES', startLoadRepos);
 }
 
+function* refresh() {
+  yield put({type: 'DELETE_REPOSITORIES'});
+  yield startLoadRepos();
+}
+
+export function* watchRefresh() {
+  yield takeEvery('REFRESH_REPOSITORIES', refresh);
+}
+
 export function* startLoadUser() {
   const accessToken = yield select(state => state.accessToken);
 
@@ -191,6 +200,7 @@ export default function* rootSaga() {
     watchInit(),
     watchStartLogIn(),
     watchLoadRepositories(),
-    watchLoadUser()
+    watchLoadUser(),
+    watchRefresh()
   ]);
 }
