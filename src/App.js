@@ -147,7 +147,7 @@ class App extends Component {
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
             {this.ifLoggedOut(<LogIn/>)}
-            {this.ifRepositories(
+            {this.ifLoggedIn(
             <Switch>
               <Route
                   exact
@@ -156,7 +156,7 @@ class App extends Component {
                   const queryParams = qs.parse(props.location.search);
                 return (<Repos
                   queryParams={queryParams}
-                  repositories={this.props.repositories}
+                  repositories={this.props.repositories || []}
                 />)
               }}
               />

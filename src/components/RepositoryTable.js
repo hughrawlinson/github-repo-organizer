@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -52,35 +53,21 @@ const tableColumnExtensions = [
   { columnName: 'description', wordWrapEnabled: true },
 ];
 
-const defaultHiddenColumnNames = [
-  'isPrivate',
-  'isArchived',
-  'isFork',
-  'owner',
-  'licenseNickname',
-  'vulnerabilityAlerts',
-  'collaborators',
-  'issueCount'
-];
-
-function App({repositories}) {
-  const defaultState = {
-    filteringState: [],
-    sortingState: [],
-    searchState: ""
-  };
-  const [state, setState] = useState(defaultState);
-
+function RepositoryTable({repositories, gridState, setGridState}) {
   function setFilteringState(filteringState) {
-    setState({...state, filteringState});
+    setGridState({...gridState, filteringState});
   }
 
   function setSortingState(sortingState) {
-    setState({...state, sortingState});
+    setGridState({...gridState, sortingState});
   }
 
   function setSearchState(searchState) {
-    setState({...state, searchState});
+    setGridState({...gridState, searchState});
+  }
+
+  function setColumnVisibilityState(columnVisibilityState) {
+    setGridState({...gridState, columnVisibilityState});
   }
 
   return (
@@ -153,12 +140,12 @@ function App({repositories}) {
     />
     <FilteringState
       defaultFilters={[]}
-      filters={state.filteringState}
+      filters={gridState.filteringState}
       onFiltersChange={setFilteringState}
     />
     <SortingState
       defaultSorting={[]}
-      sorting={state.sortingState}
+      sorting={gridState.sortingState}
       onSortingChange={setSortingState}
     />
     <PagingState
@@ -166,7 +153,7 @@ function App({repositories}) {
       pageSize={40}
     />
     <SearchState
-      value={state.searchState}
+      value={gridState.searchState}
       onValueChange={setSearchState}
     />
     <IntegratedFiltering/>
@@ -175,7 +162,10 @@ function App({repositories}) {
     <Table columnExtensions={tableColumnExtensions}/>
     <TableHeaderRow showSortingControls />
     <TableFilterRow showFilterSelector />
-    <TableColumnVisibility defaultHiddenColumnNames={defaultHiddenColumnNames} />
+    <TableColumnVisibility
+      hiddenColumnNames={gridState.columnVisibilityState}
+      onHiddenColumnNamesChange={setColumnVisibilityState}
+    />
     <Toolbar/>
     <SearchPanel />
     <ColumnChooser />
@@ -185,4 +175,19 @@ function App({repositories}) {
   );
 }
 
-export default withStyles(styles)(App);
+const mapStateToProps = (state) => ({
+  gridState: state.gridState
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setGridState: gridState => dispatch({
+    type: "SET_GRID_STATE",
+    gridState
+  })
+})
+
+export default
+    connect(
+      mapStateToProps,
+      mapDispatchToProps
+    )(withStyles(styles)(RepositoryTable));

@@ -1,5 +1,20 @@
 const initialState = {
-  loggedIn: false
+  loggedIn: false,
+  gridState: {
+    filteringState: [],
+    sortingState: [],
+    searchState: "",
+    columnVisibilityState: [
+      'isPrivate',
+      'isArchived',
+      'isFork',
+      'owner',
+      'licenseNickname',
+      'vulnerabilityAlerts',
+      'collaborators',
+      'issueCount'
+    ]
+  }
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,6 +43,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         user: action.user
       };
+    case 'SET_GRID_STATE':
+      return {
+        ...state,
+        gridState: action.gridState
+      }
     default:
       return state;
   }
