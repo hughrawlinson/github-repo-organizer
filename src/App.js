@@ -154,6 +154,11 @@ class App extends Component {
                   path={process.env.PUBLIC_URL + "/"}
               component={(props) => {
                   const queryParams = qs.parse(props.location.search);
+                if (queryParams.gridState) {
+                  this.props.setGridState(
+                    JSON.parse(queryParams.gridState)
+                  );
+                }
                 return (<Repos
                   queryParams={queryParams}
                   repositories={this.props.repositories || []}
@@ -192,7 +197,11 @@ const mapDispatchToProps = (dispatch) => ({
   startLogIn: () => dispatch({type: 'START_LOG_IN'}),
   refresh: () => dispatch({type: 'REFRESH_REPOSITORIES'}),
   loadRepositories: () => dispatch({type: 'START_LOAD_REPOSITORIES'}),
-  loadUser: () => dispatch({type: 'START_LOAD_USER'})
+  loadUser: () => dispatch({type: 'START_LOAD_USER'}),
+  setGridState: (gridState) => dispatch({
+    type: 'SET_GRID_STATE',
+    gridState
+  })
 });
 
 export default
