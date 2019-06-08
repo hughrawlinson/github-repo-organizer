@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -28,8 +28,8 @@ const ChipListProvider = props => (
   <DataTypeProvider
     formatterComponent={({value}) => (value ? <>
       {value.map((v) => (<Chip style={{margin: "3px"}} key={v} label={v}/>))}
-    </> : null)}
-    {...props}
+  </> : null)}
+  {...props}
   />
 );
 
@@ -63,103 +63,100 @@ const defaultHiddenColumnNames = [
   'issueCount'
 ];
 
-class App extends Component {
-  render() {
-    // const { classes } = this.props;
-    return (
-      <Paper>
-        <Grid
-          columns={[{
-              name: 'name',
-              title: 'Name',
-              getCellValue: row => ({
-                href: row.url,
-                title: row.name
-              })
-          },{
-              name: 'description',
-              title: 'Description'
-          },{
-              name: 'createdAt',
-              title: 'Created At',
-              getCellValue: row => new Date(row.createdAt)
-          },{
-              name: 'topics',
-              title: 'Topics',
-          },{
-              name: 'stars',
-              title: 'Stars'
-          },{
-              name: 'language',
-              title: 'Language'
-          },{
-              name: 'owner',
-              title: 'Owner'
-          },{
-              name: 'isPrivate',
-              title: 'Private',
-          },{
-              name: 'isArchived',
-              title: 'Archived',
-          },{
-              name: 'isFork',
-              title: 'Fork',
-          },{
-              name: 'licenseNickname',
-              title: 'License'
-          },{
-              name: 'vulnerabilityAlerts',
-              title: 'Vulnerability Alerts'
-          },{
-              name: 'collaborators',
-              title: 'Collaborators',
-              getCellValue: row => row.collaborators && row.collaborators.map(collaborator => collaborator.login)
-          },{
-              name: 'issueCount',
-              title: 'Open Issue Count'
+function App({repositories}) {
+  return (
+    <Paper>
+      <Grid
+        columns={[{
+          name: 'name',
+          title: 'Name',
+          getCellValue: row => ({
+            href: row.url,
+            title: row.name
+          })
+        },{
+          name: 'description',
+          title: 'Description'
+        },{
+          name: 'createdAt',
+          title: 'Created At',
+          getCellValue: row => new Date(row.createdAt)
+        },{
+          name: 'topics',
+          title: 'Topics',
+        },{
+          name: 'stars',
+          title: 'Stars'
+        },{
+          name: 'language',
+          title: 'Language'
+        },{
+          name: 'owner',
+          title: 'Owner'
+        },{
+          name: 'isPrivate',
+          title: 'Private',
+        },{
+          name: 'isArchived',
+          title: 'Archived',
+        },{
+          name: 'isFork',
+          title: 'Fork',
+        },{
+          name: 'licenseNickname',
+          title: 'License'
+        },{
+          name: 'vulnerabilityAlerts',
+          title: 'Vulnerability Alerts'
+        },{
+          name: 'collaborators',
+          title: 'Collaborators',
+          getCellValue: row => row.collaborators && row.collaborators.map(collaborator => collaborator.login)
+        },{
+          name: 'issueCount',
+          title: 'Open Issue Count'
           }]}
-          rows={this.props.repositories}>
-          <DateTypeProvider
-            for={['createdAt']}
-          />
-          <LinkTypeProvider
-            for={['name']}
-          />
-          <ChipListProvider
-            for={['topics', 'collaborators']}
-          />
-          <BooleanTypeProvider
-            for={['isPrivate', 'isArchived', 'isFork']}
-          />
-          <ArrayLengthProvider
-            for={['vulnerabilityAlerts']}
-          />
-          <FilteringState
-            defaultFilters={[]}
-          />
-          <SortingState
-            defaultSorting={[]}
-          />
-          <PagingState
-            defaultCurrentPage={0}
-            pageSize={40}
-          />
-          <SearchState />
-          <IntegratedFiltering/>
-          <IntegratedSorting/>
-          <IntegratedPaging/>
-          <Table columnExtensions={tableColumnExtensions}/>
-          <TableHeaderRow showSortingControls />
-          <TableFilterRow showFilterSelector />
-          <TableColumnVisibility defaultHiddenColumnNames={defaultHiddenColumnNames} />
-          <Toolbar/>
-          <SearchPanel />
-          <ColumnChooser />
-          <PagingPanel />
-        </Grid>
-      </Paper>
-    );
-  }
+    rows={repositories}>
+    <DateTypeProvider
+    for={['createdAt']}
+  />
+    <LinkTypeProvider
+      for={['name']}
+    />
+    <ChipListProvider
+      for={['topics', 'collaborators']}
+    />
+    <BooleanTypeProvider
+      for={['isPrivate', 'isArchived', 'isFork']}
+    />
+    <ArrayLengthProvider
+      for={['vulnerabilityAlerts']}
+    />
+    <FilteringState
+      defaultFilters={[]}
+    />
+    <SortingState
+      defaultSorting={[]}
+    />
+    <PagingState
+      defaultCurrentPage={0}
+      pageSize={40}
+    />
+    <SearchState />
+    <IntegratedFiltering/>
+    <IntegratedSorting/>
+    <IntegratedPaging/>
+    <Table columnExtensions={tableColumnExtensions}/>
+    <TableHeaderRow showSortingControls />
+    <TableFilterRow showFilterSelector />
+    <TableColumnVisibility defaultHiddenColumnNames={defaultHiddenColumnNames} />
+    <Toolbar/>
+    <SearchPanel />
+    <ColumnChooser />
+    <PagingPanel />
+  </Grid>
+</Paper>
+  );
 }
 
 export default withStyles(styles)(App);
