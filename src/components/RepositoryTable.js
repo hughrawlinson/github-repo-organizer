@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 // import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -64,6 +64,25 @@ const defaultHiddenColumnNames = [
 ];
 
 function App({repositories}) {
+  const defaultState = {
+    filteringState: [],
+    sortingState: [],
+    searchState: ""
+  };
+  const [state, setState] = useState(defaultState);
+
+  function setFilteringState(filteringState) {
+    setState({...state, filteringState});
+  }
+
+  function setSortingState(sortingState) {
+    setState({...state, sortingState});
+  }
+
+  function setSearchState(searchState) {
+    setState({...state, searchState});
+  }
+
   return (
     <Paper>
       <Grid
@@ -134,15 +153,22 @@ function App({repositories}) {
     />
     <FilteringState
       defaultFilters={[]}
+      filters={state.filteringState}
+      onFiltersChange={setFilteringState}
     />
     <SortingState
       defaultSorting={[]}
+      sorting={state.sortingState}
+      onSortingChange={setSortingState}
     />
     <PagingState
       defaultCurrentPage={0}
       pageSize={40}
     />
-    <SearchState />
+    <SearchState
+      value={state.searchState}
+      onValueChange={setSearchState}
+    />
     <IntegratedFiltering/>
     <IntegratedSorting/>
     <IntegratedPaging/>
