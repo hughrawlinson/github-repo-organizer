@@ -4,10 +4,10 @@ const query = (endCursor) => `query {
         pageInfo {
           endCursor
         }
-        totalCount,
+        totalCount
         nodes {
-          id,
-          name,
+          id
+          ...name
           ...description
           ...createdAt
           ...repositoryTopics
@@ -28,6 +28,10 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment name on Repository {
+  name
+}
 
 fragment description on Repository {
   description
