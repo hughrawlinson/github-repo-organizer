@@ -22,7 +22,7 @@ const query = (endCursor) => `query {
           primaryLanguage {
             name
           }
-          isPrivate
+          ...private
           ...archived
           ...issues
           ...pullRequestCount
@@ -37,6 +37,10 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment private on Repository {
+  isPrivate
+}
 
 fragment archived on Repository {
   isArchived
