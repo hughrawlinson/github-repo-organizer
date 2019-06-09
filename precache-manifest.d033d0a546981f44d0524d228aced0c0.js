@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3f22f2849fedc59dff6ab892befb9bf4",
+    "revision": "d59f6616ed04c6017e91d89e01b26931",
     "url": "/github-repo-organizer/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/github-repo-organizer/static/js/2.317e193d.chunk.js"
   },
   {
-    "revision": "1aa4e6ebf3e9c4097b69",
-    "url": "/github-repo-organizer/static/js/main.7cbfdf7e.chunk.js"
+    "revision": "81d8a808b9d0b3a1f57b",
+    "url": "/github-repo-organizer/static/js/main.63f6750c.chunk.js"
   },
   {
     "revision": "c60507a83c4eb753f4e5",
