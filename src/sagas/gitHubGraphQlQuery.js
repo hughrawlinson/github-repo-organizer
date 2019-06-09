@@ -18,7 +18,7 @@ const query = (endCursor) => `query {
               }
             }
           }
-          stargazers {totalCount},
+          ...stargazers
           ...primaryLanguage
           ...private
           ...archived
@@ -35,6 +35,12 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment stargazers on Repository {
+  stargazers {
+    totalCount
+  }
+}
 
 fragment primaryLanguage on Repository {
   primaryLanguage {
