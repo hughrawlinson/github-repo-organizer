@@ -19,9 +19,7 @@ const query = (endCursor) => `query {
             }
           }
           stargazers {totalCount},
-          primaryLanguage {
-            name
-          }
+          ...primaryLanguage
           ...private
           ...archived
           ...issues
@@ -37,6 +35,12 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment primaryLanguage on Repository {
+  primaryLanguage {
+    name
+  }
+}
 
 fragment private on Repository {
   isPrivate
