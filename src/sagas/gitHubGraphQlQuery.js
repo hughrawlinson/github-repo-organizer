@@ -24,9 +24,7 @@ const query = (endCursor) => `query {
           }
           isPrivate
           isArchived
-          issues (states: OPEN) {
-            totalCount
-          }
+          ...issues
           ...pullRequestCount
           ...owner
           ...nameWithOwner
@@ -39,6 +37,12 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment issues on Repository {
+  issues (states: OPEN) {
+    totalCount
+  }
+}
 
 fragment pullRequestCount on Repository {
   pullRequests (states: OPEN) {
