@@ -23,7 +23,7 @@ const query = (endCursor) => `query {
             name
           }
           isPrivate
-          isArchived
+          ...archived
           ...issues
           ...pullRequestCount
           ...owner
@@ -37,6 +37,10 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment archived on Repository {
+  isArchived
+}
 
 fragment issues on Repository {
   issues (states: OPEN) {
