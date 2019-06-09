@@ -31,7 +31,6 @@ const query = (endCursor) => `query {
           owner {
             login
           }
-          nameWithOwner
           ...url
           ...fork
           ...licenses
@@ -46,6 +45,10 @@ fragment pullRequestCount on Repository {
   pullRequests (states: OPEN) {
     totalCount
   }
+}
+
+fragment nameWithOwner on Repository {
+  nameWithOwner
 }
 
 fragment url on Repository {
