@@ -38,23 +38,13 @@ const query = (endCursor) => `query {
             name
             nickname
           }
-          vulnerabilityAlerts (first:50){
-            nodes {
-              packageName
-              vulnerableManifestFilename
-              vulnerableRequirements
-              securityAdvisory {
-                description
-                summary
-              }
-            }
-          }
           collaborators (first: 50){
             nodes {
               name
               login
             }
           }
+          ...vulnerabilityAlerts
         }
       }
     }
@@ -63,6 +53,20 @@ const query = (endCursor) => `query {
 fragment pullRequestCount on Repository {
   pullRequests (states: OPEN) {
     totalCount
+  }
+}
+
+fragment vulnerabilityAlerts on Repository {
+  vulnerabilityAlerts (first:50){
+    nodes {
+      packageName
+      vulnerableManifestFilename
+      vulnerableRequirements
+      securityAdvisory {
+        description
+        summary
+      }
+    }
   }
 }
 `
