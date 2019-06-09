@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/github-repo-organizer/static/js/main.888abda9.chunk.js",
-    "main.js.map": "/github-repo-organizer/static/js/main.888abda9.chunk.js.map",
+    "main.js": "/github-repo-organizer/static/js/main.b0a50b19.chunk.js",
+    "main.js.map": "/github-repo-organizer/static/js/main.b0a50b19.chunk.js.map",
     "runtime~main.js": "/github-repo-organizer/static/js/runtime~main.0e0f16a3.js",
     "runtime~main.js.map": "/github-repo-organizer/static/js/runtime~main.0e0f16a3.js.map",
     "static/js/2.317e193d.chunk.js": "/github-repo-organizer/static/js/2.317e193d.chunk.js",
     "static/js/2.317e193d.chunk.js.map": "/github-repo-organizer/static/js/2.317e193d.chunk.js.map",
     "index.html": "/github-repo-organizer/index.html",
-    "precache-manifest.3194e1e3b27fc8c436ddaa734396da90.js": "/github-repo-organizer/precache-manifest.3194e1e3b27fc8c436ddaa734396da90.js",
+    "precache-manifest.097e15ab3331b1afb41c375cd49bc25d.js": "/github-repo-organizer/precache-manifest.097e15ab3331b1afb41c375cd49bc25d.js",
     "service-worker.js": "/github-repo-organizer/service-worker.js"
   }
 }
