@@ -34,10 +34,7 @@ const query = (endCursor) => `query {
           nameWithOwner
           url
           isFork
-          licenseInfo {
-            name
-            nickname
-          }
+          ...licenses
           ...vulnerabilityAlerts
           ...collaborators
         }
@@ -48,6 +45,13 @@ const query = (endCursor) => `query {
 fragment pullRequestCount on Repository {
   pullRequests (states: OPEN) {
     totalCount
+  }
+}
+
+fragment licenses on Repository {
+  licenseInfo {
+    name
+    nickname
   }
 }
 
