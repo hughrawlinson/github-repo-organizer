@@ -27,9 +27,7 @@ const query = (endCursor) => `query {
           issues (states: OPEN) {
             totalCount
           }
-          pullRequests (states: OPEN) {
-            totalCount
-          }
+          ...pullRequestCount
           owner {
             login
           }
@@ -60,6 +58,13 @@ const query = (endCursor) => `query {
         }
       }
     }
-  }`
+  }
+
+fragment pullRequestCount on Repository {
+  pullRequests (states: OPEN) {
+    totalCount
+  }
+}
+`
 
 export default query;
