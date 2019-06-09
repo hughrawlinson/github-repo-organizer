@@ -121,7 +121,10 @@ function RepositoryTable({repositories, gridState, setGridState}) {
         },{
           name: 'issueCount',
           title: 'Open Issue Count'
-          }]}
+        },{
+          name: 'pullRequestCount',
+          title: 'Open Pull Request Count'
+        }]}
     rows={repositories}>
     <DateTypeProvider
     for={['createdAt']}

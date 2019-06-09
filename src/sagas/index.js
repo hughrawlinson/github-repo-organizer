@@ -79,6 +79,9 @@ export function* startLoadRepos(endCursor) {
           issues (states: OPEN) {
             totalCount
           }
+          pullRequests (states: OPEN) {
+            totalCount
+          }
           owner {
             login
           }
@@ -144,7 +147,8 @@ export function* startLoadRepos(endCursor) {
     licenseNickname: repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name),
     vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes,
     collaborators: repo.collaborators && repo.collaborators.nodes.filter(a => a.login !== user),
-    issueCount: repo.issues.totalCount
+    issueCount: repo.issues.totalCount,
+    pullRequestCount: repo.pullRequests.totalCount
   }));
 
   yield put({type: 'SET_REPOSITORIES', repositories: repos});
