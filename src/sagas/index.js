@@ -9,6 +9,7 @@ import qs from 'querystring';
 import Octokit from '@octokit/rest';
 // const graphql = require('@octokit/graphql');
 import graphql from '@octokit/graphql';
+import query from './gitHubGraphQlQuery';
 
 let octokit = new Octokit();
 
@@ -50,75 +51,11 @@ export function* startLoadRepos(endCursor) {
   const accessToken = yield select(state => state.accessToken);
   const user = yield select(state => state.user.login);
 
-  const query = `query {
-    viewer {
-      repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
-        pageInfo {
-          endCursor
-        }
-        totalCount,
-        nodes {
-          id,
-          name,
-          description,
-          createdAt,
-          repositoryTopics(first:100) {
-            nodes {
-              topic {
-                id
-                name
-              }
-            }
-          }
-          stargazers {totalCount},
-          primaryLanguage {
-            name
-          }
-          isPrivate
-          isArchived
-          issues (states: OPEN) {
-            totalCount
-          }
-          pullRequests (states: OPEN) {
-            totalCount
-          }
-          owner {
-            login
-          }
-          nameWithOwner
-          url
-          isFork
-          licenseInfo {
-            name
-            nickname
-          }
-          vulnerabilityAlerts (first:50){
-            nodes {
-              packageName
-              vulnerableManifestFilename
-              vulnerableRequirements
-              securityAdvisory {
-                description
-                summary
-              }
-            }
-          }
-          collaborators (first: 50){
-            nodes {
-              name
-              login
-            }
-          }
-        }
-      }
-    }
-  }`
-
   let data;
 
   try {
     data = yield call(() => graphql({
-      query,
+      query: query(endCursor),
       headers: {
         authorization: `token ${accessToken}`,
         accept: 'application/vnd.github.vixen-preview+json'
