@@ -38,13 +38,8 @@ const query = (endCursor) => `query {
             name
             nickname
           }
-          collaborators (first: 50){
-            nodes {
-              name
-              login
-            }
-          }
           ...vulnerabilityAlerts
+          ...collaborators
         }
       }
     }
@@ -66,6 +61,15 @@ fragment vulnerabilityAlerts on Repository {
         description
         summary
       }
+    }
+  }
+}
+
+fragment collaborators on Repository {
+  collaborators (first: 50){
+    nodes {
+      name
+      login
     }
   }
 }
