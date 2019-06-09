@@ -8,7 +8,7 @@ const query = (endCursor) => `query {
         nodes {
           id,
           name,
-          description,
+          ...description
           ...createdAt
           ...repositoryTopics
           ...stargazers
@@ -28,6 +28,10 @@ const query = (endCursor) => `query {
       }
     }
   }
+
+fragment description on Repository {
+  description
+}
 
 fragment createdAt on Repository {
   createdAt
