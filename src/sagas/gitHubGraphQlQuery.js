@@ -9,7 +9,6 @@ const query = (endCursor) => `query {
         totalCount
         nodes {
           id
-          ...name
           ${
           Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
           }
@@ -32,10 +31,6 @@ const query = (endCursor) => `query {
       }
     }
   }
-
-fragment name on Repository {
-  name
-}
 
 ${
   Object.values(columns).map(column => column.getColumnFragment().fragment)
