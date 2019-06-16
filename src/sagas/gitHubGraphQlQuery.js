@@ -1,3 +1,5 @@
+import columns from '../columns';
+
 const query = (endCursor) => `query {
     viewer {
       repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
@@ -8,7 +10,9 @@ const query = (endCursor) => `query {
         nodes {
           id
           ...name
-          ...description
+          ${
+          Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
+          }
           ...createdAt
           ...repositoryTopics
           ...stargazers
@@ -33,8 +37,8 @@ fragment name on Repository {
   name
 }
 
-fragment description on Repository {
-  description
+${
+  Object.values(columns).map(column => column.getColumnFragment().fragment)
 }
 
 fragment createdAt on Repository {
