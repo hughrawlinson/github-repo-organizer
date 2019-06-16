@@ -12,7 +12,6 @@ const query = (endCursor) => `query {
           ${
           Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
           }
-          ...createdAt
           ...repositoryTopics
           ...stargazers
           ...primaryLanguage
@@ -34,10 +33,6 @@ const query = (endCursor) => `query {
 
 ${
   Object.values(columns).map(column => column.getColumnFragment().fragment)
-}
-
-fragment createdAt on Repository {
-  createdAt
 }
 
 fragment repositoryTopics on Repository {
