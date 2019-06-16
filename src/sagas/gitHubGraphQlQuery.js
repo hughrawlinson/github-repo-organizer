@@ -12,7 +12,6 @@ const query = (endCursor) => `query {
           ${
           Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
           }
-          ...repositoryTopics
           ...stargazers
           ...primaryLanguage
           ...private
@@ -33,17 +32,6 @@ const query = (endCursor) => `query {
 
 ${
   Object.values(columns).map(column => column.getColumnFragment().fragment)
-}
-
-fragment repositoryTopics on Repository {
-  repositoryTopics(first:100) {
-    nodes {
-      topic {
-        id
-        name
-      }
-    }
-  }
 }
 
 fragment stargazers on Repository {
