@@ -8,7 +8,7 @@ import {
 import qs from 'querystring';
 import Octokit from '@octokit/rest';
 // const graphql = require('@octokit/graphql');
-import graphql from '@octokit/graphql';
+import { graphql } from '@octokit/graphql';
 import query from './gitHubGraphQlQuery';
 
 let octokit = new Octokit();
