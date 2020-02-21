@@ -14,14 +14,14 @@ and limitations under the License.
 ***************************************************************************** */
 
 /*!
- * isobject <https://github.com/jonschlinkert/isobject>
+ * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
  *
  * Copyright (c) 2014-2017, Jon Schlinkert.
  * Released under the MIT License.
  */
 
 /*!
- * is-plain-object <https://github.com/jonschlinkert/is-plain-object>
+ * isobject <https://github.com/jonschlinkert/isobject>
  *
  * Copyright (c) 2014-2017, Jon Schlinkert.
  * Released under the MIT License.
