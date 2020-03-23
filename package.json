@@ -10,7 +10,7 @@
     "@material-ui/icons": "^4.5.1",
     "@octokit/graphql": "^4.2.2",
     "@octokit/rest": "^17.0.0",
-    "react": "^16.11.0",
+    "react": "^16.13.1",
     "react-dom": "^16.11.0",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
