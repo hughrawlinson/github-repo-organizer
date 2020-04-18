@@ -4,16 +4,16 @@
     "main.js.map": "/github-repo-organizer/static/js/main.3a8a62e9.chunk.js.map",
     "runtime-main.js": "/github-repo-organizer/static/js/runtime-main.2bb83099.js",
     "runtime-main.js.map": "/github-repo-organizer/static/js/runtime-main.2bb83099.js.map",
-    "static/js/2.307ac8dd.chunk.js": "/github-repo-organizer/static/js/2.307ac8dd.chunk.js",
-    "static/js/2.307ac8dd.chunk.js.map": "/github-repo-organizer/static/js/2.307ac8dd.chunk.js.map",
+    "static/js/2.2d5cd3e4.chunk.js": "/github-repo-organizer/static/js/2.2d5cd3e4.chunk.js",
+    "static/js/2.2d5cd3e4.chunk.js.map": "/github-repo-organizer/static/js/2.2d5cd3e4.chunk.js.map",
     "index.html": "/github-repo-organizer/index.html",
-    "precache-manifest.5103ae12fb754de5cbbdb44c3f58017f.js": "/github-repo-organizer/precache-manifest.5103ae12fb754de5cbbdb44c3f58017f.js",
+    "precache-manifest.7fa2c333ee7e43a277f528a3ad574abd.js": "/github-repo-organizer/precache-manifest.7fa2c333ee7e43a277f528a3ad574abd.js",
     "service-worker.js": "/github-repo-organizer/service-worker.js",
-    "static/js/2.307ac8dd.chunk.js.LICENSE.txt": "/github-repo-organizer/static/js/2.307ac8dd.chunk.js.LICENSE.txt"
+    "static/js/2.2d5cd3e4.chunk.js.LICENSE.txt": "/github-repo-organizer/static/js/2.2d5cd3e4.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.2bb83099.js",
-    "static/js/2.307ac8dd.chunk.js",
+    "static/js/2.2d5cd3e4.chunk.js",
     "static/js/main.3a8a62e9.chunk.js"
   ]
 }
