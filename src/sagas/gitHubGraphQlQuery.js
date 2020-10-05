@@ -2,16 +2,15 @@ import columns from '../columns';
 
 const query = (endCursor) => `query {
     viewer {
-      repositories (first:100${endCursor ? ", after:\"" + endCursor + '"': ''}) {
+      repositories (first:100${endCursor ? ", after:\"" + endCursor + '"' : ''}) {
         pageInfo {
           endCursor
         }
         totalCount
         nodes {
           id
-          ${
-          Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
-          }
+          ${Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
+  }
           ...stargazers
           ...primaryLanguage
           ...private
@@ -30,9 +29,8 @@ const query = (endCursor) => `query {
     }
   }
 
-${
-  Object.values(columns).map(column => column.getColumnFragment().fragment)
-}
+${Object.values(columns).map(column => column.getColumnFragment().fragment)
+  }
 
 fragment stargazers on Repository {
   stargazers {
@@ -94,12 +92,14 @@ fragment licenses on Repository {
 fragment vulnerabilityAlerts on Repository {
   vulnerabilityAlerts (first:50){
     nodes {
-      packageName
-      vulnerableManifestFilename
-      vulnerableRequirements
-      securityAdvisory {
-        description
-        summary
+      securityVulnerability {
+        package {
+          name
+        }
+        advisory {
+          description
+          summary
+        }
       }
     }
   }
