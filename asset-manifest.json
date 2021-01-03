@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.js": "/github-repo-organizer/static/js/main.4edfe3c0.chunk.js",
-    "main.js.map": "/github-repo-organizer/static/js/main.4edfe3c0.chunk.js.map",
+    "main.js": "/github-repo-organizer/static/js/main.9c9cf266.chunk.js",
+    "main.js.map": "/github-repo-organizer/static/js/main.9c9cf266.chunk.js.map",
     "runtime-main.js": "/github-repo-organizer/static/js/runtime-main.8fab50af.js",
     "runtime-main.js.map": "/github-repo-organizer/static/js/runtime-main.8fab50af.js.map",
-    "static/js/2.73adbac3.chunk.js": "/github-repo-organizer/static/js/2.73adbac3.chunk.js",
-    "static/js/2.73adbac3.chunk.js.map": "/github-repo-organizer/static/js/2.73adbac3.chunk.js.map",
+    "static/js/2.d8f24952.chunk.js": "/github-repo-organizer/static/js/2.d8f24952.chunk.js",
+    "static/js/2.d8f24952.chunk.js.map": "/github-repo-organizer/static/js/2.d8f24952.chunk.js.map",
     "index.html": "/github-repo-organizer/index.html",
-    "precache-manifest.61acdb053694acec2c07eb2e09e11b3d.js": "/github-repo-organizer/precache-manifest.61acdb053694acec2c07eb2e09e11b3d.js",
+    "precache-manifest.1820ab49a6a49f509953bc7aaace8eeb.js": "/github-repo-organizer/precache-manifest.1820ab49a6a49f509953bc7aaace8eeb.js",
     "service-worker.js": "/github-repo-organizer/service-worker.js",
-    "static/js/2.73adbac3.chunk.js.LICENSE.txt": "/github-repo-organizer/static/js/2.73adbac3.chunk.js.LICENSE.txt"
+    "static/js/2.d8f24952.chunk.js.LICENSE.txt": "/github-repo-organizer/static/js/2.d8f24952.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.8fab50af.js",
-    "static/js/2.73adbac3.chunk.js",
-    "static/js/main.4edfe3c0.chunk.js"
+    "static/js/2.d8f24952.chunk.js",
+    "static/js/main.9c9cf266.chunk.js"
   ]
 }
