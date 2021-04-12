@@ -18,6 +18,6 @@ jobs:
           command: |
             git config --global user.email "hughr2005@gmail.com"
             git config --global user.name "Hugh Rawlinson"
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+            if [ "${CIRCLE_BRANCH}" == "main" ]; then
               npm run deploy
-            fi  
+            fi
