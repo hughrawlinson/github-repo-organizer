@@ -9,7 +9,7 @@ jobs:
       - image: circleci/node:12
     steps:
       - checkout
-      - run: npm install
+      - run: yarn
       - run: npm run build
       - add_ssh_keys:
           fingerprints:
