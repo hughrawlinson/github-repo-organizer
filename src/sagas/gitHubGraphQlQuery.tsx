@@ -1,16 +1,19 @@
-import columns from '../columns';
+import columns from "../columns";
 
-const query = (endCursor) => `query {
+const query = (endCursor: string) => `query {
     viewer {
-      repositories (first:100${endCursor ? ", after:\"" + endCursor + '"' : ''}) {
+      repositories (first:100${
+        endCursor ? ', after:"' + endCursor + '"' : ""
+      }) {
         pageInfo {
           endCursor
         }
         totalCount
         nodes {
           id
-          ${Object.values(columns).map(column => `...${column.getColumnFragment().name}\n`)
-  }
+          ${Object.values(columns).map(
+            (column) => `...${column.getColumnFragment().name}\n`
+          )}
           ...stargazers
           ...primaryLanguage
           ...private
@@ -29,8 +32,7 @@ const query = (endCursor) => `query {
     }
   }
 
-${Object.values(columns).map(column => column.getColumnFragment().fragment)
-  }
+${Object.values(columns).map((column) => column.getColumnFragment().fragment)}
 
 fragment stargazers on Repository {
   stargazers {
@@ -113,6 +115,6 @@ fragment collaborators on Repository {
     }
   }
 }
-`
+`;
 
 export default query;
