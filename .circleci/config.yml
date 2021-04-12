@@ -10,7 +10,7 @@ jobs:
     steps:
       - checkout
       - run: yarn
-      - run: npm run build
+      - run: yarn run build
       - add_ssh_keys:
           fingerprints:
             - "5c:29:7b:ea:3e:36:b6:2f:6a:57:82:a7:92:63:bf:69"
@@ -19,5 +19,5 @@ jobs:
             git config --global user.email "hughr2005@gmail.com"
             git config --global user.name "Hugh Rawlinson"
             if [ "${CIRCLE_BRANCH}" == "main" ]; then
-              npm run deploy
+              yarn run deploy
             fi
