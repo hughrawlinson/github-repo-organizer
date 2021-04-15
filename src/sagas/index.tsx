@@ -3,7 +3,7 @@ import qs from "querystring";
 import { Octokit } from "@octokit/rest";
 // const graphql = require('@octokit/graphql');
 import { graphql, GraphQlQueryResponseData } from "@octokit/graphql";
-import query from "./gitHubGraphQlQuery";
+import query from "../api/gitHubGraphQlQuery";
 
 let octokit = new Octokit();
 

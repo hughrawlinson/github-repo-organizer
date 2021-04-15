@@ -1,11 +1,13 @@
+import { ColumnType, ColumnFragment } from ".";
+
 export default {
   getColumnName: () => "name",
-  getColumnType: () => ({
+  getColumnType: (): ColumnType => ({
     dataType: "string",
-    dataSource: "GitHubGraphQL"
+    dataSource: "GitHubGraphQL",
   }),
-  getColumnFragment: () => ({
-    name: 'name',
-    fragment: 'fragment name on Repository { name } '
-  })
+  getColumnFragment: (): ColumnFragment => ({
+    name: "name",
+    fragment: "fragment name on Repository { name } ",
+  }),
 };
