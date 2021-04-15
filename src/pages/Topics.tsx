@@ -6,6 +6,8 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
 import Paper from "@material-ui/core/Paper";
+import { RootState } from "..";
+import { useSelector } from "react-redux";
 
 interface Repository {
   topics: string[];
@@ -23,15 +25,15 @@ const prepareTags = (repositories: Repository[]) => {
       emptyAccumulator
     );
 };
-type TopicsProps = {
-  repositories?: Repository[];
-};
 
-export default (props: TopicsProps) => {
-  if (!props.repositories) {
+export default () => {
+  const repositories = useSelector(
+    (state: RootState) => state.reducer.repositories
+  );
+  if (!repositories) {
     return <p>Loading</p>;
   }
-  const tags = prepareTags(props.repositories);
+  const tags = prepareTags(repositories);
   const data = Object.entries(tags).map(([key, value]) => ({
     topicName: key,
     topicCount: value,

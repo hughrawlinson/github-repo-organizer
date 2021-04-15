@@ -5,6 +5,8 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
 import Paper from "@material-ui/core/Paper";
+import { useSelector } from "react-redux";
+import { RootState } from "..";
 
 type Repository = {
   language: string;
@@ -23,15 +25,14 @@ const prepareLanguages = (repositories: Repository[]) => {
     );
 };
 
-type LanguagesProps = {
-  repositories?: Repository[];
-};
-
-export default (props: LanguagesProps) => {
-  if (!props.repositories) {
+export default () => {
+  const repositories = useSelector(
+    (state: RootState) => state.reducer.repositories
+  );
+  if (!repositories) {
     return <p>Loading</p>;
   }
-  const languages = prepareLanguages(props.repositories);
+  const languages = prepareLanguages(repositories);
   const data = Object.entries(languages).map(([key, value]) => ({
     language: key,
     languageCount: value,

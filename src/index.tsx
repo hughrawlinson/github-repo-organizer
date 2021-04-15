@@ -4,7 +4,7 @@ import createSagaMiddleware from "redux-saga";
 import sagas from "./sagas";
 import { Provider, useDispatch } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import userLoginReducer from "./reducers/userLoginSlice";
+import userLoginReducer from "./features/UserLogin/userLoginSlice";
 import reducer from "./reducers";
 
 const sagaMiddleware = createSagaMiddleware();

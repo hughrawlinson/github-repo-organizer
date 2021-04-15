@@ -3,13 +3,9 @@ import { Octokit } from "@octokit/rest";
 import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
 import { Data } from "../types/gitHubGraphQlQueryResponseType";
-import {
-  deleteRepositories,
-  setAccessToken,
-  setRepositories,
-  setUser,
-} from "../reducers";
+import { deleteRepositories, setRepositories } from "../reducers";
 import { RootState } from "..";
+import { setAccessToken, setUser } from "../features/UserLogin/userLoginSlice";
 
 let octokit = new Octokit();
 
@@ -41,10 +37,6 @@ export function* init() {
   const query = new URLSearchParams(window.location.search);
 
   if (query.get("access_token")) {
-    // yield put({
-    //   type: "SET_ACCESS_TOKEN",
-    //   access_token: query.get("access_token"),
-    // });
     yield put(setAccessToken({ access_token: query.get("access_token") }));
     yield startLoadUser();
   }
@@ -71,9 +63,11 @@ export function* watchStartLogIn() {
 
 export function* startLoadRepos(endCursor?: string): any {
   const accessToken = yield select(
-    (state: RootState) => state.reducer.accessToken
+    (state: RootState) => state.userLoginReducer.accessToken
   );
-  const user = yield select((state: RootState) => state.reducer.user?.login);
+  const user = yield select(
+    (state: RootState) => state.userLoginReducer.user?.login
+  );
 
   let data: Data;
 
@@ -141,7 +135,7 @@ export function* watchRefresh() {
 
 export function* startLoadUser(): any {
   const accessToken = yield select(
-    (state: RootState) => state.reducer.accessToken
+    (state: RootState) => state.userLoginReducer.accessToken
   );
 
   octokit = new Octokit({

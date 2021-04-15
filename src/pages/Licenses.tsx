@@ -6,6 +6,8 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
 import Paper from "@material-ui/core/Paper";
+import { useSelector } from "react-redux";
+import { RootState } from "..";
 
 type Repository = {
   licenseNickname: string;
@@ -28,11 +30,11 @@ type LicensesProps = {
   repositories?: Repository[];
 };
 
-export default (props: LicensesProps) => {
-  if (!props.repositories) {
-    return <p>Loading</p>;
-  }
-  const tags = prepareTags(props.repositories);
+export default () => {
+  const repositories = useSelector(
+    (state: RootState) => state.reducer.repositories
+  );
+  const tags = prepareTags(repositories);
   const data = Object.entries(tags).map(([key, value]) => ({
     license: key,
     licenseCount: value,

@@ -5,21 +5,18 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useSelector } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
-import LogIn from "./pages/LogIn";
-import ReposPage from "./pages/Repos";
-import Topics from "./pages/Topics";
-import Licenses from "./pages/Licenses";
-import Languages from "./pages/Languages";
+import Routes from "./features/Routes";
 import { RootState, useAppDispatch } from ".";
 import {
   DrawerMenuToggleButton,
   DrawerMenuWrapper,
   DrawerMenu,
 } from "./components/DrawerMenu";
-import { ReactNode } from "react";
-import { refresh, startLogin } from "./reducers";
+import { refresh } from "./reducers";
+import LoginButton from "./features/UserLogin/LoginButton";
+import LoginStateSwitch from "./features/UserLogin/LoginStateSwitch";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -51,23 +48,7 @@ function App({ classes }: AppProps) {
   const repositories = useSelector(
     (state: RootState) => state.reducer.repositories
   );
-  const loggedIn = useSelector((state: RootState) => state.reducer.loggedIn);
   const dispatch = useAppDispatch();
-
-  function ifLoggedOut(child: ReactNode) {
-    if (!loggedIn) {
-      return child;
-    }
-    return null;
-  }
-
-  function ifLoggedIn(child: ReactNode) {
-    if (loggedIn) {
-      return child;
-    }
-    return null;
-  }
-
   return (
     <DrawerMenuWrapper>
       <CssBaseline />
@@ -75,61 +56,28 @@ function App({ classes }: AppProps) {
         <div className="App">
           <AppBar>
             <Toolbar>
-              {ifLoggedIn(
+              <LoginStateSwitch selectedLoginState={true}>
                 <DrawerMenuToggleButton
                   className={classes.menuButton}
                   color="inherit"
                   aria-label="Menu"
                 />
-              )}
+              </LoginStateSwitch>
               <Typography variant="h6" color="inherit" className={classes.grow}>
                 GitHub Repo Organizer
               </Typography>
-              {ifLoggedOut(
-                <Button
-                  onClick={() => {
-                    dispatch(startLogin());
-                  }}
-                  color="inherit"
-                >
-                  Login
-                </Button>
-              )}
-              {ifLoggedIn(
+              <LoginButton color="inherit" />
+              <LoginStateSwitch selectedLoginState={true}>
                 <Button onClick={() => dispatch(refresh())} color="inherit">
                   Refresh
                 </Button>
-              )}
+              </LoginStateSwitch>
             </Toolbar>
           </AppBar>
           <DrawerMenu />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
-            {ifLoggedOut(<LogIn />)}
-            {ifLoggedIn(
-              <Switch>
-                <Route
-                  exact
-                  path={process.env.PUBLIC_URL + "/"}
-                  component={ReposPage}
-                />
-                <Route
-                  exact
-                  path={process.env.PUBLIC_URL + "/topics"}
-                  component={() => <Topics repositories={repositories} />}
-                />
-                <Route
-                  exact
-                  path={process.env.PUBLIC_URL + "/licenses"}
-                  component={() => <Licenses repositories={repositories} />}
-                />
-                <Route
-                  exact
-                  path={process.env.PUBLIC_URL + "/languages"}
-                  component={() => <Languages repositories={repositories} />}
-                />
-              </Switch>
-            )}
+            <Routes />
           </main>
         </div>
       </Router>
