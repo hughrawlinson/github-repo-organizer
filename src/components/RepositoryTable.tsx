@@ -1,10 +1,8 @@
 import React from "react";
-import { connect } from "react-redux";
-// import PropTypes from 'prop-types';
+import { connect, useSelector } from "react-redux";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
-// import { connect } from 'react-redux';
 import {
   Grid,
   Table,
@@ -26,9 +24,8 @@ import {
   IntegratedPaging,
 } from "@devexpress/dx-react-grid";
 import { DataTypeProvider } from "@devexpress/dx-react-grid";
-import { RootState } from "../index";
-import { Dispatch } from "redux";
-import { GridState } from "../reducers";
+import { RootState, useAppDispatch } from "../index";
+import { GridState, setGridState } from "../reducers";
 
 const styles = createStyles({});
 
@@ -103,35 +100,31 @@ const tableColumnExtensions = [
   { columnName: "description", wordWrapEnabled: true },
 ];
 
-type RepositoryTableProps = {
-  repositories: unknown[];
-  gridState: GridState;
-  setGridState: (gridState: GridState) => any;
-};
-
 type Collaborator = {
   login: string;
 };
 
-function RepositoryTable({
-  repositories,
-  gridState,
-  setGridState,
-}: RepositoryTableProps) {
+function RepositoryTable() {
+  const gridState = useSelector((state: RootState) => state.reducer.gridState);
+  const repositories = useSelector(
+    (state: RootState) => state.reducer.repositories
+  );
+  const dispatch = useAppDispatch();
+
   function setFilteringState(filteringState: any) {
-    setGridState({ ...gridState, filteringState });
+    dispatch(setGridState({ ...gridState, filteringState }));
   }
 
   function setSortingState(sortingState: any) {
-    setGridState({ ...gridState, sortingState });
+    dispatch(setGridState({ ...gridState, sortingState }));
   }
 
   function setSearchState(searchState: any) {
-    setGridState({ ...gridState, searchState });
+    dispatch(setGridState({ ...gridState, searchState }));
   }
 
   function setColumnVisibilityState(columnVisibilityState: any) {
-    setGridState({ ...gridState, columnVisibilityState });
+    dispatch(setGridState({ ...gridState, columnVisibilityState }));
   }
 
   return (
@@ -256,24 +249,20 @@ function RepositoryTable({
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  gridState: state.gridState,
-});
+// const mapDispatchToProps = (dispatch: Dispatch) => ({
+//   setGridState: (gridState: GridState) =>
+//     dispatch({
+//       type: "SET_GRID_STATE",
+//       gridState,
+//     }),
+// });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  setGridState: (gridState: GridState) =>
-    dispatch({
-      type: "SET_GRID_STATE",
-      gridState,
-    }),
-});
+// const ws = withStyles(styles);
+// const connector = connect(mapStateToProps, mapDispatchToProps);
+// const ConnectedRepositoryTable = connector(RepositoryTable);
+export default withStyles(styles)(RepositoryTable);
 
-const ws = withStyles(styles);
-const connector = connect(mapStateToProps, mapDispatchToProps);
-const ConnectedRepositoryTable = connector(RepositoryTable);
-const StyledRepositoryTable = ws(ConnectedRepositoryTable);
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StyledRepositoryTable);
+// export default connect(
+//   mapStateToProps,
+//   mapDispatchToProps
+// )(StyledRepositoryTable);

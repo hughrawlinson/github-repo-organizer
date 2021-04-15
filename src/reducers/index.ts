@@ -1,3 +1,6 @@
+import { createAction, createSlice } from "@reduxjs/toolkit";
+import { Repository } from "../sagas";
+
 const initialGridState = {
   filteringState: [],
   sortingState: [],
@@ -14,58 +17,64 @@ const initialGridState = {
   ],
 };
 
-const initialState = {
+export type GridState = typeof initialGridState;
+
+type GitHubUser = {
+  login: string;
+};
+
+type StateType = {
+  loggedIn: boolean;
+  gridState: GridState;
+  repositories: Repository[];
+  accessToken?: string;
+  user?: GitHubUser;
+};
+
+const initialState: StateType = {
   loggedIn: false,
   gridState: initialGridState,
-  repositories: undefined,
+  repositories: [],
+  accessToken: undefined,
 };
 
-export type GridState = typeof initialGridState;
-type Repository = unknown;
-type User = unknown;
+const mainSlice = createSlice({
+  name: "mainSlice",
+  initialState: initialState,
+  reducers: {
+    setAccessToken: (state, { payload }) => ({
+      ...state,
+      accessToken: payload.access_token,
+      loggedIn: true,
+    }),
+    setRepositories: (state, { payload }) => ({
+      ...state,
+      repositories: [...(state.repositories || []), ...payload.repositories],
+    }),
+    deleteRepositories: (state) => ({
+      ...state,
+      repositories: [],
+    }),
+    setUser: (state, { user }: any) => ({
+      ...state,
+      user,
+    }),
+    setGridState: (state, { gridState }: any) => ({
+      ...state,
+      gridState,
+    }),
+  },
+});
 
-type Action = {
-  type: string;
-  access_token?: string;
-  repositories?: Repository[];
-  user?: User;
-  gridState?: typeof initialState.gridState;
-};
+export const {
+  setAccessToken,
+  setRepositories,
+  deleteRepositories,
+  setUser,
+  setGridState,
+} = mainSlice.actions;
 
-const reducer = (state = initialState, action: Action) => {
-  switch (action.type) {
-    case "SET_ACCESS_TOKEN":
-      return {
-        ...state,
-        accessToken: action.access_token,
-        loggedIn: true,
-      };
-    case "SET_REPOSITORIES":
-      if (!action.repositories) {
-        return state;
-      }
-      return {
-        ...state,
-        repositories: [...(state.repositories || []), ...action.repositories],
-      };
-    case "DELETE_REPOSITORIES":
-      return {
-        ...state,
-        repositories: [],
-      };
-    case "SET_USER":
-      return {
-        ...state,
-        user: action.user,
-      };
-    case "SET_GRID_STATE":
-      return {
-        ...state,
-        gridState: action.gridState,
-      };
-    default:
-      return state;
-  }
-};
+export const startLogin = createAction("START_LOG_IN");
+export const refresh = createAction("REFRESH_REPOSITORIES");
 
-export default reducer;
+export default mainSlice.reducer;

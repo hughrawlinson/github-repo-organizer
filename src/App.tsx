@@ -4,24 +4,22 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import { Repository } from "./sagas";
+import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import LogIn from "./pages/LogIn";
-import Repos from "./pages/Repos";
+import ReposPage from "./pages/Repos";
 import Topics from "./pages/Topics";
 import Licenses from "./pages/Licenses";
 import Languages from "./pages/Languages";
-import { GridState } from "./reducers";
-import { Dispatch } from "redux";
-import { RootState } from ".";
+import { RootState, useAppDispatch } from ".";
 import {
   DrawerMenuToggleButton,
   DrawerMenuWrapper,
   DrawerMenu,
 } from "./components/DrawerMenu";
 import { ReactNode } from "react";
+import { refresh, startLogin } from "./reducers";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -47,19 +45,15 @@ type AppProps = {
   classes: {
     [key: string]: string;
   };
-  repositories?: Repository[];
-  loggedIn: boolean;
-  startLogIn: () => {};
-  refresh: () => {};
 };
 
-function App({
-  classes,
-  startLogIn,
-  refresh,
-  repositories,
-  loggedIn,
-}: AppProps) {
+function App({ classes }: AppProps) {
+  const repositories = useSelector(
+    (state: RootState) => state.reducer.repositories
+  );
+  const loggedIn = useSelector((state: RootState) => state.reducer.loggedIn);
+  const dispatch = useAppDispatch();
+
   function ifLoggedOut(child: ReactNode) {
     if (!loggedIn) {
       return child;
@@ -92,12 +86,17 @@ function App({
                 GitHub Repo Organizer
               </Typography>
               {ifLoggedOut(
-                <Button onClick={startLogIn} color="inherit">
+                <Button
+                  onClick={() => {
+                    dispatch(startLogin());
+                  }}
+                  color="inherit"
+                >
                   Login
                 </Button>
               )}
               {ifLoggedIn(
-                <Button onClick={refresh} color="inherit">
+                <Button onClick={() => dispatch(refresh())} color="inherit">
                   Refresh
                 </Button>
               )}
@@ -112,7 +111,7 @@ function App({
                 <Route
                   exact
                   path={process.env.PUBLIC_URL + "/"}
-                  component={() => <Repos repositories={repositories || []} />}
+                  component={ReposPage}
                 />
                 <Route
                   exact
@@ -138,17 +137,4 @@ function App({
   );
 }
 
-const mapStateToProps = (state: RootState) => ({
-  loggedIn: state.loggedIn,
-  repositories: state.repositories,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  startLogIn: () => dispatch({ type: "START_LOG_IN" }),
-  refresh: () => dispatch({ type: "REFRESH_REPOSITORIES" }),
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-const stylist = withStyles(styles);
-
-export default stylist(connector(App));
+export default withStyles(styles)(App);

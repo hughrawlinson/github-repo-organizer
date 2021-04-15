@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.11.2",
     "@octokit/graphql": "^4.6.1",
     "@octokit/rest": "^18.5.2",
+    "@reduxjs/toolkit": "^1.5.1",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.39",
     "@types/react": "^17.0.3",

@@ -3,6 +3,13 @@ import { Octokit } from "@octokit/rest";
 import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
 import { Data } from "../types/gitHubGraphQlQueryResponseType";
+import {
+  deleteRepositories,
+  setAccessToken,
+  setRepositories,
+  setUser,
+} from "../reducers";
+import { RootState } from "..";
 
 let octokit = new Octokit();
 
@@ -34,10 +41,11 @@ export function* init() {
   const query = new URLSearchParams(window.location.search);
 
   if (query.get("access_token")) {
-    yield put({
-      type: "SET_ACCESS_TOKEN",
-      access_token: query.get("access_token"),
-    });
+    // yield put({
+    //   type: "SET_ACCESS_TOKEN",
+    //   access_token: query.get("access_token"),
+    // });
+    yield put(setAccessToken({ access_token: query.get("access_token") }));
     yield startLoadUser();
   }
 }
@@ -62,8 +70,10 @@ export function* watchStartLogIn() {
 }
 
 export function* startLoadRepos(endCursor?: string): any {
-  const accessToken = yield select((state) => state.accessToken);
-  const user = yield select((state) => state.user.login);
+  const accessToken = yield select(
+    (state: RootState) => state.reducer.accessToken
+  );
+  const user = yield select((state: RootState) => state.reducer.user?.login);
 
   let data: Data;
 
@@ -106,9 +116,11 @@ export function* startLoadRepos(endCursor?: string): any {
     pullRequestCount: repo.pullRequests.totalCount,
   }));
 
-  yield put({ type: "SET_REPOSITORIES", repositories: repos });
+  yield put(setRepositories({ repositories: repos }));
 
-  const repoCount = yield select((state) => state.repositories.length);
+  const repoCount = yield select(
+    (state: RootState) => state.reducer.repositories?.length
+  );
   if (repoCount < data.viewer.repositories.totalCount) {
     yield startLoadRepos(data.viewer.repositories.pageInfo.endCursor);
   }
@@ -119,7 +131,7 @@ export function* watchLoadRepositories() {
 }
 
 function* refresh() {
-  yield put({ type: "DELETE_REPOSITORIES" });
+  yield put(deleteRepositories());
   yield startLoadRepos();
 }
 
@@ -128,7 +140,9 @@ export function* watchRefresh() {
 }
 
 export function* startLoadUser(): any {
-  const accessToken = yield select((state) => state.accessToken);
+  const accessToken = yield select(
+    (state: RootState) => state.reducer.accessToken
+  );
 
   octokit = new Octokit({
     auth: `token ${accessToken}`,
@@ -149,7 +163,7 @@ export function* startLoadUser(): any {
       yield call(() => octokit.activity.starRepoForAuthenticatedUser(repo));
     }
   }
-  yield put({ type: "SET_USER", user: data });
+  yield put(setUser({ user: data }));
   yield startLoadRepos();
 }
 
