@@ -142,22 +142,10 @@ export function* startLoadUser(): any {
     auth: `token ${accessToken}`,
   });
 
-  const repo = {
-    owner: "hughrawlinson",
-    repo: "github-repo-organizer",
-  };
-
   const { data } = yield call(() => octokit.users.getAuthenticated());
-  if (data.login !== "hughrawlinson") {
-    try {
-      yield call(() =>
-        octokit.activity.checkRepoIsStarredByAuthenticatedUser(repo)
-      );
-    } catch (e) {
-      yield call(() => octokit.activity.starRepoForAuthenticatedUser(repo));
-    }
-  }
+
   yield put(setUser({ user: data }));
+
   yield startLoadRepos();
 }
 
