@@ -51,14 +51,12 @@ type AppProps = {
   loggedIn: boolean;
   startLogIn: () => {};
   refresh: () => {};
-  setGridState: (v: GridState) => {};
 };
 
 function App({
   classes,
   startLogIn,
   refresh,
-  setGridState,
   repositories,
   loggedIn,
 }: AppProps) {
@@ -148,13 +146,6 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   startLogIn: () => dispatch({ type: "START_LOG_IN" }),
   refresh: () => dispatch({ type: "REFRESH_REPOSITORIES" }),
-  loadRepositories: () => dispatch({ type: "START_LOAD_REPOSITORIES" }),
-  loadUser: () => dispatch({ type: "START_LOAD_USER" }),
-  setGridState: (gridState: GridState) =>
-    dispatch({
-      type: "SET_GRID_STATE",
-      gridState,
-    }),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

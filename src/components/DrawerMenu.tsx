@@ -42,7 +42,7 @@ export function DrawerMenuToggleButton(
 ) {
   const { toggleDrawer } = useContext(DrawerMenuContext);
   return (
-    <IconButton onClick={() => toggleDrawer()}>
+    <IconButton onClick={() => toggleDrawer()} {...props}>
       <MenuIcon />
     </IconButton>
   );
