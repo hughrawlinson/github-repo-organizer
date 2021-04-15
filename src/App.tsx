@@ -1,33 +1,16 @@
-import { Theme, withStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
+import { Theme, WithStyles, withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Routes from "./features/Routes";
 import { RootState, useAppDispatch } from ".";
-import {
-  DrawerMenuToggleButton,
-  DrawerMenuWrapper,
-  DrawerMenu,
-} from "./components/DrawerMenu";
-import { refresh } from "./reducers";
-import LoginButton from "./features/UserLogin/LoginButton";
-import LoginStateSwitch from "./features/UserLogin/LoginStateSwitch";
+import { DrawerMenuWrapper, DrawerMenu } from "./components/DrawerMenu";
+import TopNav from "./features/TopNav";
 
 const styles = (theme: Theme) => ({
   root: {
     flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -38,13 +21,7 @@ const styles = (theme: Theme) => ({
   },
 });
 
-type AppProps = {
-  classes: {
-    [key: string]: string;
-  };
-};
-
-function App({ classes }: AppProps) {
+function App({ classes }: WithStyles<typeof styles>) {
   const repositories = useSelector(
     (state: RootState) => state.reducer.repositories
   );
@@ -54,26 +31,7 @@ function App({ classes }: AppProps) {
       <CssBaseline />
       <Router>
         <div className="App">
-          <AppBar>
-            <Toolbar>
-              <LoginStateSwitch selectedLoginState={true}>
-                <DrawerMenuToggleButton
-                  className={classes.menuButton}
-                  color="inherit"
-                  aria-label="Menu"
-                />
-              </LoginStateSwitch>
-              <Typography variant="h6" color="inherit" className={classes.grow}>
-                GitHub Repo Organizer
-              </Typography>
-              <LoginButton color="inherit" />
-              <LoginStateSwitch selectedLoginState={true}>
-                <Button onClick={() => dispatch(refresh())} color="inherit">
-                  Refresh
-                </Button>
-              </LoginStateSwitch>
-            </Toolbar>
-          </AppBar>
+          <TopNav />
           <DrawerMenu />
           <main className={classes.content}>
             <div className={classes.appBarSpacer} />
