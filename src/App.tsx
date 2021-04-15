@@ -9,11 +9,11 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { Repository } from "./sagas";
 var qs = require("query-string");
 
-import LogIn from "./components/LogIn";
-import Repos from "./components/Repos";
-import Topics from "./components/Topics";
-import Licenses from "./components/Licenses";
-import Languages from "./components/Languages";
+import LogIn from "./pages/LogIn";
+import Repos from "./pages/Repos";
+import Topics from "./pages/Topics";
+import Licenses from "./pages/Licenses";
+import Languages from "./pages/Languages";
 import { GridState } from "./reducers";
 import { Dispatch } from "redux";
 import { RootState } from ".";

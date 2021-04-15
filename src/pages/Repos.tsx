@@ -1,6 +1,5 @@
-import React from "react";
 import { Repository } from "../sagas";
-import RepositoryTable from "./RepositoryTable";
+import RepositoryTable from "../components/RepositoryTable";
 
 type ReposProps = {
   repositories: Repository[];
