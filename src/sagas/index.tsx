@@ -2,8 +2,9 @@ import { put, takeEvery, all, select, call } from "redux-saga/effects";
 import qs from "querystring";
 import { Octokit } from "@octokit/rest";
 // const graphql = require('@octokit/graphql');
-import { graphql, GraphQlQueryResponseData } from "@octokit/graphql";
+import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
+import { Data } from "../types/gitHubGraphQlQueryResponseType";
 
 let octokit = new Octokit();
 
@@ -62,59 +63,15 @@ export function* watchStartLogIn() {
   yield takeEvery("START_LOG_IN", startLogIn);
 }
 
-type GitHubRepoQueryResponseType = {
-  viewer: {
-    repositories: {
-      totalCount: number;
-      pageInfo: {
-        endCursor: string;
-      };
-      nodes: {
-        id: string;
-        name: string;
-        nameWithOwner: string;
-        description: string;
-        createdAt: string;
-        repositoryTopics: { nodes: { topic: { name: string } }[] };
-        stargazers: { totalCount: number };
-        primaryLanguage?: {
-          name: string;
-        };
-        isPrivate: boolean;
-        isArchived: boolean;
-        url: string;
-        owner: {
-          login: string;
-        };
-        isFork: boolean;
-        licenseInfo: {
-          nickname: string;
-          name: string;
-        };
-        vulnerabilityAlerts: { nodes: any[] };
-        collaborators: {
-          nodes: { login: string }[];
-        };
-        issues: {
-          totalCount: number;
-        };
-        pullRequests: {
-          totalCount: number;
-        };
-      }[];
-    };
-  };
-};
-
 export function* startLoadRepos(endCursor?: string): any {
   const accessToken = yield select((state) => state.accessToken);
   const user = yield select((state) => state.user.login);
 
-  let data: GitHubRepoQueryResponseType;
+  let data: Data;
 
   try {
     data = yield call(() =>
-      graphql<GitHubRepoQueryResponseType>({
+      graphql<Data>({
         query: query(endCursor ?? ""),
         headers: {
           authorization: `token ${accessToken}`,
