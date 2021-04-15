@@ -7,7 +7,6 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { Repository } from "./sagas";
-var qs = require("query-string");
 
 import LogIn from "./pages/LogIn";
 import Repos from "./pages/Repos";
@@ -115,18 +114,7 @@ function App({
                 <Route
                   exact
                   path={process.env.PUBLIC_URL + "/"}
-                  component={(props: { location: Location }) => {
-                    const queryParams = qs.parse(props.location.search);
-                    if (queryParams.gridState) {
-                      setGridState(JSON.parse(queryParams.gridState));
-                    }
-                    return (
-                      <Repos
-                        queryParams={queryParams}
-                        repositories={repositories || []}
-                      />
-                    );
-                  }}
+                  component={() => <Repos repositories={repositories || []} />}
                 />
                 <Route
                   exact

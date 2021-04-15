@@ -1,7 +1,5 @@
 import { put, takeEvery, all, select, call } from "redux-saga/effects";
-import qs from "querystring";
 import { Octokit } from "@octokit/rest";
-// const graphql = require('@octokit/graphql');
 import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
 import { Data } from "../types/gitHubGraphQlQueryResponseType";
@@ -33,12 +31,12 @@ const authURL = "https://github-auth-backend-hugh.glitch.me/start_auth";
 
 export function* init() {
   // get from local storage or get from url
-  const query = qs.parse(window.location.search.substring(1));
+  const query = new URLSearchParams(window.location.search);
 
-  if (query.access_token) {
+  if (query.get("access_token")) {
     yield put({
       type: "SET_ACCESS_TOKEN",
-      access_token: query.access_token,
+      access_token: query.get("access_token"),
     });
     yield startLoadUser();
   }
@@ -51,10 +49,10 @@ export function* watchInit() {
 export function* startLogIn() {
   const query = {
     redirect_uri: window.location.origin + window.location.pathname,
-    scope: ["repo"],
+    scope: "repo",
   };
 
-  const authProxyUrl = `${authURL}?${qs.stringify(query)}`;
+  const authProxyUrl = `${authURL}?${new URLSearchParams(query)}`;
 
   yield window.location.assign(authProxyUrl);
 }
@@ -83,8 +81,6 @@ export function* startLoadRepos(endCursor?: string): any {
     console.log(error);
     data = error.data;
   }
-
-  // TODO handle when error is null
 
   const repos = data.viewer.repositories.nodes.map((repo) => ({
     id: repo.id,
