@@ -1,8 +1,5 @@
-import React from "react";
-import { connect, useSelector } from "react-redux";
-import { createStyles, withStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 import Paper from "@material-ui/core/Paper";
-import Chip from "@material-ui/core/Chip";
 import {
   Grid,
   Table,
@@ -23,77 +20,16 @@ import {
   PagingState,
   IntegratedPaging,
 } from "@devexpress/dx-react-grid";
-import { DataTypeProvider } from "@devexpress/dx-react-grid";
-import { RootState, useAppDispatch } from "../index";
-import { GridState, setGridState } from "../reducers";
-
-const styles = createStyles({});
-
-const DateTypeProvider = (
-  props: React.ComponentProps<typeof DataTypeProvider>
-) => (
-  <DataTypeProvider
-    formatterComponent={({ value }) => value.toLocaleDateString()}
-    {...props}
-  />
-);
-
-const LinkTypeProvider = (
-  props: React.ComponentProps<typeof DataTypeProvider>
-) => (
-  <DataTypeProvider
-    formatterComponent={({ value: { href, title } }) => (
-      <a href={href}>{title}</a>
-    )}
-    {...props}
-  />
-);
-
-const ChipListProvider = (
-  props: React.ComponentProps<typeof DataTypeProvider>
-) => (
-  <DataTypeProvider
-    formatterComponent={({ value }: { value: string[] }) =>
-      value ? (
-        <>
-          {value.map((v) => (
-            <Chip style={{ margin: "3px" }} key={v} label={v} />
-          ))}
-        </>
-      ) : null
-    }
-    {...props}
-  />
-);
-
-const BooleanTypeProvider = (
-  props: React.ComponentProps<typeof DataTypeProvider>
-) => (
-  <DataTypeProvider
-    formatterComponent={({ value }) => (
-      <Chip label={value ? "True" : "False"} />
-    )}
-    {...props}
-  />
-);
-
-const ArrayLengthProvider = (
-  props: React.ComponentProps<typeof DataTypeProvider>
-) => (
-  <DataTypeProvider
-    formatterComponent={({ value }) => value.length}
-    {...props}
-  />
-);
-
-const CheckBoxProvider = (
-  props: React.ComponentProps<typeof DataTypeProvider>
-) => (
-  <DataTypeProvider
-    formatterComponent={({ value }) => <input type="checkbox" value={value} />}
-    {...props}
-  />
-);
+import { RootState, useAppDispatch } from "../../index";
+import { setGridState } from "../../reducers";
+import {
+  ChipListProvider,
+  DateTypeProvider,
+  LinkTypeProvider,
+  ArrayLengthProvider,
+  BooleanTypeProvider,
+  CheckBoxProvider,
+} from "./DataTypeProviders";
 
 const tableColumnExtensions = [
   { columnName: "topics", wordWrapEnabled: true },
@@ -104,7 +40,7 @@ type Collaborator = {
   login: string;
 };
 
-function RepositoryTable() {
+export default function RepositoryTable() {
   const gridState = useSelector((state: RootState) => state.reducer.gridState);
   const repositories = useSelector(
     (state: RootState) => state.reducer.repositories
@@ -124,7 +60,9 @@ function RepositoryTable() {
   }
 
   function setColumnVisibilityState(columnVisibilityState: any) {
-    dispatch(setGridState({ ...gridState, columnVisibilityState }));
+    const action = setGridState({ ...gridState, columnVisibilityState });
+    console.log(action);
+    dispatch(action);
   }
 
   return (
@@ -248,21 +186,3 @@ function RepositoryTable() {
     </Paper>
   );
 }
-
-// const mapDispatchToProps = (dispatch: Dispatch) => ({
-//   setGridState: (gridState: GridState) =>
-//     dispatch({
-//       type: "SET_GRID_STATE",
-//       gridState,
-//     }),
-// });
-
-// const ws = withStyles(styles);
-// const connector = connect(mapStateToProps, mapDispatchToProps);
-// const ConnectedRepositoryTable = connector(RepositoryTable);
-export default withStyles(styles)(RepositoryTable);
-
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(StyledRepositoryTable);

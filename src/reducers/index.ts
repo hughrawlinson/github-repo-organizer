@@ -41,9 +41,9 @@ const mainSlice = createSlice({
       ...state,
       repositories: [],
     }),
-    setGridState: (state, { gridState }: any) => ({
+    setGridState: (state, { payload }: any) => ({
       ...state,
-      gridState,
+      gridState: payload,
     }),
   },
 });
