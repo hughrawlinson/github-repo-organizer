@@ -179,7 +179,28 @@ export default function RepositoryTable() {
           value={gridState.searchState}
           onValueChange={setSearchState}
         />
-        <IntegratedFiltering />
+        <IntegratedFiltering
+          columnExtensions={[
+            {
+              columnName: "topics",
+              predicate: (_, filter, row) =>
+                row.topics.reduce(
+                  (acc: boolean, el: string) =>
+                    (filter.value && el.includes(filter.value)) || acc,
+                  false
+                ),
+            },
+            {
+              columnName: "collaborators",
+              predicate: (_, filter, row) =>
+                row.collaborators.reduce(
+                  (acc: boolean, el: string) =>
+                    (filter.value && el.includes(filter.value)) || acc,
+                  false
+                ),
+            },
+          ]}
+        />
         <IntegratedSorting />
         <IntegratedPaging />
         <Table columnExtensions={tableColumnExtensions} />
