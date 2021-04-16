@@ -193,7 +193,7 @@ export default function RepositoryTable() {
             {
               columnName: "collaborators",
               predicate: (_, filter, row) =>
-                row.collaborators.reduce(
+                row.collaborators?.reduce(
                   (acc: boolean, el: string) =>
                     (filter.value && el.includes(filter.value)) || acc,
                   false
