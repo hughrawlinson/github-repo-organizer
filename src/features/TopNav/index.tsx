@@ -11,7 +11,7 @@ import {
   WithStyles,
 } from "@material-ui/core";
 import { useAppDispatch } from "../..";
-import { DrawerMenuToggleButton } from "../../components/DrawerMenu";
+import { DrawerMenuToggleButton } from "../DrawerMenu";
 
 const styles = () => ({
   grow: {

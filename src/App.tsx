@@ -1,11 +1,9 @@
 import { Theme, WithStyles, withStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { useSelector } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import Routes from "./features/Routes";
-import { RootState, useAppDispatch } from ".";
-import { DrawerMenuWrapper, DrawerMenu } from "./components/DrawerMenu";
+import { DrawerMenuWrapper, DrawerMenu } from "./features/DrawerMenu";
 import TopNav from "./features/TopNav";
 
 const styles = (theme: Theme) => ({
@@ -22,10 +20,6 @@ const styles = (theme: Theme) => ({
 });
 
 function App({ classes }: WithStyles<typeof styles>) {
-  const repositories = useSelector(
-    (state: RootState) => state.reducer.repositories
-  );
-  const dispatch = useAppDispatch();
   return (
     <DrawerMenuWrapper>
       <CssBaseline />
