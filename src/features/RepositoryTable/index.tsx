@@ -21,7 +21,7 @@ import {
   IntegratedPaging,
 } from "@devexpress/dx-react-grid";
 import { RootState, useAppDispatch } from "../../index";
-import { setGridState } from "../../reducers";
+import { setGridState } from "./gridStateSlice";
 import {
   ChipListProvider,
   DateTypeProvider,
@@ -58,7 +58,7 @@ export type Repository = {
 };
 
 export default function RepositoryTable() {
-  const gridState = useSelector((state: RootState) => state.reducer.gridState);
+  const gridState = useSelector((state: RootState) => state.gridStateReducer);
   const repositories = useSelector(
     (state: RootState) => state.reducer.repositories
   );
