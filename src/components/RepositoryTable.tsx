@@ -1,5 +1,5 @@
 import React from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { createStyles, withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Chip from "@material-ui/core/Chip";
@@ -25,7 +25,8 @@ import {
 } from "@devexpress/dx-react-grid";
 import { DataTypeProvider } from "@devexpress/dx-react-grid";
 import { RootState, useAppDispatch } from "../index";
-import { GridState, setGridState } from "../reducers";
+import { setGridState } from "../reducers";
+import { Repository } from "../sagas";
 
 const styles = createStyles({});
 
@@ -104,11 +105,12 @@ type Collaborator = {
   login: string;
 };
 
-function RepositoryTable() {
+type RepositoryTableProps = {
+  repositories: Repository[];
+};
+
+function RepositoryTable({ repositories }: RepositoryTableProps) {
   const gridState = useSelector((state: RootState) => state.reducer.gridState);
-  const repositories = useSelector(
-    (state: RootState) => state.reducer.repositories
-  );
   const dispatch = useAppDispatch();
 
   function setFilteringState(filteringState: any) {
