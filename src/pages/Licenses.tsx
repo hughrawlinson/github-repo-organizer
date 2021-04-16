@@ -31,7 +31,7 @@ type LicensesProps = {
 
 export default () => {
   const repositories = useSelector(
-    (state: RootState) => state.reducer.repositories
+    (state: RootState) => state.repositoriesReducer.repositories
   );
   const tags = prepareTags(repositories);
   const data = Object.entries(tags).map(([key, value]) => ({

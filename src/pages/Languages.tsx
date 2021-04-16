@@ -27,7 +27,7 @@ const prepareLanguages = (repositories: Repository[]) => {
 
 export default () => {
   const repositories = useSelector(
-    (state: RootState) => state.reducer.repositories
+    (state: RootState) => state.repositoriesReducer.repositories
   );
   if (!repositories) {
     return <p>Loading</p>;

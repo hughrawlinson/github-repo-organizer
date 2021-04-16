@@ -3,7 +3,10 @@ import { Octokit } from "@octokit/rest";
 import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
 import { Convert, Data } from "../types/gitHubGraphQlQueryResponseType";
-import { deleteRepositories, setRepositories } from "../reducers";
+import {
+  deleteRepositories,
+  setRepositories,
+} from "../features/RepositoryTable/repositoriesSlice";
 import { RootState } from "..";
 import { setAccessToken, setUser } from "../features/UserLogin/userLoginSlice";
 import { Repository } from "../features/RepositoryTable";
@@ -96,7 +99,7 @@ export function* startLoadRepos(endCursor?: string): any {
   yield put(setRepositories({ repositories: repos }));
 
   const repoCount = yield select(
-    (state: RootState) => state.reducer.repositories?.length
+    (state: RootState) => state.repositoriesReducer.repositories?.length
   );
   if (repoCount < data.viewer.repositories.totalCount) {
     yield startLoadRepos(data.viewer.repositories.pageInfo.endCursor);

@@ -6,13 +6,13 @@ import { Provider, useDispatch } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import userLoginReducer from "./features/UserLogin/userLoginSlice";
 import gridStateReducer from "./features/RepositoryTable/gridStateSlice";
-import reducer from "./reducers";
+import repositoriesReducer from "./features/RepositoryTable/repositoriesSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: {
-    reducer,
+    repositoriesReducer,
     userLoginReducer,
     gridStateReducer,
   },

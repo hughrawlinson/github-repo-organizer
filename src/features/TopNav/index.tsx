@@ -1,4 +1,4 @@
-import { refresh } from "../../reducers";
+import { refresh } from "../RepositoryTable/repositoriesSlice";
 
 import LoginButton from "../UserLogin/LoginButton";
 import LoginStateSwitch from "../UserLogin/LoginStateSwitch";

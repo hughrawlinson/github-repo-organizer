@@ -60,7 +60,7 @@ export type Repository = {
 export default function RepositoryTable() {
   const gridState = useSelector((state: RootState) => state.gridStateReducer);
   const repositories = useSelector(
-    (state: RootState) => state.reducer.repositories
+    (state: RootState) => state.repositoriesReducer.repositories
   );
   const dispatch = useAppDispatch();
 

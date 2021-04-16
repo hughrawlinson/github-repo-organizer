@@ -1,5 +1,5 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-import { Repository } from "../features/RepositoryTable";
+import { Repository } from ".";
 
 type StateType = {
   repositories: Repository[];
@@ -9,8 +9,8 @@ const initialState: StateType = {
   repositories: [],
 };
 
-const mainSlice = createSlice({
-  name: "mainSlice",
+const repositoriesSlice = createSlice({
+  name: "repositories",
   initialState: initialState,
   reducers: {
     setRepositories: (state, { payload }) => ({
@@ -24,8 +24,11 @@ const mainSlice = createSlice({
   },
 });
 
-export const { setRepositories, deleteRepositories } = mainSlice.actions;
+export const {
+  setRepositories,
+  deleteRepositories,
+} = repositoriesSlice.actions;
 
 export const refresh = createAction("REFRESH_REPOSITORIES");
 
-export default mainSlice.reducer;
+export default repositoriesSlice.reducer;
