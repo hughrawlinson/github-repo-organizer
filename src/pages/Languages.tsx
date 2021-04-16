@@ -8,9 +8,9 @@ import Paper from "@material-ui/core/Paper";
 import { useSelector } from "react-redux";
 import { RootState } from "..";
 
-type Repository = {
-  language: string;
-};
+interface Repository {
+  language: string | null;
+}
 
 const prepareLanguages = (repositories: Repository[]) => {
   const emptyAccumulator: { [key: string]: number } = {};
@@ -19,7 +19,7 @@ const prepareLanguages = (repositories: Repository[]) => {
     .reduce(
       (acc, el) => ({
         ...acc,
-        [el]: acc[el] ? acc[el] + 1 : 1,
+        [el || "null"]: acc[el || "null"] ? acc[el || "null"] + 1 : 1,
       }),
       emptyAccumulator
     );

@@ -36,8 +36,25 @@ const tableColumnExtensions = [
   { columnName: "description", wordWrapEnabled: true },
 ];
 
-type Collaborator = {
-  login: string;
+export type Repository = {
+  id: string;
+  name: string;
+  nameWithOwner: string;
+  description: string | null;
+  createdAt: Date;
+  topics: string[];
+  stars: number;
+  language: string | null;
+  isPrivate: boolean;
+  isArchived: boolean;
+  url: string;
+  owner: string;
+  isFork: boolean;
+  licenseNickname: string | null;
+  vulnerabilityAlerts: unknown[];
+  collaborators: string[] | null;
+  issueCount: number;
+  pullRequestCount: number;
 };
 
 export default function RepositoryTable() {
@@ -89,7 +106,6 @@ export default function RepositoryTable() {
           {
             name: "createdAt",
             title: "Created At",
-            getCellValue: (row) => new Date(row.createdAt),
           },
           {
             name: "topics",
@@ -130,11 +146,6 @@ export default function RepositoryTable() {
           {
             name: "collaborators",
             title: "Collaborators",
-            getCellValue: (row) =>
-              row.collaborators &&
-              row.collaborators.map(
-                (collaborator: Collaborator) => collaborator.login
-              ),
           },
           {
             name: "issueCount",

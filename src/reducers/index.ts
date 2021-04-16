@@ -1,5 +1,5 @@
 import { createAction, createSlice } from "@reduxjs/toolkit";
-import { Repository } from "../sagas";
+import { Repository } from "../features/RepositoryTable";
 
 const initialGridState = {
   filteringState: [],

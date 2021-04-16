@@ -2,33 +2,13 @@ import { put, takeEvery, all, select, call } from "redux-saga/effects";
 import { Octokit } from "@octokit/rest";
 import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
-import { Data } from "../types/gitHubGraphQlQueryResponseType";
+import { Convert, Data } from "../types/gitHubGraphQlQueryResponseType";
 import { deleteRepositories, setRepositories } from "../reducers";
 import { RootState } from "..";
 import { setAccessToken, setUser } from "../features/UserLogin/userLoginSlice";
+import { Repository } from "../features/RepositoryTable";
 
 let octokit = new Octokit();
-
-export type Repository = {
-  id: string;
-  name: string;
-  nameWithOwner: string;
-  description: string;
-  createdAt: Date;
-  topics: string[];
-  stars: number;
-  language: string;
-  isPrivate: boolean;
-  isArchived: boolean;
-  url: string;
-  owner: string;
-  isFork: boolean;
-  licenseNickname: string;
-  vulnerabilityAlerts: unknown[];
-  collaborators: string[] | null;
-  issueCount: number;
-  pullRequestCount: number;
-};
 
 const authURL = "https://github-auth-backend-hugh.glitch.me/start_auth";
 
@@ -72,7 +52,7 @@ export function* startLoadRepos(endCursor?: string): any {
   let data: Data;
 
   try {
-    data = yield call(() =>
+    const result = yield call(() =>
       graphql<Data>({
         query: query(endCursor ?? ""),
         headers: {
@@ -81,15 +61,16 @@ export function* startLoadRepos(endCursor?: string): any {
         },
       })
     );
+    data = Convert.toGitHubRepoQueryResponseType(`{ data: ${result} }`).data;
   } catch (error) {
     console.log(error);
     data = error.data;
   }
 
-  const repos = data.viewer.repositories.nodes.map((repo) => ({
+  const repos: Repository[] = data.viewer.repositories.nodes.map((repo) => ({
     id: repo.id,
     name: repo.name,
-    nameWithOnwer: repo.nameWithOwner,
+    nameWithOwner: repo.nameWithOwner,
     description: repo.description,
     createdAt: repo.createdAt,
     topics: repo.repositoryTopics.nodes.map((node) => node.topic.name),
@@ -105,7 +86,9 @@ export function* startLoadRepos(endCursor?: string): any {
     vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes,
     collaborators:
       repo.collaborators &&
-      repo.collaborators.nodes.filter((a) => a.login !== user),
+      repo.collaborators.nodes
+        .filter((a) => a.login !== user)
+        .map((collaborator) => collaborator.login),
     issueCount: repo.issues.totalCount,
     pullRequestCount: repo.pullRequests.totalCount,
   }));

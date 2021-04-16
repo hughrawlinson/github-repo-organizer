@@ -9,9 +9,9 @@ import Paper from "@material-ui/core/Paper";
 import { useSelector } from "react-redux";
 import { RootState } from "..";
 
-type Repository = {
-  licenseNickname: string;
-};
+interface Repository {
+  licenseNickname: string | null;
+}
 
 const prepareTags = (repositories: Repository[]) => {
   const emptyAccumulator: { [key: string]: number } = {};
@@ -20,7 +20,7 @@ const prepareTags = (repositories: Repository[]) => {
     .reduce(
       (acc, el) => ({
         ...acc,
-        [el]: acc[el] ? acc[el] + 1 : 1,
+        [el || "null"]: acc[el || "null"] ? acc[el || "null"] + 1 : 1,
       }),
       emptyAccumulator
     );

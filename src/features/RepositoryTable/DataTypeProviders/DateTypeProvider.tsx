@@ -5,7 +5,11 @@ export default function DateTypeProvider(
 ) {
   return (
     <DataTypeProvider
-      formatterComponent={({ value }) => value.toLocaleDateString()}
+      formatterComponent={({ value }) => {
+        // TODO: the type from quicktype should handle this, not sure why it's like this.
+        const d = new Date(value);
+        return <>{d.toLocaleDateString()}</>;
+      }}
       {...props}
     />
   );

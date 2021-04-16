@@ -129,13 +129,13 @@ export enum Type {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-  public static toGitHubRepoQueryResponseType(
+  static toGitHubRepoQueryResponseType(
     json: string
   ): GitHubRepoQueryResponseType {
     return cast(JSON.parse(json), r("GitHubRepoQueryResponseType"));
   }
 
-  public static gitHubRepoQueryResponseTypeToJson(
+  static gitHubRepoQueryResponseTypeToJson(
     value: GitHubRepoQueryResponseType
   ): string {
     return JSON.stringify(
