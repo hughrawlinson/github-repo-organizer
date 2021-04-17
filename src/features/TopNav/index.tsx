@@ -1,6 +1,5 @@
-import { refresh } from "../RepositoryTable/repositoriesSlice";
-
 import { useLogin, LoginButton, LoginStateSwitch } from "../UserLogin";
+import { useRepositories } from "../useRepositories";
 import {
   AppBar,
   Toolbar,
@@ -9,7 +8,6 @@ import {
   withStyles,
   WithStyles,
 } from "@material-ui/core";
-import { useAppDispatch } from "../..";
 import { DrawerMenuToggleButton } from "../DrawerMenu";
 
 const styles = () => ({
@@ -24,7 +22,7 @@ const styles = () => ({
 
 function TopNav({ classes }: WithStyles<typeof styles>) {
   const login: any = useLogin();
-  const dispatch = useAppDispatch();
+  const [_, refreshRepositories] = useRepositories();
 
   const creds: { accessToken: string; login: string } = {
     accessToken: login.accessToken,
@@ -46,7 +44,7 @@ function TopNav({ classes }: WithStyles<typeof styles>) {
         </Typography>
         <LoginButton color="inherit" />
         <LoginStateSwitch selectedLoginState={true}>
-          <Button onClick={() => dispatch(refresh(creds))} color="inherit">
+          <Button onClick={() => refreshRepositories()} color="inherit">
             Refresh
           </Button>
         </LoginStateSwitch>

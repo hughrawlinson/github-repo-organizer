@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Grid,
   Table,
@@ -6,8 +5,7 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
 import Paper from "@material-ui/core/Paper";
-import { RootState } from "..";
-import { useSelector } from "react-redux";
+import { useRepositories } from "../features/useRepositories";
 
 interface Repository {
   topics: string[];
@@ -27,9 +25,7 @@ const prepareTags = (repositories: Repository[]) => {
 };
 
 export default () => {
-  const repositories = useSelector(
-    (state: RootState) => state.repositoriesReducer.repositories
-  );
+  const [repositories] = useRepositories();
   if (!repositories) {
     return <p>Loading</p>;
   }

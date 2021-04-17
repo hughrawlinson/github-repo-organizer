@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import Paper from "@material-ui/core/Paper";
 import {
   Grid,
@@ -22,7 +21,6 @@ import {
   Filter,
   Sorting,
 } from "@devexpress/dx-react-grid";
-import { RootState, useAppDispatch } from "../../index";
 import {
   ChipListProvider,
   DateTypeProvider,
@@ -34,7 +32,7 @@ import {
 import NumberProvider from "./DataTypeProviders/NumberProvider";
 import { useState } from "react";
 import { useLogin } from "../UserLogin";
-import { loadReposWithAccessToken, refresh } from "./repositoriesSlice";
+import { useRepositories } from "../useRepositories";
 
 const tableColumnExtensions = [
   { columnName: "topics", wordWrapEnabled: true },
@@ -80,19 +78,7 @@ export default function RepositoryTable() {
   const [columnVisibilityState, setColumnVisibilityState] = useState<string[]>(
     defaultVisibleColumns
   );
-  const repositories = useSelector(
-    (state: RootState) => state.repositoriesReducer.repositories
-  );
-  const dispatch = useAppDispatch();
-  const login: any = useLogin();
-  if (login.hasOwnProperty("accessToken") && repositories.length === 0) {
-    dispatch(
-      loadReposWithAccessToken({
-        accessToken: login.accessToken,
-        login: login.user.login,
-      })
-    );
-  }
+  const [repositories] = useRepositories();
 
   return (
     <Paper>
