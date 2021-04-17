@@ -1,5 +1,5 @@
-import { Route, Switch } from "react-router";
-import LoginStateSwitch from "../UserLogin/LoginStateSwitch";
+import { Route, Switch } from "react-router-dom";
+import { LoginStateSwitch } from "../UserLogin";
 import LogInPage from "../../pages/LogIn";
 import ReposPage from "../../pages/Repos";
 import TopicsPage from "../../pages/Topics";
