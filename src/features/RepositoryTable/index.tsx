@@ -19,14 +19,10 @@ import {
   IntegratedSorting,
   PagingState,
   IntegratedPaging,
+  Filter,
+  Sorting,
 } from "@devexpress/dx-react-grid";
 import { RootState, useAppDispatch } from "../../index";
-import {
-  setColumnVisibilityState,
-  setFilteringState,
-  setSearchState,
-  setSortingState,
-} from "./gridStateSlice";
 import {
   ChipListProvider,
   DateTypeProvider,
@@ -36,6 +32,7 @@ import {
   CheckBoxProvider,
 } from "./DataTypeProviders";
 import NumberProvider from "./DataTypeProviders/NumberProvider";
+import { useState } from "react";
 
 const tableColumnExtensions = [
   { columnName: "topics", wordWrapEnabled: true },
@@ -63,9 +60,23 @@ export type Repository = {
   pullRequestCount: number;
 };
 
+const defaultVisibleColumns = [
+  "isPrivate",
+  "isArchived",
+  "isFork",
+  "owner",
+  "licenseNickname",
+  "vulnerabilityAlerts",
+  "collaborators",
+  "issueCount",
+];
+
 export default function RepositoryTable() {
-  const { filteringState, sortingState, searchState, columnVisibilityState } = useSelector(
-    (state: RootState) => state.gridStateReducer
+  const [filteringState, setFilteringState] = useState<Filter[]>([]);
+  const [sortingState, setSortingState] = useState<Sorting[]>([]);
+  const [searchState, setSearchState] = useState<string>("");
+  const [columnVisibilityState, setColumnVisibilityState] = useState<string[]>(
+    defaultVisibleColumns
   );
   const repositories = useSelector(
     (state: RootState) => state.repositoriesReducer.repositories
@@ -158,17 +169,17 @@ export default function RepositoryTable() {
         <FilteringState
           defaultFilters={[]}
           filters={filteringState}
-          onFiltersChange={(filters) => dispatch(setFilteringState(filters))}
+          onFiltersChange={(filters) => setFilteringState(filters)}
         />
         <SortingState
           defaultSorting={[]}
           sorting={sortingState}
-          onSortingChange={(sorting) => dispatch(setSortingState(sorting))}
+          onSortingChange={(sorting) => setSortingState(sorting)}
         />
         <PagingState defaultCurrentPage={0} pageSize={40} />
         <SearchState
           value={searchState}
-          onValueChange={(search) => dispatch(setSearchState(search))}
+          onValueChange={(search) => setSearchState(search)}
         />
         <IntegratedFiltering
           columnExtensions={[
@@ -203,7 +214,9 @@ export default function RepositoryTable() {
         <TableFilterRow showFilterSelector />
         <TableColumnVisibility
           hiddenColumnNames={columnVisibilityState}
-          onHiddenColumnNamesChange={columnVisibility => dispatch(setColumnVisibilityState(columnVisibility))}
+          onHiddenColumnNamesChange={(columnVisibility) =>
+            setColumnVisibilityState(columnVisibility)
+          }
         />
         <Toolbar />
         <SearchPanel />
