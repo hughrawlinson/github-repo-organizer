@@ -5,20 +5,20 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
 import Paper from "@material-ui/core/Paper";
-import { useRepositories } from "../features/useRepositories";
+import { useRepositories } from "../useRepositories";
 
 interface Repository {
-  topics: string[];
+  licenseNickname: string | null;
 }
 
 const prepareTags = (repositories: Repository[]) => {
   const emptyAccumulator: { [key: string]: number } = {};
   return repositories
-    .flatMap((repo) => repo.topics)
+    .map((repo) => repo.licenseNickname)
     .reduce(
       (acc, el) => ({
         ...acc,
-        [el]: acc[el] ? acc[el] + 1 : 1,
+        [el || "null"]: acc[el || "null"] ? acc[el || "null"] + 1 : 1,
       }),
       emptyAccumulator
     );
@@ -28,26 +28,26 @@ export default () => {
   const [repositories] = useRepositories();
   const tags = prepareTags(repositories);
   const data = Object.entries(tags).map(([key, value]) => ({
-    topicName: key,
-    topicCount: value,
+    license: key,
+    licenseCount: value,
   }));
   return (
     <Paper>
       <Grid
         columns={[
           {
-            name: "topicName",
-            title: "Topic Name",
+            name: "license",
+            title: "License",
           },
           {
-            name: "topicCount",
-            title: "Topic Count",
+            name: "licenseCount",
+            title: "License Count",
           },
         ]}
         rows={data}
       >
         <SortingState
-          defaultSorting={[{ columnName: "topicCount", direction: "desc" }]}
+          defaultSorting={[{ columnName: "licenseCount", direction: "desc" }]}
         />
         <IntegratedSorting />
         <Table />

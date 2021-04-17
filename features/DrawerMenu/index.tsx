@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import { createContext, ReactNode, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 const DrawerMenuContext = createContext({
   drawerOpen: false,
@@ -58,22 +58,22 @@ export function DrawerMenu() {
       >
         <List>
           <ListItem button>
-            <Link to={process.env.PUBLIC_URL + "/"}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/`}>
               <ListItemText primary="Repositories" />
             </Link>
           </ListItem>
           <ListItem button>
-            <Link to={process.env.PUBLIC_URL + "/topics"}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/topics`}>
               <ListItemText primary="Topics" />
             </Link>
           </ListItem>
           <ListItem button>
-            <Link to={process.env.PUBLIC_URL + "/licenses"}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/licenses`}>
               <ListItemText primary="Licenses" />
             </Link>
           </ListItem>
           <ListItem button>
-            <Link to={process.env.PUBLIC_URL + "/languages"}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/languages`}>
               <ListItemText primary="Languages" />
             </Link>
           </ListItem>

@@ -5,7 +5,7 @@ import {
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
 import Paper from "@material-ui/core/Paper";
-import { useRepositories } from "../features/useRepositories";
+import { useRepositories } from "../useRepositories";
 
 interface Repository {
   language: string | null;

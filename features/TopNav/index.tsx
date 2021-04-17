@@ -21,13 +21,7 @@ const styles = () => ({
 });
 
 function TopNav({ classes }: WithStyles<typeof styles>) {
-  const login: any = useLogin();
   const [_, refreshRepositories] = useRepositories();
-
-  const creds: { accessToken: string; login: string } = {
-    accessToken: login.accessToken,
-    login: login.user.login,
-  };
 
   return (
     <AppBar>
