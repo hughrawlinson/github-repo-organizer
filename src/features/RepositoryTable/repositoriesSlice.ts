@@ -29,10 +29,14 @@ export const {
   deleteRepositories,
 } = repositoriesSlice.actions;
 
-export const refresh = createAction("REFRESH_REPOSITORIES");
-export const loadReposWithAccessToken = createAction<{
+type RequiredType = {
   accessToken: string;
   login: string;
-}>("LOAD_REPOS_WITH_ACCESS_TOKEN");
+};
+
+export const refresh = createAction<RequiredType>("REFRESH_REPOSITORIES");
+export const loadReposWithAccessToken = createAction<RequiredType>(
+  "LOAD_REPOS_WITH_ACCESS_TOKEN"
+);
 
 export default repositoriesSlice.reducer;

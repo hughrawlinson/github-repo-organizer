@@ -1,6 +1,6 @@
 import { refresh } from "../RepositoryTable/repositoriesSlice";
 
-import { LoginButton, LoginStateSwitch } from "../UserLogin";
+import { useLogin, LoginButton, LoginStateSwitch } from "../UserLogin";
 import {
   AppBar,
   Toolbar,
@@ -23,7 +23,14 @@ const styles = () => ({
 });
 
 function TopNav({ classes }: WithStyles<typeof styles>) {
+  const login: any = useLogin();
   const dispatch = useAppDispatch();
+
+  const creds: { accessToken: string; login: string } = {
+    accessToken: login.accessToken,
+    login: login.user.login,
+  };
+
   return (
     <AppBar>
       <Toolbar>
@@ -39,7 +46,7 @@ function TopNav({ classes }: WithStyles<typeof styles>) {
         </Typography>
         <LoginButton color="inherit" />
         <LoginStateSwitch selectedLoginState={true}>
-          <Button onClick={() => dispatch(refresh())} color="inherit">
+          <Button onClick={() => dispatch(refresh(creds))} color="inherit">
             Refresh
           </Button>
         </LoginStateSwitch>

@@ -74,9 +74,9 @@ export function* watchLoadReposWithAccessToken() {
   yield takeEvery("LOAD_REPOS_WITH_ACCESS_TOKEN", startLoadRepos, null);
 }
 
-function* refresh() {
+function* refresh(action: any) {
   yield put(deleteRepositories());
-  yield startLoadRepos(null, null);
+  yield startLoadRepos(null, action.payload);
 }
 
 export function* watchRefresh() {
