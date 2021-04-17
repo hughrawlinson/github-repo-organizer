@@ -1,17 +1,12 @@
 import { DataTypeProvider } from "@devexpress/dx-react-grid";
 
-export default function DateTypeProvider(
+export default function NumberProvider(
   props: React.ComponentProps<typeof DataTypeProvider>
 ) {
   return (
     <DataTypeProvider
-      formatterComponent={({ value }) => {
-        // TODO: the type from quicktype should handle this, not sure why it's like this.
-        const d = new Date(value);
-        return <>{d.toLocaleDateString()}</>;
-      }}
       availableFilterOperations={[
-        "contains",
+        "equal",
         "greaterThan",
         "lessThan",
         "greaterThanOrEqual",

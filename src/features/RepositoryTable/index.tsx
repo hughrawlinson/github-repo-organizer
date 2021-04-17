@@ -21,7 +21,12 @@ import {
   IntegratedPaging,
 } from "@devexpress/dx-react-grid";
 import { RootState, useAppDispatch } from "../../index";
-import { setGridState } from "./gridStateSlice";
+import {
+  setColumnVisibilityState,
+  setFilteringState,
+  setSearchState,
+  setSortingState,
+} from "./gridStateSlice";
 import {
   ChipListProvider,
   DateTypeProvider,
@@ -30,6 +35,7 @@ import {
   BooleanTypeProvider,
   CheckBoxProvider,
 } from "./DataTypeProviders";
+import NumberProvider from "./DataTypeProviders/NumberProvider";
 
 const tableColumnExtensions = [
   { columnName: "topics", wordWrapEnabled: true },
@@ -58,29 +64,13 @@ export type Repository = {
 };
 
 export default function RepositoryTable() {
-  const gridState = useSelector((state: RootState) => state.gridStateReducer);
+  const { filteringState, sortingState, searchState, columnVisibilityState } = useSelector(
+    (state: RootState) => state.gridStateReducer
+  );
   const repositories = useSelector(
     (state: RootState) => state.repositoriesReducer.repositories
   );
   const dispatch = useAppDispatch();
-
-  function setFilteringState(filteringState: any) {
-    dispatch(setGridState({ ...gridState, filteringState }));
-  }
-
-  function setSortingState(sortingState: any) {
-    dispatch(setGridState({ ...gridState, sortingState }));
-  }
-
-  function setSearchState(searchState: any) {
-    dispatch(setGridState({ ...gridState, searchState }));
-  }
-
-  function setColumnVisibilityState(columnVisibilityState: any) {
-    const action = setGridState({ ...gridState, columnVisibilityState });
-    console.log(action);
-    dispatch(action);
-  }
 
   return (
     <Paper>
@@ -164,40 +154,45 @@ export default function RepositoryTable() {
         <BooleanTypeProvider for={["isPrivate", "isArchived", "isFork"]} />
         <ArrayLengthProvider for={["vulnerabilityAlerts"]} />
         <CheckBoxProvider for={["selected"]} />
+        <NumberProvider for={["stars", "pullRequestCount", "issueCount"]} />
         <FilteringState
           defaultFilters={[]}
-          filters={gridState.filteringState}
-          onFiltersChange={setFilteringState}
+          filters={filteringState}
+          onFiltersChange={(filters) => dispatch(setFilteringState(filters))}
         />
         <SortingState
           defaultSorting={[]}
-          sorting={gridState.sortingState}
-          onSortingChange={setSortingState}
+          sorting={sortingState}
+          onSortingChange={(sorting) => dispatch(setSortingState(sorting))}
         />
         <PagingState defaultCurrentPage={0} pageSize={40} />
         <SearchState
-          value={gridState.searchState}
-          onValueChange={setSearchState}
+          value={searchState}
+          onValueChange={(search) => dispatch(setSearchState(search))}
         />
         <IntegratedFiltering
           columnExtensions={[
             {
               columnName: "topics",
               predicate: (_, filter, row) =>
-                row.topics.reduce(
-                  (acc: boolean, el: string) =>
-                    (filter.value && el.includes(filter.value)) || acc,
-                  false
-                ),
+                filter.operation === "empty"
+                  ? row.topics.length === 0
+                  : row.topics.reduce(
+                      (acc: boolean, el: string) =>
+                        (filter.value && el.includes(filter.value)) || acc,
+                      false
+                    ),
             },
             {
               columnName: "collaborators",
               predicate: (_, filter, row) =>
-                row.collaborators?.reduce(
-                  (acc: boolean, el: string) =>
-                    (filter.value && el.includes(filter.value)) || acc,
-                  false
-                ),
+                filter.operation === "empty"
+                  ? row.collaborators.length === 0
+                  : row.collaborators?.reduce(
+                      (acc: boolean, el: string) =>
+                        (filter.value && el.includes(filter.value)) || acc,
+                      false
+                    ),
             },
           ]}
         />
@@ -207,8 +202,8 @@ export default function RepositoryTable() {
         <TableHeaderRow showSortingControls />
         <TableFilterRow showFilterSelector />
         <TableColumnVisibility
-          hiddenColumnNames={gridState.columnVisibilityState}
-          onHiddenColumnNamesChange={setColumnVisibilityState}
+          hiddenColumnNames={columnVisibilityState}
+          onHiddenColumnNamesChange={columnVisibility => dispatch(setColumnVisibilityState(columnVisibility))}
         />
         <Toolbar />
         <SearchPanel />

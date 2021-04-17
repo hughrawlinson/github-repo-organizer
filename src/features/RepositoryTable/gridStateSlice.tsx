@@ -20,10 +20,30 @@ export const gridStateSlice = createSlice({
   name: "gridState",
   initialState,
   reducers: {
-    setGridState: (_, { payload }: any) => payload,
+    setFilteringState: (state, { payload }: any) => ({
+      ...state,
+      filteringState: payload,
+    }),
+    setSortingState: (state, { payload }: any) => ({
+      ...state,
+      sortingState: payload,
+    }),
+    setSearchState: (state, { payload }: any) => ({
+      ...state,
+      searchState: payload,
+    }),
+    setColumnVisibilityState: (state, { payload }: any) => ({
+      ...state,
+      searchState: payload,
+    }),
   },
 });
 
-export const { setGridState } = gridStateSlice.actions;
+export const {
+  setFilteringState,
+  setSortingState,
+  setSearchState,
+  setColumnVisibilityState,
+} = gridStateSlice.actions;
 
 export default gridStateSlice.reducer;

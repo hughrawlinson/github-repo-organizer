@@ -15,6 +15,7 @@ export default function ChipListProvider(
           </>
         ) : null
       }
+      availableFilterOperations={['search', 'empty']}
       {...props}
     />
   );
