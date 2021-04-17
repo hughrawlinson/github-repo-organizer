@@ -1,20 +1,23 @@
 import { ReactNode } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../..";
+import { useLogin } from "./useLogin";
+
+type LoginStateSwitchProps = {
+  children: ReactNode;
+  selectedLoginState: boolean;
+};
 
 export default function LoginStateSwitch({
   children,
   selectedLoginState,
-}: {
-  children: ReactNode;
-  selectedLoginState: boolean;
-}) {
-  const loggedIn = useSelector(
-    (state: RootState) => state.userLoginReducer.login
-  );
+}: LoginStateSwitchProps) {
+  const login: any = useLogin();
+
+  // const loggedIn = isAuthorizedUseLogin(login);
+  const loggedIn = login.hasOwnProperty("accessToken");
 
   if (loggedIn === selectedLoginState) {
     return <>{children}</>;
   }
+
   return null;
 }

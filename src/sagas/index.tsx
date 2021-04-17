@@ -1,5 +1,4 @@
 import { put, takeEvery, all, select, call } from "redux-saga/effects";
-import { Octokit } from "@octokit/rest";
 import { graphql } from "@octokit/graphql";
 import query from "../api/gitHubGraphQlQuery";
 import { Convert, Data } from "../types/gitHubGraphQlQueryResponseType";
@@ -8,50 +7,10 @@ import {
   setRepositories,
 } from "../features/RepositoryTable/repositoriesSlice";
 import { RootState } from "..";
-import { setAccessToken, setUser } from "../features/UserLogin/userLoginSlice";
 import { Repository } from "../features/RepositoryTable";
 
-let octokit = new Octokit();
-
-const authURL = "https://github-auth-backend-hugh.glitch.me/start_auth";
-
-export function* init() {
-  // get from local storage or get from url
-  const query = new URLSearchParams(window.location.search);
-
-  if (query.get("access_token")) {
-    yield put(setAccessToken({ access_token: query.get("access_token") }));
-    yield startLoadUser();
-  }
-}
-
-export function* watchInit() {
-  yield takeEvery("INIT", init);
-}
-
-export function* startLogIn() {
-  const query = {
-    redirect_uri: window.location.origin + window.location.pathname,
-    scope: "repo",
-  };
-
-  const authProxyUrl = `${authURL}?${new URLSearchParams(query)}`;
-
-  yield window.location.assign(authProxyUrl);
-}
-
-export function* watchStartLogIn() {
-  yield takeEvery("START_LOG_IN", startLogIn);
-}
-
-export function* startLoadRepos(endCursor?: string): any {
-  const accessToken = yield select(
-    (state: RootState) => state.userLoginReducer.accessToken
-  );
-  const user = yield select(
-    (state: RootState) => state.userLoginReducer.user?.login
-  );
-
+export function* startLoadRepos(endCursor: string | null, action: any): any {
+  const { accessToken, login } = action.payload;
   let data: Data;
 
   try {
@@ -90,7 +49,7 @@ export function* startLoadRepos(endCursor?: string): any {
     collaborators:
       repo.collaborators &&
       repo.collaborators.nodes
-        .filter((a) => a.login !== user)
+        .filter((a) => a.login !== login)
         .map((collaborator) => collaborator.login),
     issueCount: repo.issues.totalCount,
     pullRequestCount: repo.pullRequests.totalCount,
@@ -101,49 +60,33 @@ export function* startLoadRepos(endCursor?: string): any {
   const repoCount = yield select(
     (state: RootState) => state.repositoriesReducer.repositories?.length
   );
+  console.log(repoCount);
   if (repoCount < data.viewer.repositories.totalCount) {
-    yield startLoadRepos(data.viewer.repositories.pageInfo.endCursor);
+    yield startLoadRepos(data.viewer.repositories.pageInfo.endCursor, action);
   }
 }
 
 export function* watchLoadRepositories() {
-  yield takeEvery("START_LOAD_REPOSITORIES", startLoadRepos);
+  yield takeEvery("START_LOAD_REPOSITORIES", startLoadRepos, null);
+}
+
+export function* watchLoadReposWithAccessToken() {
+  yield takeEvery("LOAD_REPOS_WITH_ACCESS_TOKEN", startLoadRepos, null);
 }
 
 function* refresh() {
   yield put(deleteRepositories());
-  yield startLoadRepos();
+  yield startLoadRepos(null, null);
 }
 
 export function* watchRefresh() {
   yield takeEvery("REFRESH_REPOSITORIES", refresh);
 }
 
-export function* startLoadUser(): any {
-  const accessToken = yield select(
-    (state: RootState) => state.userLoginReducer.accessToken
-  );
-
-  octokit = new Octokit({
-    auth: `token ${accessToken}`,
-  });
-
-  const { data } = yield call(() => octokit.users.getAuthenticated());
-
-  yield put(setUser({ user: data }));
-
-  yield startLoadRepos();
-}
-
-export function* watchLoadUser() {
-  yield takeEvery("START_LOAD_USER", startLoadUser);
-}
 export default function* rootSaga() {
   yield all([
-    watchInit(),
-    watchStartLogIn(),
     watchLoadRepositories(),
-    watchLoadUser(),
     watchRefresh(),
+    watchLoadReposWithAccessToken(),
   ]);
 }

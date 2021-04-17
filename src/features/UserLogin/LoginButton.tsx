@@ -1,19 +1,19 @@
 import { Button } from "@material-ui/core";
 import { ComponentProps } from "react";
-import { useAppDispatch } from "../..";
 import LoginStateSwitch from "./LoginStateSwitch";
-import { startLogin } from "./userLoginSlice";
+import { useLogin } from "./useLogin";
 
 export default function LoginButton(props: ComponentProps<typeof Button>) {
-  const dispatch = useAppDispatch();
+  const useLoginResult: any = useLogin();
+  // if (isAuthorizedUseLogin(useLoginResult)) {
+  //   return null;
+  // }
+  if (useLoginResult.hasOwnProperty("accessToken")) {
+    return null;
+  }
   return (
     <LoginStateSwitch selectedLoginState={false}>
-      <Button
-        onClick={() => {
-          dispatch(startLogin());
-        }}
-        {...props}
-      >
+      <Button onClick={() => useLoginResult.startLogin()} {...props}>
         Login
       </Button>
     </LoginStateSwitch>

@@ -33,6 +33,8 @@ import {
 } from "./DataTypeProviders";
 import NumberProvider from "./DataTypeProviders/NumberProvider";
 import { useState } from "react";
+import { useLogin } from "../UserLogin";
+import { loadReposWithAccessToken, refresh } from "./repositoriesSlice";
 
 const tableColumnExtensions = [
   { columnName: "topics", wordWrapEnabled: true },
@@ -82,6 +84,15 @@ export default function RepositoryTable() {
     (state: RootState) => state.repositoriesReducer.repositories
   );
   const dispatch = useAppDispatch();
+  const login: any = useLogin();
+  if (login.hasOwnProperty("accessToken") && repositories.length === 0) {
+    dispatch(
+      loadReposWithAccessToken({
+        accessToken: login.accessToken,
+        login: login.user.login,
+      })
+    );
+  }
 
   return (
     <Paper>

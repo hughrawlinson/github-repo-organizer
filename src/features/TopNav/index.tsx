@@ -1,7 +1,6 @@
 import { refresh } from "../RepositoryTable/repositoriesSlice";
 
-import LoginButton from "../UserLogin/LoginButton";
-import LoginStateSwitch from "../UserLogin/LoginStateSwitch";
+import { LoginButton, LoginStateSwitch } from "../UserLogin";
 import {
   AppBar,
   Toolbar,
