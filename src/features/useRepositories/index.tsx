@@ -3,13 +3,13 @@ import { useLogin } from "../UserLogin";
 import { graphql } from "@octokit/graphql";
 import query from "./gitHubGraphQlQuery";
 import { Convert, Data } from "./gitHubGraphQlQueryResponseType";
-import { Repository } from "../RepositoryTable";
+import { Repository } from "./Repository";
 
 async function load(
   accessToken: string,
   login: string,
   endCursor?: string
-): Promise<[Repository[], number]> {
+): Promise<[Repository[], number, string]> {
   let data: Data;
   try {
     const result = await graphql<Data>({
@@ -51,7 +51,33 @@ async function load(
     pullRequestCount: repo.pullRequests.totalCount,
   }));
 
-  return [repos, data.viewer.repositories.totalCount];
+  return [
+    repos,
+    data.viewer.repositories.totalCount,
+    data.viewer.repositories.pageInfo.endCursor,
+  ];
+}
+
+async function recurseLoad(
+  accessToken: string,
+  login: string,
+  repos: Repository[],
+  setRepositories: (r: Repository[]) => any,
+  endCursor?: string
+) {
+  const [loadedRepos, totalCount, newEndCursor] = await load(
+    accessToken,
+    login,
+    endCursor
+  );
+
+  const newRepos = [...repos, ...loadedRepos];
+
+  if (newRepos.length < totalCount) {
+    recurseLoad(accessToken, login, newRepos, setRepositories, newEndCursor);
+  }
+
+  setRepositories(newRepos);
 }
 
 export function useRepositories(): [Repository[], () => any] {
@@ -61,25 +87,14 @@ export function useRepositories(): [Repository[], () => any] {
     let cancelled = false;
     (async () => {
       if (login.hasOwnProperty("accessToken")) {
-        const [repos, totalCount] = await load(
+        recurseLoad(
           login.accessToken,
-          login.user.login
+          login.user.login,
+          repositories,
+          setRepositories
         );
-
-        // if (repos.length < totalCount) {
-        //   yield startLoadRepos(
-        //     data.viewer.repositories.pageInfo.endCursor,
-        //     action
-        //   );
-        // }
-        if (!cancelled) {
-          setRepositories(repos);
-        }
       }
     })();
-    return () => {
-      cancelled = true;
-    };
   }, []);
   return [repositories, () => setRepositories([])];
 }
