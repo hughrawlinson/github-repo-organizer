@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { Fragment as _Fragment } from \"react/jsx-runtime\";\nimport { jsx as _jsx } from \"react/jsx-runtime\";\nimport { RepositoryTable } from \"../RepositoryTable\";\nexport default function ReposPage() {\n  return /*#__PURE__*/_jsx(_Fragment, {\n    children: /*#__PURE__*/_jsx(RepositoryTable, {})\n  });\n}","map":null,"metadata":{},"sourceType":"module"}
