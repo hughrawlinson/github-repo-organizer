@@ -26,9 +26,6 @@ const prepareLanguages = (repositories: Repository[]) => {
 
 export default () => {
   const [repositories] = useRepositories();
-  if (!repositories) {
-    return <p>Loading</p>;
-  }
   const languages = prepareLanguages(repositories);
   const data = Object.entries(languages).map(([key, value]) => ({
     language: key,

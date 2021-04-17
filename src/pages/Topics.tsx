@@ -26,9 +26,6 @@ const prepareTags = (repositories: Repository[]) => {
 
 export default () => {
   const [repositories] = useRepositories();
-  if (!repositories) {
-    return <p>Loading</p>;
-  }
   const tags = prepareTags(repositories);
   const data = Object.entries(tags).map(([key, value]) => ({
     topicName: key,

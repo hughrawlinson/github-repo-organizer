@@ -24,10 +24,6 @@ const prepareTags = (repositories: Repository[]) => {
     );
 };
 
-type LicensesProps = {
-  repositories?: Repository[];
-};
-
 export default () => {
   const [repositories] = useRepositories();
   const tags = prepareTags(repositories);
