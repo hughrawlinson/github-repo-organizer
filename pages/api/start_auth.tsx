@@ -1,10 +1,8 @@
 const URL =
   process.env.REDIRECT_URL || "https://github-repo-organizer.vercel.app";
+const REDIRECT_URI = `${URL}/api/redirect_intercept`;
 
 const GITHUB_AUTHORIZE_URL = "https://github.com/login/oauth/authorize";
-// const REDIRECT_URI = `${URL}/api/redirect_intercept`;
-const REDIRECT_URI =
-  "https://github-repo-organizer.vercel.app/api/redirect_intercept";
 
 export default function handler(request, response) {
   const queryParams = {

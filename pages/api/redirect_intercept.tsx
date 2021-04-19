@@ -1,6 +1,5 @@
 const URL =
-  process.env.VERCEL_URL || "https://github-repo-organizer.vercel.app";
-
+  process.env.REDIRECT_URL || "https://github-repo-organizer.vercel.app";
 const REDIRECT_URI = `${URL}/api/redirect_intercept`;
 
 export default async function handler(request, response) {
