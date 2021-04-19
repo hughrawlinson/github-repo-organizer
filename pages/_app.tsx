@@ -1,9 +1,17 @@
 import { DrawerMenuWrapper, DrawerMenu } from "../features/DrawerMenu";
 import LoginPage from "../features/LoginPage";
 import TopNav from "../features/TopNav";
-import { CssBaseline, Theme, withStyles, WithStyles } from "@material-ui/core";
+import {
+  createMuiTheme,
+  CssBaseline,
+  Theme,
+  ThemeProvider,
+  withStyles,
+  WithStyles,
+} from "@material-ui/core";
 import { LoginStateSwitch } from "../features/UserLogin";
 import { AppProps } from "next/dist/next-server/lib/router/router";
+import { useEffect } from "react";
 
 const styles = (theme: Theme) => ({
   root: {
@@ -18,29 +26,39 @@ const styles = (theme: Theme) => ({
   },
 });
 
+const theme = createMuiTheme({});
+
 function App({
   classes,
   Component,
   pageProps,
 }: WithStyles<typeof styles> & AppProps) {
+  useEffect(() => {
+    const jssStyles = document.querySelector("#jss-server-side");
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
+    }
+  }, []);
+
   return (
-    <DrawerMenuWrapper>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className="App">
-        <TopNav />
-        <DrawerMenu />
-        <main className={classes.content}>
-          <div className={classes.appBarSpacer}>
+      <DrawerMenuWrapper>
+        <div className="App">
+          <TopNav />
+          <DrawerMenu />
+          <main className={classes.content}>
+            <div className={classes.appBarSpacer}></div>
             <LoginStateSwitch selectedLoginState={false}>
               <LoginPage />
             </LoginStateSwitch>
             <LoginStateSwitch selectedLoginState={true}>
               <Component {...pageProps} />
             </LoginStateSwitch>
-          </div>
-        </main>
-      </div>
-    </DrawerMenuWrapper>
+          </main>
+        </div>
+      </DrawerMenuWrapper>
+    </ThemeProvider>
   );
 }
 
