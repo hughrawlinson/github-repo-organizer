@@ -48,6 +48,9 @@ const query = (endCursor: string) => `query {
             }
           }
         }
+        codeOfConduct {
+          name
+        }
       }
     }
   }

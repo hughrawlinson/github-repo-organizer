@@ -31,9 +31,8 @@ export interface RepositoriesNode {
   description: null | string;
   name: string;
   createdAt: Date;
-  repositoryTopics: RepositoryTopics;
   stargazerCount: number;
-  primaryLanguage: Age | null;
+  primaryLanguage: PrimaryLanguage | null;
   isPrivate: boolean;
   isArchived: boolean;
   issues: Issues;
@@ -43,8 +42,13 @@ export interface RepositoriesNode {
   url: string;
   isFork: boolean;
   licenseInfo: LicenseInfo | null;
-  vulnerabilityAlerts: VulnerabilityAlerts;
   collaborators: Collaborators | null;
+  repositoryTopics: RepositoryTopics;
+  codeOfConduct: CodeOfConduct | null;
+}
+
+export interface CodeOfConduct {
+  name: string;
 }
 
 export interface Collaborators {
@@ -52,7 +56,7 @@ export interface Collaborators {
 }
 
 export interface CollaboratorsNode {
-  name: string | null;
+  name: string;
   login: string;
 }
 
@@ -69,7 +73,7 @@ export interface Owner {
   login: string;
 }
 
-export interface Age {
+export interface PrimaryLanguage {
   name: string;
 }
 
@@ -86,33 +90,15 @@ export interface Topic {
   name: string;
 }
 
-export interface VulnerabilityAlerts {
-  nodes: VulnerabilityAlertsNode[];
-}
-
-export interface VulnerabilityAlertsNode {
-  securityVulnerability: SecurityVulnerability;
-}
-
-export interface SecurityVulnerability {
-  package: Age;
-  advisory: Advisory;
-}
-
-export interface Advisory {
-  description: string;
-  summary: string;
-}
-
 export interface PageInfo {
   endCursor: string;
 }
 
 export interface Error {
   type: Type;
-  path: Array<string | number>;
+  path: Array<PathEnum | number>;
   locations: Location[];
-  message: ErrorMessage;
+  message: Message;
 }
 
 export interface Location {
@@ -120,7 +106,16 @@ export interface Location {
   column: number;
 }
 
-export type ErrorMessage = string;
+export enum Message {
+  MustHavePushAccessToViewRepositoryCollaborators = "Must have push access to view repository collaborators.",
+}
+
+export enum PathEnum {
+  Collaborators = "collaborators",
+  Nodes = "nodes",
+  Repositories = "repositories",
+  Viewer = "viewer",
+}
 
 export enum Type {
   Forbidden = "FORBIDDEN",
@@ -129,13 +124,13 @@ export enum Type {
 // Converts JSON strings to/from your types
 // and asserts the results of JSON.parse at runtime
 export class Convert {
-  static toGitHubRepoQueryResponseType(
+  public static toGitHubRepoQueryResponseType(
     json: string
   ): GitHubRepoQueryResponseType {
     return cast(JSON.parse(json), r("GitHubRepoQueryResponseType"));
   }
 
-  static gitHubRepoQueryResponseTypeToJson(
+  public static gitHubRepoQueryResponseTypeToJson(
     value: GitHubRepoQueryResponseType
   ): string {
     return JSON.stringify(
@@ -317,19 +312,14 @@ const typeMap: any = {
   RepositoriesNode: o(
     [
       { json: "id", js: "id", typ: "" },
-      { json: "description", js: "description", typ: u(null, "") },
       { json: "name", js: "name", typ: "" },
+      { json: "description", js: "description", typ: "" },
       { json: "createdAt", js: "createdAt", typ: Date },
-      {
-        json: "repositoryTopics",
-        js: "repositoryTopics",
-        typ: r("RepositoryTopics"),
-      },
-      { json: "stargazers", js: "stargazers", typ: r("Issues") },
+      { json: "stargazerCount", js: "stargazerCount", typ: 0 },
       {
         json: "primaryLanguage",
         js: "primaryLanguage",
-        typ: u(r("Age"), null),
+        typ: u(r("PrimaryLanguage"), null),
       },
       { json: "isPrivate", js: "isPrivate", typ: true },
       { json: "isArchived", js: "isArchived", typ: true },
@@ -345,15 +335,31 @@ const typeMap: any = {
         typ: u(r("LicenseInfo"), null),
       },
       {
-        json: "vulnerabilityAlerts",
-        js: "vulnerabilityAlerts",
-        typ: r("VulnerabilityAlerts"),
-      },
-      {
         json: "collaborators",
         js: "collaborators",
         typ: u(r("Collaborators"), null),
       },
+      {
+        json: "repositoryTopics",
+        js: "repositoryTopics",
+        typ: r("RepositoryTopics"),
+      },
+      {
+        json: "codeOfConduct",
+        js: "codeOfConduct",
+        typ: u(r("CodeOfConduct"), null),
+      },
+    ],
+    false
+  ),
+  CodeOfConduct: o(
+    [
+      { json: "body", js: "body", typ: "" },
+      { json: "id", js: "id", typ: "" },
+      { json: "key", js: "key", typ: "" },
+      { json: "name", js: "name", typ: "" },
+      { json: "resourcePath", js: "resourcePath", typ: "" },
+      { json: "url", js: "url", typ: "" },
     ],
     false
   ),
@@ -363,8 +369,8 @@ const typeMap: any = {
   ),
   CollaboratorsNode: o(
     [
-      { json: "name", js: "name", typ: u(r("Name"), null) },
-      { json: "login", js: "login", typ: "" },
+      { json: "name", js: "name", typ: r("Name") },
+      { json: "login", js: "login", typ: r("Login") },
     ],
     false
   ),
@@ -377,7 +383,7 @@ const typeMap: any = {
     false
   ),
   Owner: o([{ json: "login", js: "login", typ: r("Login") }], false),
-  Age: o([{ json: "name", js: "name", typ: "" }], false),
+  PrimaryLanguage: o([{ json: "name", js: "name", typ: "" }], false),
   RepositoryTopics: o(
     [{ json: "nodes", js: "nodes", typ: a(r("RepositoryTopicsNode")) }],
     false
@@ -390,34 +396,6 @@ const typeMap: any = {
     [
       { json: "id", js: "id", typ: "" },
       { json: "name", js: "name", typ: "" },
-    ],
-    false
-  ),
-  VulnerabilityAlerts: o(
-    [{ json: "nodes", js: "nodes", typ: a(r("VulnerabilityAlertsNode")) }],
-    false
-  ),
-  VulnerabilityAlertsNode: o(
-    [
-      {
-        json: "securityVulnerability",
-        js: "securityVulnerability",
-        typ: r("SecurityVulnerability"),
-      },
-    ],
-    false
-  ),
-  SecurityVulnerability: o(
-    [
-      { json: "package", js: "package", typ: r("Age") },
-      { json: "advisory", js: "advisory", typ: r("Advisory") },
-    ],
-    false
-  ),
-  Advisory: o(
-    [
-      { json: "description", js: "description", typ: "" },
-      { json: "summary", js: "summary", typ: "" },
     ],
     false
   ),
@@ -438,26 +416,8 @@ const typeMap: any = {
     ],
     false
   ),
-  Name: [
-    "Axel Samuelsson",
-    "Edward Knapp",
-    "Hugh Rawlinson",
-    "Joe ",
-    "Lonney",
-    "Maria Katsourani",
-    "Max Sandelin",
-    "Naomi Pentrel",
-    "Nevo Segal",
-  ],
-  Login: [
-    "hughrawlinson",
-    "joenash",
-    "limbero",
-    "meyda",
-    "nevosegal",
-    "spotify",
-    "themaxsandelin",
-  ],
+  Login: ["hughrawlinson", "joenash", "mariakatsourani", "nevosegal"],
+  Name: ["Hugh Rawlinson", "Joe ", "Maria Katsourani", "Nevo Segal"],
   Message: ["Must have push access to view repository collaborators."],
   PathEnum: ["collaborators", "nodes", "repositories", "viewer"],
   Type: ["FORBIDDEN"],

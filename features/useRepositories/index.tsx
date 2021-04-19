@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLogin } from "../UserLogin";
 import { graphql } from "@octokit/graphql";
 import query from "./gitHubGraphQlQuery";
-import { Convert, Data } from "./gitHubGraphQlQueryResponseType";
+import { Data } from "./gitHubGraphQlQueryResponseType";
 import { Repository } from "./Repository";
 
 async function load(
@@ -53,6 +53,7 @@ async function load(
             .map((collaborator) => collaborator.login),
         issueCount: repo.issues.totalCount,
         pullRequestCount: repo.pullRequests.totalCount,
+        codeOfConduct: repo.codeOfConduct?.name || "None",
       }
   );
 

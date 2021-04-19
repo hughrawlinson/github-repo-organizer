@@ -31,7 +31,6 @@ import {
 } from "./DataTypeProviders";
 import NumberProvider from "./DataTypeProviders/NumberProvider";
 import { useState } from "react";
-import { useLogin } from "../UserLogin";
 import { useRepositories } from "../useRepositories";
 
 const tableColumnExtensions = [
@@ -39,7 +38,7 @@ const tableColumnExtensions = [
   { columnName: "description", wordWrapEnabled: true },
 ];
 
-const defaultVisibleColumns = [
+const defaultHiddenColumns = [
   "isPrivate",
   "isArchived",
   "isFork",
@@ -48,6 +47,8 @@ const defaultVisibleColumns = [
   "vulnerabilityAlerts",
   "collaborators",
   "issueCount",
+  "pullRequestCount",
+  "codeOfConduct",
 ];
 
 export default function RepositoryTable() {
@@ -55,7 +56,7 @@ export default function RepositoryTable() {
   const [sortingState, setSortingState] = useState<Sorting[]>([]);
   const [searchState, setSearchState] = useState<string>("");
   const [columnVisibilityState, setColumnVisibilityState] = useState<string[]>(
-    defaultVisibleColumns
+    defaultHiddenColumns
   );
   const [repositories] = useRepositories();
 
@@ -131,6 +132,10 @@ export default function RepositoryTable() {
           {
             name: "pullRequestCount",
             title: "Open Pull Request Count",
+          },
+          {
+            name: "codeOfConduct",
+            title: "Code of Conduct",
           },
         ]}
         rows={repositories}

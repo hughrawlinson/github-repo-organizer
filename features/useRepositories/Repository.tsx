@@ -17,4 +17,5 @@ export type Repository = {
   collaborators: string[] | null;
   issueCount: number;
   pullRequestCount: number;
+  codeOfConduct: string | null;
 };
