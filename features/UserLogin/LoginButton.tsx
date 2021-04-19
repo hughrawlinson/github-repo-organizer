@@ -1,14 +1,11 @@
 import { Button } from "@material-ui/core";
 import { ComponentProps } from "react";
 import LoginStateSwitch from "./LoginStateSwitch";
-import { useLogin } from "./useLogin";
+import { isAuthorizedUseLogin, useLogin } from "./useLogin";
 
 export default function LoginButton(props: ComponentProps<typeof Button>) {
   const useLoginResult: any = useLogin();
-  // if (isAuthorizedUseLogin(useLoginResult)) {
-  //   return null;
-  // }
-  if (useLoginResult.hasOwnProperty("accessToken")) {
+  if (isAuthorizedUseLogin(useLoginResult)) {
     return null;
   }
   return (

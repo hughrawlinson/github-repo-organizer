@@ -8,31 +8,36 @@ export type UnauthorizedUseLogin = {
   startLogin: () => any;
 };
 
-// function isUnauthorizedUseLogin(login: unknown): login is UnauthorizedUseLogin {
-//   return (login as UnauthorizedUseLogin).startLogin !== undefined;
-// }
+export function isUnauthorizedUseLogin(
+  login: unknown
+): login is UnauthorizedUseLogin {
+  return (login as UnauthorizedUseLogin).startLogin !== undefined;
+}
 
 const octokit_outside = new Octokit();
 
-// type Await<T> = T extends {
-//   then(onfulfilled?: (value: infer U) => unknown): unknown;
-// }
-//   ? U
-//   : T;
+type Await<T> = T extends {
+  then(onfulfilled?: (value: infer U) => unknown): unknown;
+}
+  ? U
+  : T;
 
 type LoginDetails = {
   accessToken: string;
-  // user: Await<ReturnType<typeof octokit_outside.users.getAuthenticated>>;
-  user: any;
+  user: Await<
+    ReturnType<typeof octokit_outside.users.getAuthenticated>
+  >["data"];
 };
 
 export type AuthorizedUseLogin = LoginDetails & {
   invalidateStoredLogin: () => any;
 };
 
-// function isAuthorizedUseLogin(login: unknown): login is AuthorizedUseLogin {
-//   return typeof (login as AuthorizedUseLogin).accessToken === "string";
-// }
+export function isAuthorizedUseLogin(
+  login: unknown
+): login is AuthorizedUseLogin {
+  return typeof (login as AuthorizedUseLogin).accessToken === "string";
+}
 
 export type UseLogin = UnauthorizedUseLogin | AuthorizedUseLogin;
 
@@ -69,7 +74,7 @@ export function useLogin(): UseLogin {
           const octokit = new Octokit({
             auth: `token ${accessToken}`,
           });
-          const user = await octokit.users.getAuthenticated();
+          const user = (await octokit.users.getAuthenticated()).data;
           if (!cancelled) {
             setStoredLoginDetails({
               accessToken,
@@ -95,5 +100,3 @@ export function useLogin(): UseLogin {
 
   return startLoginResult;
 }
-
-// export { isUnauthorizedUseLogin, isAuthorizedUseLogin };

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { useLogin } from "./useLogin";
+import { isAuthorizedUseLogin, useLogin } from "./useLogin";
 
 type LoginStateSwitchProps = {
   children: ReactNode;
@@ -12,8 +12,7 @@ export default function LoginStateSwitch({
 }: LoginStateSwitchProps) {
   const login: any = useLogin();
 
-  // const loggedIn = isAuthorizedUseLogin(login);
-  const loggedIn = login.hasOwnProperty("accessToken");
+  const loggedIn = isAuthorizedUseLogin(login);
 
   if (loggedIn === selectedLoginState) {
     return <>{children}</>;

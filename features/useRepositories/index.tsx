@@ -4,6 +4,7 @@ import { graphql } from "@octokit/graphql";
 import query from "./gitHubGraphQlQuery";
 import { Data } from "./gitHubGraphQlQueryResponseType";
 import { Repository } from "./Repository";
+import { isAuthorizedUseLogin } from "../UserLogin/useLogin";
 
 async function load(
   accessToken: string,
@@ -87,11 +88,11 @@ async function recurseLoad(
 }
 
 export function useRepositories(): [Repository[], () => any] {
-  const login: any = useLogin();
+  const login = useLogin();
   const [repositories, setRepositories] = useState<Repository[]>([]);
   useEffect(() => {
     (async () => {
-      if (login.hasOwnProperty("accessToken")) {
+      if (isAuthorizedUseLogin(login)) {
         recurseLoad(
           login.accessToken,
           login.user.login,
