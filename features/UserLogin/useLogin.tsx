@@ -2,7 +2,7 @@ import { Octokit } from "@octokit/rest";
 import { useEffect } from "react";
 import { createLocalStorageStateHook } from "use-local-storage-state";
 
-const authURL = "https://github-auth-backend-hugh.glitch.me/start_auth";
+const authURL = "/api/start_auth";
 
 export type UnauthorizedUseLogin = {
   startLogin: () => any;
@@ -39,7 +39,9 @@ export type UseLogin = UnauthorizedUseLogin | AuthorizedUseLogin;
 const startLoginResult = {
   startLogin: function startLogin() {
     const query = {
-      redirect_uri: window.location.origin + window.location.pathname,
+      redirect_uri: encodeURIComponent(
+        window.location.origin + window.location.pathname
+      ),
       scope: "repo",
     };
 

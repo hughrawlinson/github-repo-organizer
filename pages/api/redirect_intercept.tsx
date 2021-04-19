@@ -1,9 +1,8 @@
 const URL =
-  process.env.VERCEL_URL || "https://github-repo-organizer.vercel.app";
-
+  process.env.REDIRECT_URL || "https://github-repo-organizer.vercel.app";
 const REDIRECT_URI = `${URL}/api/redirect_intercept`;
 
-export default function handler(request, response) {
+export default async function handler(request, response) {
   const { code, state } = request.query;
 
   const params = {
@@ -13,8 +12,11 @@ export default function handler(request, response) {
     code,
     state,
   };
+  const originUri = decodeURIComponent(
+    Buffer.from(state, "base64").toString("binary")
+  );
 
-  fetch(
+  const result = await fetch(
     `https://github.com/login/oauth/access_token?${new URLSearchParams(
       params
     ).toString()}`,
@@ -22,11 +24,7 @@ export default function handler(request, response) {
       method: "POST",
       body: new URLSearchParams(params).toString(),
     }
-  )
-    .then((b) => b.text())
-    .then((text) => {
-      response.redirect(
-        `${Buffer.from(state, "base64url").toString("binary")}?${text}`
-      );
-    });
+  );
+  const text = await result.text();
+  response.redirect(`${originUri}?${text}`);
 }

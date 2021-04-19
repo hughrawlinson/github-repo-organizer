@@ -19,37 +19,42 @@ async function load(
         accept: "application/vnd.github.vixen-preview+json",
       },
     });
-    data = Convert.toGitHubRepoQueryResponseType(`{ data: ${result} }`).data;
+    // data = Convert.toGitHubRepoQueryResponseType(`{ data: ${result} }`).data;
+    data = result;
   } catch (error) {
     console.log(error);
     data = error.data;
   }
 
-  const repos: Repository[] = data.viewer.repositories.nodes.map((repo) => ({
-    id: repo.id,
-    name: repo.name,
-    nameWithOwner: repo.nameWithOwner,
-    description: repo.description,
-    createdAt: repo.createdAt,
-    topics: repo.repositoryTopics.nodes.map((node) => node.topic.name),
-    stars: repo.stargazers.totalCount,
-    language: ((l) => l && l.name)(repo.primaryLanguage),
-    isPrivate: repo.isPrivate,
-    isArchived: repo.isArchived,
-    url: repo.url,
-    owner: repo.owner.login,
-    isFork: repo.isFork,
-    licenseNickname:
-      repo.licenseInfo && (repo.licenseInfo.nickname || repo.licenseInfo.name),
-    vulnerabilityAlerts: repo.vulnerabilityAlerts.nodes,
-    collaborators:
-      repo.collaborators &&
-      repo.collaborators.nodes
-        .filter((a) => a.login !== login)
-        .map((collaborator) => collaborator.login),
-    issueCount: repo.issues.totalCount,
-    pullRequestCount: repo.pullRequests.totalCount,
-  }));
+  const repos: Repository[] = data.viewer.repositories.nodes.map(
+    (repo) =>
+      repo && {
+        id: repo.id,
+        name: repo.name,
+        nameWithOwner: repo.nameWithOwner,
+        description: repo.description,
+        createdAt: repo.createdAt,
+        topics: repo.repositoryTopics.nodes.map((node) => node.topic.name),
+        stars: repo.stargazerCount,
+        language: ((l) => l && l.name)(repo.primaryLanguage),
+        isPrivate: repo.isPrivate,
+        isArchived: repo.isArchived,
+        url: repo.url,
+        owner: repo.owner.login,
+        isFork: repo.isFork,
+        licenseNickname:
+          repo.licenseInfo &&
+          (repo.licenseInfo.nickname || repo.licenseInfo.name),
+        vulnerabilityAlerts: [],
+        collaborators:
+          repo.collaborators &&
+          repo.collaborators.nodes
+            .filter((a) => a.login !== login)
+            .map((collaborator) => collaborator.login),
+        issueCount: repo.issues.totalCount,
+        pullRequestCount: repo.pullRequests.totalCount,
+      }
+  );
 
   return [
     repos,
@@ -84,7 +89,6 @@ export function useRepositories(): [Repository[], () => any] {
   const login: any = useLogin();
   const [repositories, setRepositories] = useState<Repository[]>([]);
   useEffect(() => {
-    let cancelled = false;
     (async () => {
       if (login.hasOwnProperty("accessToken")) {
         recurseLoad(

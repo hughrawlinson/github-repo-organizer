@@ -32,7 +32,7 @@ export interface RepositoriesNode {
   name: string;
   createdAt: Date;
   repositoryTopics: RepositoryTopics;
-  stargazers: Issues;
+  stargazerCount: number;
   primaryLanguage: Age | null;
   isPrivate: boolean;
   isArchived: boolean;
