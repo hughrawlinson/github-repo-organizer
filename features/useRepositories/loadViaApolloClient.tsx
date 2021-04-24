@@ -1,12 +1,13 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-import query from "./gitHubRepositoryRow";
+import VIEWER_REPOSITORY_ROWS from "./ViewerRepositoryRows";
 import { Repository } from "./Repository";
+import { GitHubRespositoryRow } from "./__generated__/GitHubRespositoryRow";
 
 export default async function load(
   accessToken: string,
   login: string,
   endCursor?: string
-) {
+): Promise<[Repository[], number, string]> {
   const client = new ApolloClient({
     uri: "https://api.github.com/graphql",
     cache: new InMemoryCache(),
@@ -15,8 +16,8 @@ export default async function load(
     },
   });
 
-  const result = await client.query({
-    query,
+  const result = await client.query<GitHubRespositoryRow>({
+    query: VIEWER_REPOSITORY_ROWS,
     variables: {
       endCursor,
     },
