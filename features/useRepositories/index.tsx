@@ -1,69 +1,8 @@
 import { useEffect, useState } from "react";
 import { useLogin } from "../UserLogin";
-import { graphql } from "@octokit/graphql";
-import query from "./gitHubGraphQlQuery";
-import { Data } from "./gitHubGraphQlQueryResponseType";
 import { Repository } from "./Repository";
 import { isAuthorizedUseLogin } from "../UserLogin/useLogin";
-
-async function load(
-  accessToken: string,
-  login: string,
-  endCursor?: string
-): Promise<[Repository[], number, string]> {
-  let data: Data;
-  try {
-    const result = await graphql<Data>({
-      query: query(endCursor ?? ""),
-      headers: {
-        authorization: `token ${accessToken}`,
-        accept: "application/vnd.github.vixen-preview+json",
-      },
-    });
-    // data = Convert.toGitHubRepoQueryResponseType(`{ data: ${result} }`).data;
-    data = result;
-  } catch (error) {
-    console.log(error);
-    data = error.data;
-  }
-
-  const repos: Repository[] = data.viewer.repositories.nodes.map(
-    (repo) =>
-      repo && {
-        id: repo.id,
-        name: repo.name,
-        nameWithOwner: repo.nameWithOwner,
-        description: repo.description,
-        createdAt: repo.createdAt,
-        topics: repo.repositoryTopics.nodes.map((node) => node.topic.name),
-        stars: repo.stargazerCount,
-        language: ((l) => l && l.name)(repo.primaryLanguage),
-        isPrivate: repo.isPrivate,
-        isArchived: repo.isArchived,
-        url: repo.url,
-        owner: repo.owner.login,
-        isFork: repo.isFork,
-        licenseNickname:
-          repo.licenseInfo &&
-          (repo.licenseInfo.nickname || repo.licenseInfo.name),
-        vulnerabilityAlerts: [],
-        collaborators:
-          repo.collaborators &&
-          repo.collaborators.nodes
-            .filter((a) => a.login !== login)
-            .map((collaborator) => collaborator.login),
-        issueCount: repo.issues.totalCount,
-        pullRequestCount: repo.pullRequests.totalCount,
-        codeOfConduct: repo.codeOfConduct?.name || "None",
-      }
-  );
-
-  return [
-    repos,
-    data.viewer.repositories.totalCount,
-    data.viewer.repositories.pageInfo.endCursor,
-  ];
-}
+import loadViaApolloClient from "./loadViaApolloClient";
 
 async function recurseLoad(
   accessToken: string,
@@ -72,7 +11,7 @@ async function recurseLoad(
   setRepositories: (r: Repository[]) => any,
   endCursor?: string
 ) {
-  const [loadedRepos, totalCount, newEndCursor] = await load(
+  const [loadedRepos, totalCount, newEndCursor] = await loadViaApolloClient(
     accessToken,
     login,
     endCursor
