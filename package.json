@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@apollo/client": "^3.3.15",
+    "@apollo/client": "^3.3.16",
     "@devexpress/dx-core": "^2.7.5",
     "@devexpress/dx-grid-core": "^2.7.5",
     "@devexpress/dx-react-core": "^2.7.5",
