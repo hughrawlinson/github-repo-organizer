@@ -49,15 +49,15 @@ const defaultHiddenColumns = [
   "issueCount",
   "pullRequestCount",
   "codeOfConduct",
+  "defaultBranchName",
 ];
 
 export default function RepositoryTable() {
   const [filteringState, setFilteringState] = useState<Filter[]>([]);
   const [sortingState, setSortingState] = useState<Sorting[]>([]);
   const [searchState, setSearchState] = useState<string>("");
-  const [columnVisibilityState, setColumnVisibilityState] = useState<string[]>(
-    defaultHiddenColumns
-  );
+  const [columnVisibilityState, setColumnVisibilityState] =
+    useState<string[]>(defaultHiddenColumns);
   const [repositories] = useRepositories();
 
   return (
@@ -136,6 +136,10 @@ export default function RepositoryTable() {
           {
             name: "codeOfConduct",
             title: "Code of Conduct",
+          },
+          {
+            name: "defaultBranchName",
+            title: "Default Branch Name",
           },
         ]}
         rows={repositories}

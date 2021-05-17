@@ -104,6 +104,14 @@ export interface RepositoryRowFields_codeOfConduct {
   name: string;
 }
 
+export interface RepositoryRowFields_defaultBranchRef {
+  __typename: "Ref";
+  /**
+   * The ref name.
+   */
+  name: string;
+}
+
 export interface RepositoryRowFields {
   __typename: "Repository";
   id: string;
@@ -175,4 +183,8 @@ export interface RepositoryRowFields {
    * Returns the code of conduct for this repository
    */
   codeOfConduct: RepositoryRowFields_codeOfConduct | null;
+  /**
+   * The Ref associated with the repository's default branch.
+   */
+  defaultBranchRef: RepositoryRowFields_defaultBranchRef | null;
 }

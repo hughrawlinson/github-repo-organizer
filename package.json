@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "generate-types": "npx apollo client:codegen --target typescript --config=apollo.config.js --endpoint=https://api.github.com/graphql --header \"authorization: Bearer ...\" --includes \"features/*\" && rm __generated__"
   },
   "dependencies": {
     "@apollo/client": "^3.3.15",

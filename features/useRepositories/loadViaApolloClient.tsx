@@ -53,6 +53,7 @@ export default async function load(
         issueCount: repo.issues.totalCount,
         pullRequestCount: repo.pullRequests.totalCount,
         codeOfConduct: repo.codeOfConduct?.name || "None",
+        defaultBranchName: repo.defaultBranchRef.name,
       }
   );
 

@@ -18,4 +18,5 @@ export type Repository = {
   issueCount: number;
   pullRequestCount: number;
   codeOfConduct: string | null;
+  defaultBranchName: string;
 };

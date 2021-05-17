@@ -45,5 +45,8 @@ export default gql`
     codeOfConduct {
       name
     }
+    defaultBranchRef {
+      name
+    }
   }
 `;

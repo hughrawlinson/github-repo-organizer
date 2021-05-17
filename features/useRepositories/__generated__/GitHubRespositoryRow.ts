@@ -112,6 +112,14 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes_codeOfConduct {
   name: string;
 }
 
+export interface GitHubRespositoryRow_viewer_repositories_nodes_defaultBranchRef {
+  __typename: "Ref";
+  /**
+   * The ref name.
+   */
+  name: string;
+}
+
 export interface GitHubRespositoryRow_viewer_repositories_nodes {
   __typename: "Repository";
   id: string;
@@ -183,6 +191,10 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes {
    * Returns the code of conduct for this repository
    */
   codeOfConduct: GitHubRespositoryRow_viewer_repositories_nodes_codeOfConduct | null;
+  /**
+   * The Ref associated with the repository's default branch.
+   */
+  defaultBranchRef: GitHubRespositoryRow_viewer_repositories_nodes_defaultBranchRef | null;
 }
 
 export interface GitHubRespositoryRow_viewer_repositories {
