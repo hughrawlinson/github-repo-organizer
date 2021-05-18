@@ -6,7 +6,7 @@ export default function HomePage() {
     <Container>
       <Box style={{ marginTop: 50 }}>
         <h1>GitHub Repo Organizer</h1>
-        <Link href="/my-repositories">My Repositories</Link>
+        <Link href="/my/repositories">My Repositories</Link>
       </Box>
     </Container>
   );

@@ -24,7 +24,7 @@ const prepareLanguages = (repositories: Repository[]) => {
     );
 };
 
-export default () => {
+const LanguagesPage = () => {
   const [repositories] = useRepositories();
   const languages = prepareLanguages(repositories);
   const data = Object.entries(languages).map(([key, value]) => ({
@@ -56,3 +56,5 @@ export default () => {
     </Paper>
   );
 };
+
+export default LanguagesPage;

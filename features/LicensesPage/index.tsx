@@ -24,7 +24,7 @@ const prepareTags = (repositories: Repository[]) => {
     );
 };
 
-export default () => {
+const LicensesPage = () => {
   const [repositories] = useRepositories();
   const tags = prepareTags(repositories);
   const data = Object.entries(tags).map(([key, value]) => ({
@@ -56,3 +56,5 @@ export default () => {
     </Paper>
   );
 };
+
+export default LicensesPage;

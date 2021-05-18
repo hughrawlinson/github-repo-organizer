@@ -8,7 +8,6 @@ import {
   withStyles,
   WithStyles,
 } from "@material-ui/core";
-import { LoginStateSwitch } from "../features/UserLogin";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import { useEffect } from "react";
 
@@ -47,9 +46,8 @@ function App({
           <TopNav />
           <DrawerMenu />
           <main className={classes.content}>
-            <div className={classes.appBarSpacer}>
-              <Component {...pageProps} />
-            </div>
+            <div className={classes.appBarSpacer}></div>
+            <Component {...pageProps} />
           </main>
         </div>
       </DrawerMenuWrapper>

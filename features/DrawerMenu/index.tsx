@@ -58,22 +58,22 @@ export function DrawerMenu() {
       >
         <List>
           <ListItem button>
-            <Link href={`${process.env.PUBLIC_URL || ""}/`}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/my/repositories`}>
               <ListItemText primary="Repositories" />
             </Link>
           </ListItem>
           <ListItem button>
-            <Link href={`${process.env.PUBLIC_URL || ""}/topics`}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/my/topics`}>
               <ListItemText primary="Topics" />
             </Link>
           </ListItem>
           <ListItem button>
-            <Link href={`${process.env.PUBLIC_URL || ""}/licenses`}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/my/licenses`}>
               <ListItemText primary="Licenses" />
             </Link>
           </ListItem>
           <ListItem button>
-            <Link href={`${process.env.PUBLIC_URL || ""}/languages`}>
+            <Link href={`${process.env.PUBLIC_URL || ""}/my/languages`}>
               <ListItemText primary="Languages" />
             </Link>
           </ListItem>
