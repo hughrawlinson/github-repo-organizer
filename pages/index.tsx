@@ -1,11 +1,13 @@
-import dynamic from "next/dynamic";
+import { Box, Container } from "@material-ui/core";
+import Link from "next/link";
 
-const DynamicRepos = dynamic(() => import("../features/ReposPage"), {
-  ssr: false,
-});
-
-export default function Index() {
-  return <DynamicRepos />;
+export default function HomePage() {
+  return (
+    <Container>
+      <Box style={{ marginTop: 50 }}>
+        <h1>GitHub Repo Organizer</h1>
+        <Link href="/my-repositories">My Repositories</Link>
+      </Box>
+    </Container>
+  );
 }
-
-export {};

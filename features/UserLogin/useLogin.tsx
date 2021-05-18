@@ -45,7 +45,7 @@ const startLoginResult = {
   startLogin: function startLogin() {
     const query = {
       redirect_uri: encodeURIComponent(
-        window.location.origin + window.location.pathname
+        window.location.origin + "/my-repositories"
       ),
       scope: "repo",
     };

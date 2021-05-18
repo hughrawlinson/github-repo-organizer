@@ -1,5 +1,4 @@
 import { DrawerMenuWrapper, DrawerMenu } from "../features/DrawerMenu";
-import LoginPage from "../features/LoginPage";
 import TopNav from "../features/TopNav";
 import {
   createMuiTheme,
@@ -48,13 +47,9 @@ function App({
           <TopNav />
           <DrawerMenu />
           <main className={classes.content}>
-            <div className={classes.appBarSpacer}></div>
-            <LoginStateSwitch selectedLoginState={false}>
-              <LoginPage />
-            </LoginStateSwitch>
-            <LoginStateSwitch selectedLoginState={true}>
+            <div className={classes.appBarSpacer}>
               <Component {...pageProps} />
-            </LoginStateSwitch>
+            </div>
           </main>
         </div>
       </DrawerMenuWrapper>
