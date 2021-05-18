@@ -20,4 +20,6 @@ export type Repository = {
   codeOfConduct: string | null;
   defaultBranchName: string;
   watcherCount: number;
+  diskUsage: number;
+  releaseCount: number;
 };

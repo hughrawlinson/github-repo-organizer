@@ -51,5 +51,9 @@ export default gql`
     watchers {
       totalCount
     }
+    diskUsage
+    releases {
+      totalCount
+    }
   }
 `;

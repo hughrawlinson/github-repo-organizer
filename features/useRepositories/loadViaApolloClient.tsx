@@ -55,6 +55,8 @@ export default async function load(
         codeOfConduct: repo.codeOfConduct?.name || "None",
         defaultBranchName: repo.defaultBranchRef.name,
         watcherCount: repo.watchers.totalCount,
+        diskUsage: repo.diskUsage,
+        releaseCount: repo.releases.totalCount,
       }
   );
 

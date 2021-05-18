@@ -51,6 +51,8 @@ const defaultHiddenColumns = [
   "codeOfConduct",
   "defaultBranchName",
   "watcherCount",
+  "diskUsage",
+  "releaseCount",
 ];
 
 export default function RepositoryTable() {
@@ -145,6 +147,14 @@ export default function RepositoryTable() {
           {
             name: "watcherCount",
             title: "Watcher Count",
+          },
+          {
+            name: "diskUsage",
+            title: "Repo Size (Kilobytes)",
+          },
+          {
+            name: "releaseCount",
+            title: "Release Count",
           },
         ]}
         rows={repositories}

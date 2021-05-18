@@ -120,6 +120,14 @@ export interface RepositoryRowFields_watchers {
   totalCount: number;
 }
 
+export interface RepositoryRowFields_releases {
+  __typename: "ReleaseConnection";
+  /**
+   * Identifies the total count of items in the connection.
+   */
+  totalCount: number;
+}
+
 export interface RepositoryRowFields {
   __typename: "Repository";
   id: string;
@@ -199,4 +207,12 @@ export interface RepositoryRowFields {
    * A list of users watching the repository.
    */
   watchers: RepositoryRowFields_watchers;
+  /**
+   * The number of kilobytes this repository occupies on disk.
+   */
+  diskUsage: number | null;
+  /**
+   * List of releases which are dependent on this repository.
+   */
+  releases: RepositoryRowFields_releases;
 }

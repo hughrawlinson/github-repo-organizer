@@ -128,6 +128,14 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes_watchers {
   totalCount: number;
 }
 
+export interface GitHubRespositoryRow_viewer_repositories_nodes_releases {
+  __typename: "ReleaseConnection";
+  /**
+   * Identifies the total count of items in the connection.
+   */
+  totalCount: number;
+}
+
 export interface GitHubRespositoryRow_viewer_repositories_nodes {
   __typename: "Repository";
   id: string;
@@ -207,6 +215,14 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes {
    * A list of users watching the repository.
    */
   watchers: GitHubRespositoryRow_viewer_repositories_nodes_watchers;
+  /**
+   * The number of kilobytes this repository occupies on disk.
+   */
+  diskUsage: number | null;
+  /**
+   * List of releases which are dependent on this repository.
+   */
+  releases: GitHubRespositoryRow_viewer_repositories_nodes_releases;
 }
 
 export interface GitHubRespositoryRow_viewer_repositories {
