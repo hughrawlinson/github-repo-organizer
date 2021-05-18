@@ -26,7 +26,7 @@ export default async function load(
   const { data } = result;
 
   const repos: Repository[] = data.viewer.repositories.nodes.map(
-    (repo) =>
+    (repo): Repository =>
       repo && {
         id: repo.id,
         name: repo.name,
@@ -54,6 +54,7 @@ export default async function load(
         pullRequestCount: repo.pullRequests.totalCount,
         codeOfConduct: repo.codeOfConduct?.name || "None",
         defaultBranchName: repo.defaultBranchRef.name,
+        watcherCount: repo.watchers.totalCount,
       }
   );
 

@@ -50,6 +50,7 @@ const defaultHiddenColumns = [
   "pullRequestCount",
   "codeOfConduct",
   "defaultBranchName",
+  "watcherCount",
 ];
 
 export default function RepositoryTable() {
@@ -140,6 +141,10 @@ export default function RepositoryTable() {
           {
             name: "defaultBranchName",
             title: "Default Branch Name",
+          },
+          {
+            name: "watcherCount",
+            title: "Watcher Count",
           },
         ]}
         rows={repositories}

@@ -112,6 +112,14 @@ export interface RepositoryRowFields_defaultBranchRef {
   name: string;
 }
 
+export interface RepositoryRowFields_watchers {
+  __typename: "UserConnection";
+  /**
+   * Identifies the total count of items in the connection.
+   */
+  totalCount: number;
+}
+
 export interface RepositoryRowFields {
   __typename: "Repository";
   id: string;
@@ -187,4 +195,8 @@ export interface RepositoryRowFields {
    * The Ref associated with the repository's default branch.
    */
   defaultBranchRef: RepositoryRowFields_defaultBranchRef | null;
+  /**
+   * A list of users watching the repository.
+   */
+  watchers: RepositoryRowFields_watchers;
 }

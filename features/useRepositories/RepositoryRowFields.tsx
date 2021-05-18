@@ -48,5 +48,8 @@ export default gql`
     defaultBranchRef {
       name
     }
+    watchers {
+      totalCount
+    }
   }
 `;

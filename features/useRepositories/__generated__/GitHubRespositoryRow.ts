@@ -120,6 +120,14 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes_defaultBranchRef
   name: string;
 }
 
+export interface GitHubRespositoryRow_viewer_repositories_nodes_watchers {
+  __typename: "UserConnection";
+  /**
+   * Identifies the total count of items in the connection.
+   */
+  totalCount: number;
+}
+
 export interface GitHubRespositoryRow_viewer_repositories_nodes {
   __typename: "Repository";
   id: string;
@@ -195,6 +203,10 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes {
    * The Ref associated with the repository's default branch.
    */
   defaultBranchRef: GitHubRespositoryRow_viewer_repositories_nodes_defaultBranchRef | null;
+  /**
+   * A list of users watching the repository.
+   */
+  watchers: GitHubRespositoryRow_viewer_repositories_nodes_watchers;
 }
 
 export interface GitHubRespositoryRow_viewer_repositories {
