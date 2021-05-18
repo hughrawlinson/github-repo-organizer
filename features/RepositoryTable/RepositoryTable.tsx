@@ -53,6 +53,7 @@ const defaultHiddenColumns = [
   "watcherCount",
   "diskUsage",
   "releaseCount",
+  "homepage",
 ];
 
 export default function RepositoryTable() {
@@ -156,11 +157,27 @@ export default function RepositoryTable() {
             name: "releaseCount",
             title: "Release Count",
           },
+          {
+            name: "homepage",
+            title: "Homepage",
+            getCellValue: (row) => {
+              if (row.homepage) {
+                return {
+                  href: row.homepage,
+                  title: "Homepage",
+                };
+              } else {
+                return {
+                  title: "No Homepage",
+                };
+              }
+            },
+          },
         ]}
         rows={repositories}
       >
         <DateTypeProvider for={["createdAt"]} />
-        <LinkTypeProvider for={["name"]} />
+        <LinkTypeProvider for={["name", "homepage"]} />
         <ChipListProvider for={["topics", "collaborators"]} />
         <BooleanTypeProvider for={["isPrivate", "isArchived", "isFork"]} />
         <ArrayLengthProvider for={["vulnerabilityAlerts"]} />

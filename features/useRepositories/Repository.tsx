@@ -22,4 +22,5 @@ export type Repository = {
   watcherCount: number;
   diskUsage: number;
   releaseCount: number;
+  homepage: string | null;
 };

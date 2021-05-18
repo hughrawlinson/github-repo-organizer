@@ -55,5 +55,6 @@ export default gql`
     releases {
       totalCount
     }
+    homepageUrl
   }
 `;

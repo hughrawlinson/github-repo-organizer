@@ -223,6 +223,10 @@ export interface GitHubRespositoryRow_viewer_repositories_nodes {
    * List of releases which are dependent on this repository.
    */
   releases: GitHubRespositoryRow_viewer_repositories_nodes_releases;
+  /**
+   * The repository's URL.
+   */
+  homepageUrl: any | null;
 }
 
 export interface GitHubRespositoryRow_viewer_repositories {

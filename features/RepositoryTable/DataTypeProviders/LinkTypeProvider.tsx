@@ -5,9 +5,12 @@ export default function LinkTypeProvider(
 ) {
   return (
     <DataTypeProvider
-      formatterComponent={({ value: { href, title } }) => (
-        <a href={href}>{title}</a>
-      )}
+      formatterComponent={({ value }) => {
+        if (value.href) {
+          return <a href={value.href}>{value.title}</a>;
+        }
+        return <p>{value.title}</p>;
+      }}
       {...props}
     />
   );

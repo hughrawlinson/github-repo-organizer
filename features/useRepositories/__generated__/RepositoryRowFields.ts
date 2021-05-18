@@ -215,4 +215,8 @@ export interface RepositoryRowFields {
    * List of releases which are dependent on this repository.
    */
   releases: RepositoryRowFields_releases;
+  /**
+   * The repository's URL.
+   */
+  homepageUrl: any | null;
 }

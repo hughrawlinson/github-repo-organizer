@@ -57,6 +57,7 @@ export default async function load(
         watcherCount: repo.watchers.totalCount,
         diskUsage: repo.diskUsage,
         releaseCount: repo.releases.totalCount,
+        homepage: repo.homepageUrl,
       }
   );
 
