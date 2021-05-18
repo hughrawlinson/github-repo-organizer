@@ -56,13 +56,17 @@ const defaultHiddenColumns = [
   "homepage",
 ];
 
-export default function RepositoryTable() {
+type RepositoryTableProps = {
+  search?: string;
+};
+
+export default function RepositoryTable(props: RepositoryTableProps | null) {
   const [filteringState, setFilteringState] = useState<Filter[]>([]);
   const [sortingState, setSortingState] = useState<Sorting[]>([]);
   const [searchState, setSearchState] = useState<string>("");
   const [columnVisibilityState, setColumnVisibilityState] =
     useState<string[]>(defaultHiddenColumns);
-  const [repositories] = useRepositories();
+  const [repositories] = useRepositories({ search: props.search });
 
   return (
     <Paper>
