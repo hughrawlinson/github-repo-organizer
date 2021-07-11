@@ -1,11 +1,47 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import {
+  ApolloClient,
+  InMemoryCache,
+  NormalizedCacheObject,
+} from "@apollo/client";
 import VIEWER_REPOSITORY_ROWS from "./ViewerRepositoryRows";
+import SEARCH_REPOSITORY_ROWS from "./SearchRepositoryRows";
 import { Repository } from "./Repository";
 import { GitHubRespositoryRow } from "./__generated__/GitHubRespositoryRow";
+import { GitHubRespositorySearchRow } from "./__generated__/GitHubRespositorySearchRow";
 
+async function getViewersRepositories(
+  client: ApolloClient<NormalizedCacheObject>,
+  endCursor: string
+) {
+  return await client.query<GitHubRespositoryRow>({
+    query: VIEWER_REPOSITORY_ROWS,
+    variables: {
+      endCursor,
+    },
+  });
+}
+
+async function getSearchedRepositories(
+  search: string,
+  client: ApolloClient<NormalizedCacheObject>,
+  endCursor: string
+) {
+  return await client.query<GitHubRespositorySearchRow>({
+    query: SEARCH_REPOSITORY_ROWS,
+    variables: {
+      search,
+      endCursor,
+    },
+  });
+}
+
+type Params = {
+  accessToken: string;
+  login: string;
+  search?: string;
+};
 export default async function load(
-  accessToken: string,
-  login: string,
+  { accessToken, login, search }: Params,
   endCursor?: string
 ): Promise<[Repository[], number, string]> {
   const client = new ApolloClient({
@@ -16,12 +52,12 @@ export default async function load(
     },
   });
 
-  const result = await client.query<GitHubRespositoryRow>({
-    query: VIEWER_REPOSITORY_ROWS,
-    variables: {
-      endCursor,
-    },
-  });
+  let result;
+  if (search) {
+    result = await getSearchedRepositories(search, client, endCursor);
+  } else {
+    result = await getViewersRepositories(client, endCursor);
+  }
 
   const { data } = result;
 
@@ -63,7 +99,7 @@ export default async function load(
 
   return [
     repos,
-    data.viewer.repositories.totalCount,
+    data.viewer.repositories.totalCount || data.search.repositoryCount,
     data.viewer.repositories.pageInfo.endCursor,
   ];
 }

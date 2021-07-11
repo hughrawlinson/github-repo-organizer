@@ -4,38 +4,59 @@ import { Repository } from "./Repository";
 import { isAuthorizedUseLogin } from "../UserLogin/useLogin";
 import loadViaApolloClient from "./loadViaApolloClient";
 
+type RecurseLoadParams = {
+  accessToken: string;
+  login: string;
+  repos: Repository[];
+  search?: string;
+};
+
 async function recurseLoad(
-  accessToken: string,
-  login: string,
-  repos: Repository[],
+  { accessToken, login, repos, search }: RecurseLoadParams,
   setRepositories: (r: Repository[]) => any,
   endCursor?: string
 ) {
   const [loadedRepos, totalCount, newEndCursor] = await loadViaApolloClient(
-    accessToken,
-    login,
+    {
+      accessToken,
+      login,
+      search,
+    },
     endCursor
   );
 
   const newRepos = [...repos, ...loadedRepos];
 
   if (newRepos.length < totalCount) {
-    recurseLoad(accessToken, login, newRepos, setRepositories, newEndCursor);
+    recurseLoad(
+      { accessToken, login, repos: newRepos, search },
+      setRepositories,
+      newEndCursor
+    );
   }
 
   setRepositories(newRepos);
 }
 
-export function useRepositories(): [Repository[], () => any] {
+type UseRepositoriesProps = {
+  search?: string;
+};
+
+export function useRepositories(
+  props: UseRepositoriesProps
+): [Repository[], () => any] {
   const login = useLogin();
   const [repositories, setRepositories] = useState<Repository[]>([]);
   useEffect(() => {
     (async () => {
       if (isAuthorizedUseLogin(login)) {
         recurseLoad(
-          login.accessToken,
-          login.user.login,
-          repositories,
+          {
+            accessToken: login.accessToken,
+            login: login.user.login,
+            repos: repositories,
+            search: props && props.search,
+          },
           setRepositories
         );
       }

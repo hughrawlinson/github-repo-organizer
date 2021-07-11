@@ -1,9 +1,13 @@
 import { RepositoryTable } from "../RepositoryTable";
 
-export default function ReposPage() {
+type ReposPageProps = {
+  search?: string;
+};
+
+export default function ReposPage(props: ReposPageProps | null) {
   return (
     <>
-      <RepositoryTable />
+      <RepositoryTable {...props} />
     </>
   );
 }
