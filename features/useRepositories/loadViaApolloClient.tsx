@@ -29,48 +29,46 @@ export default async function load(
     throw new Error("No repositories found");
   }
 
-  const repos: Repository[] = data.viewer.repositories.nodes
-    .flatMap((repo) =>
-      repo
-        ? [
-            {
-              id: repo.id,
-              name: repo.name,
-              nameWithOwner: repo.nameWithOwner,
-              description: repo.description,
-              createdAt: repo.createdAt,
-              topics:
-                repo.repositoryTopics.nodes?.flatMap((node) =>
-                  node ? [node.topic.name] : []
-                ) || [],
-              stars: repo.stargazerCount,
-              language: ((l) => l && l.name)(repo.primaryLanguage),
-              isPrivate: repo.isPrivate,
-              isArchived: repo.isArchived,
-              url: repo.url,
-              owner: repo.owner.login,
-              isFork: repo.isFork,
-              licenseNickname:
-                repo.licenseInfo &&
-                (repo.licenseInfo.nickname || repo.licenseInfo.name),
-              vulnerabilityAlerts: [],
-              collaborators:
-                repo.collaborators?.nodes?.flatMap((collaborator) =>
-                  collaborator?.login ? [collaborator.login] : []
-                ) || [],
-              issueCount: repo.issues.totalCount,
-              pullRequestCount: repo.pullRequests.totalCount,
-              codeOfConduct: repo.codeOfConduct?.name || "None",
-              defaultBranchName: repo.defaultBranchRef?.name || "",
-              watcherCount: repo.watchers.totalCount,
-              diskUsage: repo.diskUsage || Infinity,
-              releaseCount: repo.releases.totalCount,
-              homepage: repo.homepageUrl,
-            },
-          ]
-        : []
-    )
-    .filter(Boolean);
+  const repos: Repository[] = data.viewer.repositories.nodes.flatMap((repo) =>
+    repo
+      ? [
+          {
+            id: repo.id,
+            name: repo.name,
+            nameWithOwner: repo.nameWithOwner,
+            description: repo.description,
+            createdAt: repo.createdAt,
+            topics:
+              repo.repositoryTopics.nodes?.flatMap((node) =>
+                node ? [node.topic.name] : []
+              ) || [],
+            stars: repo.stargazerCount,
+            language: ((l) => l && l.name)(repo.primaryLanguage),
+            isPrivate: repo.isPrivate,
+            isArchived: repo.isArchived,
+            url: repo.url,
+            owner: repo.owner.login,
+            isFork: repo.isFork,
+            licenseNickname:
+              repo.licenseInfo &&
+              (repo.licenseInfo.nickname || repo.licenseInfo.name),
+            vulnerabilityAlerts: [],
+            collaborators:
+              repo.collaborators?.nodes?.flatMap((collaborator) =>
+                collaborator?.login ? [collaborator.login] : []
+              ) || [],
+            issueCount: repo.issues.totalCount,
+            pullRequestCount: repo.pullRequests.totalCount,
+            codeOfConduct: repo.codeOfConduct?.name || "None",
+            defaultBranchName: repo.defaultBranchRef?.name || "",
+            watcherCount: repo.watchers.totalCount,
+            diskUsage: repo.diskUsage || Infinity,
+            releaseCount: repo.releases.totalCount,
+            homepage: repo.homepageUrl,
+          },
+        ]
+      : []
+  );
   const newEndCursor = data.viewer.repositories.pageInfo.endCursor;
 
   return [
