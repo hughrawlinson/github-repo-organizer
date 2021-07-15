@@ -7,7 +7,7 @@ export default async function load(
   accessToken: string,
   login: string,
   endCursor?: string
-): Promise<[Repository[], number, string]> {
+): Promise<[Repository[], number, string | undefined]> {
   const client = new ApolloClient({
     uri: "https://api.github.com/graphql",
     cache: new InMemoryCache(),
@@ -25,45 +25,57 @@ export default async function load(
 
   const { data } = result;
 
-  const repos: Repository[] = data.viewer.repositories.nodes.map(
-    (repo): Repository =>
-      repo && {
-        id: repo.id,
-        name: repo.name,
-        nameWithOwner: repo.nameWithOwner,
-        description: repo.description,
-        createdAt: repo.createdAt,
-        topics: repo.repositoryTopics.nodes.map((node) => node.topic.name),
-        stars: repo.stargazerCount,
-        language: ((l) => l && l.name)(repo.primaryLanguage),
-        isPrivate: repo.isPrivate,
-        isArchived: repo.isArchived,
-        url: repo.url,
-        owner: repo.owner.login,
-        isFork: repo.isFork,
-        licenseNickname:
-          repo.licenseInfo &&
-          (repo.licenseInfo.nickname || repo.licenseInfo.name),
-        vulnerabilityAlerts: [],
-        collaborators:
-          repo.collaborators &&
-          repo.collaborators.nodes
-            .filter((a) => a.login !== login)
-            .map((collaborator) => collaborator.login),
-        issueCount: repo.issues.totalCount,
-        pullRequestCount: repo.pullRequests.totalCount,
-        codeOfConduct: repo.codeOfConduct?.name || "None",
-        defaultBranchName: repo.defaultBranchRef.name,
-        watcherCount: repo.watchers.totalCount,
-        diskUsage: repo.diskUsage,
-        releaseCount: repo.releases.totalCount,
-        homepage: repo.homepageUrl,
-      }
-  );
+  if (!data?.viewer?.repositories?.nodes) {
+    throw new Error("No repositories found");
+  }
+
+  const repos: Repository[] = data.viewer.repositories.nodes
+    .flatMap((repo) =>
+      repo
+        ? [
+            {
+              id: repo.id,
+              name: repo.name,
+              nameWithOwner: repo.nameWithOwner,
+              description: repo.description,
+              createdAt: repo.createdAt,
+              topics:
+                repo.repositoryTopics.nodes?.flatMap((node) =>
+                  node ? [node.topic.name] : []
+                ) || [],
+              stars: repo.stargazerCount,
+              language: ((l) => l && l.name)(repo.primaryLanguage),
+              isPrivate: repo.isPrivate,
+              isArchived: repo.isArchived,
+              url: repo.url,
+              owner: repo.owner.login,
+              isFork: repo.isFork,
+              licenseNickname:
+                repo.licenseInfo &&
+                (repo.licenseInfo.nickname || repo.licenseInfo.name),
+              vulnerabilityAlerts: [],
+              collaborators:
+                repo.collaborators?.nodes?.flatMap((collaborator) =>
+                  collaborator?.login ? [collaborator.login] : []
+                ) || [],
+              issueCount: repo.issues.totalCount,
+              pullRequestCount: repo.pullRequests.totalCount,
+              codeOfConduct: repo.codeOfConduct?.name || "None",
+              defaultBranchName: repo.defaultBranchRef?.name || "",
+              watcherCount: repo.watchers.totalCount,
+              diskUsage: repo.diskUsage || Infinity,
+              releaseCount: repo.releases.totalCount,
+              homepage: repo.homepageUrl,
+            },
+          ]
+        : []
+    )
+    .filter(Boolean);
+  const newEndCursor = data.viewer.repositories.pageInfo.endCursor;
 
   return [
     repos,
     data.viewer.repositories.totalCount,
-    data.viewer.repositories.pageInfo.endCursor,
+    newEndCursor || undefined,
   ];
 }
