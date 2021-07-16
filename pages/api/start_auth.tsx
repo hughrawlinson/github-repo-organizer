@@ -10,10 +10,25 @@ export default function handler(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  if (typeof request.query.redirect_uri !== "string") {
+  const { redirect_uri } = request.query;
+  const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+
+  // // I have the sads because typescript doesn't believe in switch(true)
+  // switch (true) {
+  //   case typeof redirect_uri === "string" && redirect_uri.length === 0:
+  //     redirect_uri;
+  //     throw new Error("Please provide a redirect URI");
+  //   case Array.isArray(redirect_uri):
+  //     throw new Error("Please provide only one redirect URI");
+  //   case typeof GITHUB_CLIENT_ID === "undefined":
+  //     throw new Error(
+  //       "Please provide a GITHUB_CLIENT_ID as an environment variable"
+  //     );
+  // }
+  if (typeof redirect_uri !== "string") {
     throw new Error("Missing redirect_uri");
   }
-  if (Array.isArray(request.query.redirect_uri)) {
+  if (Array.isArray(redirect_uri)) {
     throw new Error("Please provide only one redirect_uri");
   }
   if (!process.env.GITHUB_CLIENT_ID) {
@@ -26,7 +41,7 @@ export default function handler(
     scope: Array.isArray(request.query.scope)
       ? request.query.scope.join(",")
       : request.query.scope || "",
-    state: Buffer.from(request.query.redirect_uri, "binary").toString("base64"),
+    state: Buffer.from(redirect_uri, "binary").toString("base64"),
   };
   const queryString = new URLSearchParams(queryParams).toString();
   const githubAuthURL = `${GITHUB_AUTHORIZE_URL}?${queryString}`;

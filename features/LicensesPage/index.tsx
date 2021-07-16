@@ -15,13 +15,13 @@ const prepareTags = (repositories: Repository[]) => {
   const emptyAccumulator: { [key: string]: number } = {};
   return repositories
     .map((repo) => repo.licenseNickname)
-    .reduce(
-      (acc, el) => ({
+    .reduce((acc, el) => {
+      const key = el || "null";
+      return {
         ...acc,
-        [el || "null"]: acc[el || "null"] ? acc[el || "null"] + 1 : 1,
-      }),
-      emptyAccumulator
-    );
+        [key]: acc[key] ? acc[key]! + 1 : 1,
+      };
+    }, emptyAccumulator);
 };
 
 const LicensesPage = () => {

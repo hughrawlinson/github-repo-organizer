@@ -15,13 +15,13 @@ const prepareTags = (repositories: Repository[]) => {
   const emptyAccumulator: { [key: string]: number } = {};
   return repositories
     .flatMap((repo) => repo.topics)
-    .reduce(
-      (acc, el) => ({
+    .reduce((acc, el) => {
+      const key = el || "null";
+      return {
         ...acc,
-        [el]: acc[el] ? acc[el] + 1 : 1,
-      }),
-      emptyAccumulator
-    );
+        [key]: acc[key] ? acc[key]! + 1 : 1,
+      };
+    }, emptyAccumulator);
 };
 
 const TopicsPage = () => {

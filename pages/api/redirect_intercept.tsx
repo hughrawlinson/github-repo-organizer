@@ -10,6 +10,14 @@ export default async function handler(
 ) {
   const { code, state } = request.query;
 
+  if (typeof state !== "string" || state.length === 0) {
+    throw new Error("Can't forward redirect, state was not provided");
+  }
+
+  if (typeof code !== "string" || code.length === 0) {
+    throw new Error("Can't forward redirect, code was not provided");
+  }
+
   if (Array.isArray(state) || Array.isArray(code)) {
     throw new Error("Please provide only one state or code");
   }

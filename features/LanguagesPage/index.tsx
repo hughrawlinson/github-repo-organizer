@@ -15,13 +15,13 @@ const prepareLanguages = (repositories: Repository[]) => {
   const emptyAccumulator: { [key: string]: number } = {};
   return repositories
     .map((repo) => repo.language)
-    .reduce(
-      (acc, el) => ({
+    .reduce((acc, el) => {
+      const key = el || "null";
+      return {
         ...acc,
-        [el || "null"]: acc[el || "null"] ? acc[el || "null"] + 1 : 1,
-      }),
-      emptyAccumulator
-    );
+        [key]: typeof acc[key] !== "undefined" ? acc[key]! + 1 : 1,
+      };
+    }, emptyAccumulator);
 };
 
 const LanguagesPage = () => {
