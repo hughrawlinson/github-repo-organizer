@@ -8,8 +8,8 @@ import {
   withStyles,
   WithStyles,
 } from "@material-ui/core";
-import { AppProps } from "next/dist/next-server/lib/router/router";
 import { useEffect } from "react";
+import type { AppProps } from "next/app";
 
 const styles = (theme: Theme) => ({
   root: {
