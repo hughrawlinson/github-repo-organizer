@@ -20,7 +20,7 @@
     "@material-ui/icons": "^4.11.2",
     "@octokit/rest": "^18.12.0",
     "@types/node": "^16.11.7",
-    "@types/react": "^17.0.34",
+    "@types/react": "^17.0.35",
     "graphql": "^16.0.1",
     "next": "^12.0.3",
     "react": "17.0.2",
