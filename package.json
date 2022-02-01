@@ -11,8 +11,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
-    "@devexpress/dx-core": "^2.7.5",
-    "@devexpress/dx-grid-core": "^2.7.6",
+    "@devexpress/dx-core": "^3.0.0",
+    "@devexpress/dx-grid-core": "^3.0.0",
     "@devexpress/dx-react-core": "^2.7.5",
     "@devexpress/dx-react-grid": "^2.7.6",
     "@devexpress/dx-react-grid-material-ui": "^2.7.6",
