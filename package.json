@@ -16,7 +16,7 @@
     "@devexpress/dx-react-core": "^3.0.2",
     "@devexpress/dx-react-grid": "^3.0.2",
     "@devexpress/dx-react-grid-material-ui": "^2.7.6",
-    "@material-ui/core": "^4.12.3",
+    "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@octokit/rest": "^18.12.0",
     "@types/node": "^17.0.23",
