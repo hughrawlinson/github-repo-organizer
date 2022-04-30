@@ -1,4 +1,4 @@
-import Paper from "@material-ui/core/Paper";
+import Paper from "@mui/material/Paper";
 import {
   Grid,
   Table,
@@ -32,6 +32,7 @@ import {
 import NumberProvider from "./DataTypeProviders/NumberProvider";
 import { useState } from "react";
 import { useRepositories } from "../useRepositories";
+import { Plugin } from "@devexpress/dx-react-core";
 
 const tableColumnExtensions = [
   { columnName: "topics", wordWrapEnabled: true },
@@ -55,6 +56,18 @@ const defaultHiddenColumns = [
   "releaseCount",
   "homepage",
 ];
+
+const DataTypeProviders = () => (
+  <Plugin>
+    <DateTypeProvider for={["createdAt"]} />
+    <LinkTypeProvider for={["name", "homepage"]} />
+    <ChipListProvider for={["topics", "collaborators"]} />
+    <BooleanTypeProvider for={["isPrivate", "isArchived", "isFork"]} />
+    <ArrayLengthProvider for={["vulnerabilityAlerts"]} />
+    <CheckBoxProvider for={["selected"]} />
+    <NumberProvider for={["stars", "pullRequestCount", "issueCount"]} />
+  </Plugin>
+);
 
 export default function RepositoryTable() {
   const [filteringState, setFilteringState] = useState<Filter[]>([]);
@@ -176,13 +189,7 @@ export default function RepositoryTable() {
         ]}
         rows={repositories}
       >
-        <DateTypeProvider for={["createdAt"]} />
-        <LinkTypeProvider for={["name", "homepage"]} />
-        <ChipListProvider for={["topics", "collaborators"]} />
-        <BooleanTypeProvider for={["isPrivate", "isArchived", "isFork"]} />
-        <ArrayLengthProvider for={["vulnerabilityAlerts"]} />
-        <CheckBoxProvider for={["selected"]} />
-        <NumberProvider for={["stars", "pullRequestCount", "issueCount"]} />
+        <DataTypeProviders />
         <FilteringState
           defaultFilters={[]}
           filters={filteringState}

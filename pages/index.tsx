@@ -1,4 +1,4 @@
-import { Box, Container } from "@material-ui/core";
+import { Box, Container } from "@mui/material";
 import Link from "next/link";
 
 export default function HomePage() {

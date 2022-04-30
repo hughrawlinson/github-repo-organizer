@@ -4,7 +4,7 @@ import {
   TableHeaderRow,
 } from "@devexpress/dx-react-grid-material-ui";
 import { SortingState, IntegratedSorting } from "@devexpress/dx-react-grid";
-import Paper from "@material-ui/core/Paper";
+import Paper from "@mui/material/Paper";
 import { useRepositories } from "../useRepositories";
 
 interface Repository {

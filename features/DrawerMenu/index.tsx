@@ -4,8 +4,8 @@ import {
   List,
   ListItem,
   ListItemText,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import { createContext, ReactNode, useContext, useState } from "react";
 import Link from "next/link";
 
@@ -42,7 +42,7 @@ export function DrawerMenuToggleButton(
 ) {
   const { toggleDrawer } = useContext(DrawerMenuContext);
   return (
-    <IconButton onClick={() => toggleDrawer()} {...props}>
+    <IconButton onClick={() => toggleDrawer()} {...props} size="large">
       <MenuIcon />
     </IconButton>
   );

@@ -1,5 +1,5 @@
 import { DataTypeProvider } from "@devexpress/dx-react-grid";
-import { Chip } from "@material-ui/core";
+import { Chip } from "@mui/material";
 
 export default function BooleanTypeProvider(
   props: React.ComponentProps<typeof DataTypeProvider>

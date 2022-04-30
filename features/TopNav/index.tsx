@@ -1,26 +1,9 @@
 import { LoginButton, LoginStateSwitch } from "../UserLogin";
 import { useRepositories } from "../useRepositories";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  withStyles,
-  WithStyles,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { DrawerMenuToggleButton } from "../DrawerMenu";
 
-const styles = () => ({
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-});
-
-function TopNav({ classes }: WithStyles<typeof styles>) {
+function TopNav() {
   const [_, refreshRepositories] = useRepositories();
 
   return (
@@ -28,12 +11,15 @@ function TopNav({ classes }: WithStyles<typeof styles>) {
       <Toolbar>
         <LoginStateSwitch selectedLoginState={true}>
           <DrawerMenuToggleButton
-            className={classes.menuButton}
+            sx={{
+              marginLeft: -12,
+              marginRight: 20,
+            }}
             color="inherit"
             aria-label="Menu"
           />
         </LoginStateSwitch>
-        <Typography variant="h6" color="inherit" className={classes.grow}>
+        <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }}>
           GitHub Repo Organizer
         </Typography>
         <LoginButton color="inherit" />
@@ -47,4 +33,4 @@ function TopNav({ classes }: WithStyles<typeof styles>) {
   );
 }
 
-export default withStyles(styles)(TopNav);
+export default TopNav;
