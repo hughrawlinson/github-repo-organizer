@@ -33,6 +33,8 @@ const TopicsPage = () => {
   }));
   return (
     <Paper>
+      {/*
+      // @ts-ignore */}
       <Grid
         columns={[
           {

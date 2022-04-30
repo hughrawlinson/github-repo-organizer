@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
 import { useEffect } from "react";
-import { createLocalStorageStateHook } from "use-local-storage-state";
+import useLocalStorageState from "use-local-storage-state";
+import createLocalStorageStateHook from "use-local-storage-state";
 
 const authURL = "/api/start_auth";
 
@@ -56,13 +57,12 @@ const startLoginResult = {
   },
 };
 
-const useLoginDetails = createLocalStorageStateHook<LoginDetails | null>(
-  "LoginDetails",
-  null
-);
-
 export function useLogin(): UseLogin {
-  const [storedLoginDetails, setStoredLoginDetails] = useLoginDetails();
+  const [storedLoginDetails, setStoredLoginDetails] =
+    useLocalStorageState<LoginDetails | null>("LoginDetails", {
+      ssr: false,
+      defaultValue: null,
+    });
 
   useEffect(() => {
     if (!storedLoginDetails) {

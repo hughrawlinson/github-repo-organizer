@@ -33,6 +33,8 @@ const LicensesPage = () => {
   }));
   return (
     <Paper>
+      {/*
+      // @ts-ignore */}
       <Grid
         columns={[
           {

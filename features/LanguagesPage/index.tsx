@@ -33,6 +33,8 @@ const LanguagesPage = () => {
   }));
   return (
     <Paper>
+      {/*
+      // @ts-ignore */}
       <Grid
         columns={[
           {

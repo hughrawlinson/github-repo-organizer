@@ -79,6 +79,8 @@ export default function RepositoryTable() {
 
   return (
     <Paper>
+      {/*
+      // @ts-ignore */}
       <Grid
         columns={[
           {
