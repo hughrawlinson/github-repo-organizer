@@ -86,7 +86,7 @@ export function useLogin(): UseLogin {
         };
       }
     }
-  }, [setStoredLoginDetails, Octokit]);
+  }, [setStoredLoginDetails, storedLoginDetails]);
 
   if (storedLoginDetails) {
     return {
