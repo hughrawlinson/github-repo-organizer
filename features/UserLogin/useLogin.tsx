@@ -60,7 +60,6 @@ const startLoginResult = {
 export function useLogin(): UseLogin {
   const [storedLoginDetails, setStoredLoginDetails] =
     useLocalStorageState<LoginDetails | null>("LoginDetails", {
-      ssr: false,
       defaultValue: null,
     });
 
