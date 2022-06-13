@@ -14,7 +14,7 @@
     "@devexpress/dx-react-core": "^3.0.2",
     "@devexpress/dx-react-grid": "^3.0.3",
     "@devexpress/dx-react-grid-material-ui": "^3.0.3",
-    "@emotion/cache": "^11.7.1",
+    "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.9.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.9.3",
