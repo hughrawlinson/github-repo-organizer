@@ -31,7 +31,7 @@
     "use-local-storage-state": "^18.1.0"
   },
   "devDependencies": {
-    "eslint": "^8.17.0",
+    "eslint": "^8.18.0",
     "eslint-config-next": "^12.1.6"
   }
 }
