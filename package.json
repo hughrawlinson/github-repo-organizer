@@ -22,7 +22,7 @@
     "@mui/material": "^5.8.7",
     "@octokit/rest": "^18.12.0",
     "@types/node": "^18.0.3",
-    "@types/react": "^18.0.14",
+    "@types/react": "^18.0.15",
     "graphql": "^16.5.0",
     "next": "^12.2.0",
     "react": "^18.2.0",
