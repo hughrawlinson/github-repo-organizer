@@ -7,7 +7,7 @@ function TopNav() {
   const [_, refreshRepositories] = useRepositories();
 
   return (
-    <AppBar>
+    <AppBar position="absolute">
       <Toolbar>
         <LoginStateSwitch selectedLoginState={true}>
           <DrawerMenuToggleButton

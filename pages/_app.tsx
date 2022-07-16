@@ -1,6 +1,6 @@
 import { DrawerMenuWrapper, DrawerMenu } from "../features/DrawerMenu";
 import TopNav from "../features/TopNav";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { CssBaseline, ThemeProvider, Toolbar } from "@mui/material";
 import type { AppProps } from "next/app";
 import { createEmotionCache, theme } from "../features/MuiSupport";
 import Head from "next/head";
@@ -25,6 +25,7 @@ export function App(
           <div className="App">
             <TopNav />
             <DrawerMenu />
+            <Toolbar></Toolbar>
             <main
               style={{
                 flexGrow: 1,
