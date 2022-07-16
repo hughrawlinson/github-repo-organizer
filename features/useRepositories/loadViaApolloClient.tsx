@@ -2,15 +2,23 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import VIEWER_REPOSITORY_ROWS from "./ViewerRepositoryRows";
 import { Repository } from "./Repository";
 import { GitHubRespositoryRow } from "./__generated__/GitHubRespositoryRow";
+import { LocalStorageWrapper, persistCache } from "apollo3-cache-persist";
 
 export default async function load(
   accessToken: string,
   login: string,
   endCursor?: string
 ): Promise<[Repository[], number, string | undefined]> {
+  const cache = new InMemoryCache();
+
+  await persistCache({
+    cache,
+    storage: new LocalStorageWrapper(window.localStorage),
+  });
+
   const client = new ApolloClient({
     uri: "https://api.github.com/graphql",
-    cache: new InMemoryCache(),
+    cache,
     headers: {
       authorization: `Bearer ${accessToken}`,
     },

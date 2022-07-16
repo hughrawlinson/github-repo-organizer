@@ -23,6 +23,7 @@
     "@octokit/rest": "^19.0.3",
     "@types/node": "^18.0.4",
     "@types/react": "^18.0.15",
+    "apollo3-cache-persist": "^0.14.1",
     "graphql": "^16.5.0",
     "next": "^12.2.2",
     "react": "^18.2.0",
