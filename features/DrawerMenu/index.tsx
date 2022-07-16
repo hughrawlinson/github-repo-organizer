@@ -9,8 +9,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { createContext, ReactNode, useContext, useState } from "react";
 import Link from "next/link";
 
-const DrawerMenuContext = createContext({
-  drawerOpen: false,
+interface DrawerMenuContext {
+  drawerOpen: boolean;
+  toggleDrawer: (arg?: boolean) => any;
+}
+
+const DrawerMenuContext = createContext<DrawerMenuContext>({
+  drawerOpen: true,
   toggleDrawer: (_?: boolean) => {},
 });
 
@@ -42,7 +47,12 @@ export function DrawerMenuToggleButton(
 ) {
   const { toggleDrawer } = useContext(DrawerMenuContext);
   return (
-    <IconButton onClick={() => toggleDrawer()} {...props} size="large">
+    <IconButton
+      onClick={() => toggleDrawer()}
+      {...props}
+      size="large"
+      aria-label="Open menu"
+    >
       <MenuIcon />
     </IconButton>
   );

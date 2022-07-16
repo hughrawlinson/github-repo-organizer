@@ -10,14 +10,7 @@ function TopNav() {
     <AppBar position="absolute">
       <Toolbar>
         <LoginStateSwitch selectedLoginState={true}>
-          <DrawerMenuToggleButton
-            sx={{
-              marginLeft: -12,
-              marginRight: 20,
-            }}
-            color="inherit"
-            aria-label="Menu"
-          />
+          <DrawerMenuToggleButton color="inherit" aria-label="Menu" />
         </LoginStateSwitch>
         <Typography variant="h6" color="inherit" sx={{ flexGrow: 1 }}>
           GitHub Repo Organizer

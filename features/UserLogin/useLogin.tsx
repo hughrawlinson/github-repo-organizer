@@ -1,7 +1,6 @@
 import { Octokit } from "@octokit/rest";
 import { useEffect } from "react";
 import useLocalStorageState from "use-local-storage-state";
-import createLocalStorageStateHook from "use-local-storage-state";
 
 const authURL = "/api/start_auth";
 
