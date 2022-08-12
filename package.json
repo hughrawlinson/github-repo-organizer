@@ -21,7 +21,7 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
     "@octokit/rest": "^19.0.3",
-    "@types/node": "^18.7.1",
+    "@types/node": "^18.7.2",
     "@types/react": "^18.0.17",
     "apollo3-cache-persist": "^0.14.1",
     "graphql": "^16.5.0",
