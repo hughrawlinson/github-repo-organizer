@@ -20,7 +20,7 @@
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.10.0",
-    "@octokit/rest": "^19.0.3",
+    "@octokit/rest": "^19.0.4",
     "@types/node": "^18.7.3",
     "@types/react": "^18.0.17",
     "apollo3-cache-persist": "^0.14.1",
