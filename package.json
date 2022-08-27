@@ -13,7 +13,7 @@
     "@apollo/client": "^3.6.9",
     "@devexpress/dx-react-core": "^3.0.2",
     "@devexpress/dx-react-grid": "^3.0.4",
-    "@devexpress/dx-react-grid-material-ui": "^3.0.4",
+    "@devexpress/dx-react-grid-material-ui": "^3.0.5",
     "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.0",
     "@emotion/server": "^11.10.0",
