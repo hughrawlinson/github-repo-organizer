@@ -17,7 +17,7 @@
     "@emotion/cache": "^11.10.3",
     "@emotion/react": "^11.10.0",
     "@emotion/server": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
+    "@emotion/styled": "^11.10.4",
     "@mui/icons-material": "^5.10.2",
     "@mui/material": "^5.10.2",
     "@octokit/rest": "^19.0.4",
