@@ -25,7 +25,7 @@
     "@types/react": "^18.0.24",
     "apollo3-cache-persist": "^0.14.1",
     "graphql": "^16.6.0",
-    "next": "^13.0.1",
+    "next": "^13.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.8.4",
