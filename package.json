@@ -28,7 +28,7 @@
     "next": "^13.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^4.8.4",
+    "typescript": "^4.9.3",
     "use-local-storage-state": "^18.1.1"
   },
   "devDependencies": {
