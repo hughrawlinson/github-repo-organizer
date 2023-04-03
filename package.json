@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@apollo/client": "^3.7.6",
+    "@apollo/client": "^3.7.11",
     "@devexpress/dx-react-core": "^3.0.2",
     "@devexpress/dx-react-grid": "^3.0.4",
     "@devexpress/dx-react-grid-material-ui": "^3.0.6",
